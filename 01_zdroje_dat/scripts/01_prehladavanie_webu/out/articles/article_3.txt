@@ -1,0 +1,48 @@
+Informatici testovali bezpečnosť routera ako profesionálni analytici - Fakulta prírodných vied a informatiky :: Univerzita Konštantína Filozofa v Nitre
++421376408 555 Táto e-mailová adresa je chránená pred spamovacími robotmi. Na jej zobrazenie potrebujete mať nainštalovaný JavaScript.
+slovensky
+english
+UKF.sk	|
+Adresár |
+Informačné systémy |
+Webmail pre zamestnancov
+Webmail pre študentov
+Akademický informačný systém (AiS2)
+Vzdelávací portál (EDU)
+Knižničný informačný systém (KIS)
+Registratúra (REG)
+Stravovací systém
+Objednávkový systém (oSYS)
+Ubytovací systém (UIS)
+Dochádzkový systém (WATT)
+Správa dokumentov (DOC)
+Správa projektov
+Zamestnanecký portál (ESS)
+Portál UKF
+Kontakt |
+Moja UKF
+FPVaIO fakulteProfil fakultyVedenie fakultyPracoviská dekanátuVýročné správyDlhodobý zámerHistória fakultyInsígnie fakultyJednotný vizuálny štýl Prezentačné materiályFakulta v médiáchPublikácie o fakulteSamosprávne a ďalšie orgányAkademický senátVedecká radaKolégium dekanaRada kvality FPVaIPoradné orgány dekanaDisciplinárna komisiaEdičná komisiaÚradná výveskaVnútorné predpisy fakultyUsmernenia platné na fakulteVnútorné predpisy univerzityHodnotenie pedagógov študentmiPrijímacie konanieArchív hlavných správ VyhľadávaniePracoviskáKatedra botaniky a genetikyKatedra ekológie a environmentalistikyKatedra fyzikyKatedra geografie, geoinformatiky a regionálneho rozvojaKatedra chémieKatedra informatikyKatedra matematikyKatedra zoológie a antropológieÚstav ekonomiky a manažmentuAdresár osôbNitrianske kompetenčné centrum kybernetickej bezpečnostiPonuka štúdiaBaví maBiológiaEkológia a environmentalistikaEkonomikaFyzikaGeografiaChémiaInformatikaMatematikaUčiteľstvo predmetovHľadámBakalárske štúdiumMagisterské štúdiumSpojené štúdiumDoktorandské štúdiumĎalšie vzdelávanieŠtúdiumHarmonogram akademického rokaAktuálna ponuka študijných programovPrijímacie konanieOrganizácia štúdiaKvalita vzdelávaniaDoktorandské štúdiumRigorózne konanieZahraničné mobilityVýskumNajvýznamnejšie projektyProjekty H2020, Horizont EurópaPlán obnovy a odolnosti SRVýskumné tímy Projekty APVVProjekty VEGA Projekty KEGAVýskumný profil fakultyUnikátne laboratóriáHabilitácie a inauguráciePopularizačné aktivityKonferencie a semináreŠtudenti a vedaVonkajšie vzťahyMedzinárodné vzťahyAktuálne medzinárodné aktivityStratégia internacionalizácieMobility Erasmus+CEEPUSIné mobilitné programyKoordinácia mobilít na FPVaIRegionálna spoluprácaSpolupráca s firmami a regiónomHorizon
+Informatici testovali bezpečnosť routera ako profesionálni analytici
+Na prvý pohľad ide o bežné zariadenie, ktoré mnohí z nás majú doma či v práci. Router – nenápadná súčasť našej digitálnej infraštruktúry, ktorá každý deň zabezpečuje pripojenie k internetu. Pre študentov Katedry informatiky Fakulty prírodných vied a informatiky Univerzity Konštantína Filozofa v Nitre sa však stal predmetom komplexného bezpečnostného testovania.
+Počas siedmich týždňov sa študenti venovali systematickej analýze bezpečnosti routera v prostredí simulujúcom reálne podmienky kybernetickej bezpečnosti. Pracovali v izolovanej sieti a využívali nástroje určené na bezpečnostné testovanie, vrátane distribúcie Kali Linux.
+Pod odborným vedením Mgr.Jána Francistyho, PhD., analyzovali jednotlivé funkcie zariadenia a skúmali jeho správanie v rôznych situáciách. Testovanie zahŕňalo napríklad analýzu webového rozhrania, overovanie mechanizmov autentifikácie, sledovanie reakcie systému na zvýšenú záťaž či simulované útoky.
+Cieľom projektu bolo nielen identifikovať potenciálne bezpečnostné riziká, ale aj naučiť študentov pracovať s metodikami a postupmi, ktoré využívajú profesionálni bezpečnostní analytici.
+Vyvrcholením projektu bola prezentácia výsledkov pred zástupcami  renomovanej holandskej spoločnosti DrayTek a Xpert Data. Študenti predstavili svoje zistenia, diskutovali o použitých metódach testovania a odpovedali na otázky týkajúce sa ich postupov aj výsledkov analýzy. Súčasťou prezentácie bola aj odborná diskusia o možných zlepšeniach bezpečnosti zariadenia.
+Pre študentov tak projekt predstavoval dôležitú skúsenosť, ktorá prepája teoretické poznatky s praktickým riešením reálnych problémov z oblasti kybernetickej bezpečnosti.
+Aj vďaka projektom ako Živá prax, môžeme vidieť, ako spolupráca univerzity s technologickými partnermi priniesť študentom príležitosť pracovať na úlohách, ktoré majú priamy presah do praxe.
+Text a foto: Mgr. Mária Pappová+++
+Domov FPVaI  O fakulte Profil fakulty Vedenie fakulty Pracoviská dekanátu Výročné správy Dlhodobý zámer História fakulty Insígnie fakulty Jednotný vizuálny štýl  Prezentačné materiály Fakulta v médiách Publikácie o fakulte Samosprávne a ďalšie orgány Akademický senát Vedecká rada Kolégium dekana Rada kvality FPVaI Poradné orgány dekana Disciplinárna komisia Edičná komisia  Úradná výveska Vnútorné predpisy fakulty Usmernenia platné na fakulte Vnútorné predpisy univerzity Hodnotenie pedagógov študentmi Prijímacie konanie Archív hlavných správ  Vyhľadávanie Pracoviská Katedra botaniky a genetiky Katedra ekológie a environmentalistiky Katedra fyziky Katedra geografie, geoinformatiky a regionálneho rozvoja Katedra chémie Katedra informatiky Katedra matematiky Katedra zoológie a antropológie Ústav ekonomiky a manažmentu Adresár osôb Nitrianske kompetenčné centrum kybernetickej bezpečnosti Ponuka štúdia Baví ma Biológia Ekológia a environmentalistika Ekonomika Fyzika Geografia Chémia Informatika Matematika Učiteľstvo predmetov Hľadám Bakalárske štúdium Magisterské štúdium Spojené štúdium Doktorandské štúdium Ďalšie vzdelávanie Štúdium Harmonogram akademického roka Aktuálna ponuka študijných programov Prijímacie konanie Organizácia štúdia Kvalita vzdelávania Doktorandské štúdium Rigorózne konanie  Zahraničné mobility Výskum Najvýznamnejšie projekty Projekty H2020, Horizont Európa Plán obnovy a odolnosti SR Výskumné tímy  Projekty APVV Projekty VEGA  Projekty KEGA Výskumný profil fakulty Unikátne laboratóriá Habilitácie a inaugurácie Popularizačné aktivity Konferencie a semináre Študenti a veda Vonkajšie vzťahy Medzinárodné vzťahy Aktuálne medzinárodné aktivity Stratégia internacionalizácie Mobility Erasmus+ CEEPUS Iné mobilitné programy Koordinácia mobilít na FPVaI Regionálna spolupráca Spolupráca s firmami a regiónom Horizon
+Táto webová stránka používa cookies.
+Pokračovaním v prehliadaní si tejto webovej stránky bez zmeny nastavenia vášho webového prehliadača pre súbory cookie súhlasíte s používaním cookies.         							Dozvedieť sa viac
+Rozumiem
+V týchto zásadách používame výraz "cookies" ako odkaz na súbory cookies a iné podobné technológie, na ktoré sa vzťahuje smernica EÚ o ochrane súkromia v elektronických komunikáciách.
+Čo je cookie?
+Cookies sú malé textové súbory vytvorené navštívenou webovou stránkou obsahujúce údaje. Ukladajú sa do počítača návštevníka, aby umožnili užívateľovi prístup k rôznym funkciám. Na našich stránkach sa spolu so súbormi cookie relácií používajú aj iné trvalé súbory cookies. Súbory cookie relácie sú dočasne uložené v pamäti počítača, pokiaľ si návštevník prehliada webové stránky. Tieto súbory cookie sa vymažú, keď užívateľ zatvorí webový prehliadač alebo po uplynutí určitej doby (čo znamená, že relácia vyprší). Trvalé súbory cookie zostávajú v počítači návštevníka až do ich vymazania.
+Prečo používame cookies?
+Súbory cookies používame na to, aby sme sa dozvedeli viac o tom, ako návštevníci komunikujú s našim obsahom a pomáhajú nám zlepšiť zážitok pri návšteve našich webových stránok.
+Funkčnosť a obsah stránky
+Funkciu zdieľania používajú návštevníci, aby odporučili naše stránky a obsah na sociálnych sieťach, ako je Facebook a Twitter. Súbory cookie ukladajú informácie o tom, ako návštevníci používajú funkciu zdieľania, i keď nie individuálnej úrovni, aby bolo možné danú webovú stránku zlepšiť. Ak neprijmete súbory cookies, neuložia sa žiadne informácie. Na niektoré ďalšie funkcie na našich webových stránkach používame tretie strany, napríklad ak navštívite stránky s vloženými videami z YouTube alebo stránky, ktoré obsahujú odkazy na YouTube. Tieto videá alebo odkazy (a iný obsah od tretích strán) môžu obsahovať súbory cookies tretích strán a možno že si budete chcieť pozrieť zásady webových stránok týchto tretích strán ohľadne informácií týkajúcich ich používania súborov cookies.
+Analytika webovej stránky
+Táto webová stránka používa Google Analytics, ktorá používa súbory cookies. Vo všeobecnosti súbory cookies ukladajú informácie o tom, ako návštevníci používajú webové stránky, vrátane počtu zobrazených stránok, odkiaľ návštevníci pochádzajú a počet návštev za účelom zlepšenia webovej stránky a poskytnutia užívateľom dobré skúsenosti. Ak neprijmete súbory cookies, neuložia sa žiadne informácie.
+Ako odmietnem a vymažem cookies?
+Súbory cookies nepoužijeme na zhromažďovanie identifikovateľných informácií o návštevníkovi. Avšak v prípade, že tak budete chcieť urobiť, môžete si vybrať a odmietnuť alebo zablokovať cookies, ktoré nastavila spoločnosť Electrolux alebo webové stránky tretích strán tým, že zmeníte nastavenia vášho prehliadača. Ohľadne ďalších podrobností pozri „funkcia pomoc“. Vezmite na vedomie, že väčšina prehliadačov automaticky akceptuje cookies, takže ak si neprajete používať cookies, bude potrebné ich aktívne vymazať alebo zablokovať. Informácie o používaní cookies v prehliadačoch v mobilných telefónoch a podrobnosti, ako odmietnuť alebo vymazať takéto cookies, nájdete v príručke vášho mobilného telefónu. Majte na pamäti, že ak odmietne používanie cookies, naše stránky budete môcť navštíviť, avšak niektoré funkcie nemusia fungovať správne.

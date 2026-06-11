@@ -1,0 +1,37 @@
+# === Python ===
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# === IDE / Editor ===
+.vscode/
+.idea/
+.claude/
+
+# === Velke datasety (GitHub limit 100 MB / subor) ===
+# Master Apache log za 4 roky (12 GB)
+07_projekt/materials/wm2020projekt.log
+# Extrahovany tyzden (216 MB v 2 kopiach)
+**/wm2020projekt_studeny.log
+# Hlavny CSV dataset (759 MB v 6 kopiach)
+**/logs5.csv
+# Apache log za 1 den (63 MB v 3 kopiach)
+**/Log_jeden_den.log
+
+# === Backup subory z editov ===
+*.before_*
+*.contentbak
+*.bak
+*~
+
+# === Temporary ===
+*.tmp
+*.swp
+.DS_Store
+
+# === OS / build artefakty ===
+*.so
+*.dll
+Thumbs.db

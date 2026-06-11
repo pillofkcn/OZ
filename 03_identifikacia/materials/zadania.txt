@@ -1,0 +1,177 @@
+01
+
+UNIXTIME (ext)
+Požiadavky na absolvovanie
+Termín: sobota, 11 apríla 2026, 11:00
+
+Vytvorte premennú UNIXTIME, ktorú vytvoríte z dátumu a času prístupu.
+
+Odovzdajte zdrojový kód programu + logovací súbor doplnený o premennú unixtime (v jednom zip).
+
+Príkazy v Pythone vhodné pre riešenie tohto zadania:
+
+import pandas as pd
+import datetime
+pd.read_csv() - načítanie log súboru
+datetime.datetime(year, month, day, hour, minute, second).timestamp() - konverzia datumu na unixtime
+
+02
+
+Identifikácia používateľov (ext)
+Požiadavky na absolvovanie
+Termín: sobota, 11 apríla 2026, 11:00
+
+Usporiadajte najprv záznamy podľa IP, User-Agent a Unixtime.
+
+Identifikujte používateľov na základe IP adresy a poľa User-Agent. Vytvorte novú premennú s ID používateľa.
+
+Odovzdajte zdrojový kód programu + logovací súbor doplnený o identifikáciu používateľov (v jednom zip).
+
+Príkazy v Pythone vhodné pre riešenie tohto zadania:
+
+import pandas as pd
+pd.read_csv() - načítanie log súboru
+sort_values() - usporiadanie
+reset_index() - resetovanie indexu po usporiadani
+
+Identifikovaných bolo približne 4040 používateľov.
+
+03
+
+Premenná čas strávený na stránke - Length (ext)
+Požiadavky na absolvovanie
+Termín: sobota, 11 apríla 2026, 11:00
+
+Vytvorte premennú Length na základe User_ID a 60 min. - rozdiel medzi dvoma unixtime časmi (ak je rovnaký user a rozdiel je menej ako 3600, tak zapíšem rozdiel, inak zapíšem None).
+
+Odovzdajte zdrojový kód programu + logovací súbor doplnený o identifikáciu používateľov (v jednom zip).
+
+Príkazy v Pythone vhodné pre riešenie tohto zadania:
+
+import pandas as pd
+pd.read_csv() - načítanie log súboru
+
+Priemerná hodnota premennej Length v celom súbore by mala byť približne 150.
+
+04
+
+Identifikácia sedení: STT_MEAN (ext)
+Požiadavky na absolvovanie
+Termín: sobota, 11 apríla 2026, 11:00
+
+Identifikujte sedenia na základe priemerného odhadu časového okna (STT_MEAN).
+
+Odovzdajte zdrojový kód programu + logovací súbor doplnený o identifikáciu používateľov (v jednom zip).
+
+Príkazy v Pythone vhodné pre riešenie tohto zadania:
+
+import pandas as pd
+pd.read_csv() - načítanie log súboru
+
+Identifikovaných by malo byť cca 7500 sedení.
+
+05
+
+Identifikácia sedení: STT_Q (ext)
+Požiadavky na absolvovanie
+Termín: sobota, 11 apríla 2026, 11:00
+
+Identifikujte sedenia na základe kvartilového odhadu časového okna (STT_Q). (= hornyQ + 1.5*Qrozpatie)
+
+Odovzdajte zdrojový kód programu + logovací súbor doplnený o identifikáciu používateľov (v jednom zip).
+
+Príkazy v Pythone vhodné pre riešenie tohto zadania:
+
+import pandas as pd
+pd.read_csv() - načítanie log súboru
+quantile() - metóda na vypočítanie kvartilu (0.25 - dolný kvartil, 0.75 - horný kvartil)
+
+Identifikovaných by malo byť cca 7500 sedení.
+
+06
+
+Identifikácia sedení: SLength (ext)
+Požiadavky na absolvovanie
+Termín: sobota, 11 apríla 2026, 11:00
+
+Identifikujte sedenia na základe 10 minútového odhadu dĺžky času sedenia (SLength).
+
+Odovzdajte zdrojový kód programu + logovací súbor doplnený o identifikáciu používateľov (v jednom zip).
+
+Príkazy v Pythone vhodné pre riešenie tohto zadania:
+
+import pandas as pd
+pd.read_csv() - načítanie log súboru
+
+Identifikovaných by malo byť cca 6700 sedení.
+
+07
+
+RLength - exponenciálne rozdelenie (ext)
+Požiadavky na absolvovanie
+Termín: sobota, 11 apríla 2026, 11:00
+
+Zistite, či má premenná Length exponenciálne rozdelenie.
+
+Môžete problém vyriešiť buď v Statistica alebo pomocou Python, alebo pomocou ľubovolného štatistického nástroja.
+
+Príkazy v Pythone vhodné pre riešenie tohto zadania (nemusia byť použité obe):
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+from scipy.stats import chi2_contingency - Pearson chi-square
+from scipy.stats import kstest - Kolmogorov Smirnov test
+
+Odovzdajte kód alebo stw súbor zo STATISTICA.
+
+08
+
+Identifikácia sedení: RLength (ext)
+Požiadavky na absolvovanie
+Termín: sobota, 11 apríla 2026, 11:00
+
+Identifikujte sedenia na základe heuristiky RLength (podiel navigačných stránok 40%).
+
+Odovzdajte zdrojový kód programu + logovací súbor doplnený o identifikáciu používateľov (v jednom zip).
+
+Príkazy v Pythone vhodné pre riešenie tohto zadania:
+
+import pandas as pd
+import numpy as np
+pd.read_csv() - načítanie log súboru
+np.log - funkcia na výpočet prirodzeného logaritmu (ln)
+
+Identifikovaných by malo byť cca 8000 sedení.
+
+09
+
+Identifikácia sedení: h-ref (ext)
+Požiadavky na absolvovanie
+Termín: sobota, 11 apríla 2026, 11:00
+
+Identifikujte sedenia na základe metódy h-ref a ako časové okno použite priemerný odhad času stráveného na stránke.
+
+Odovzdajte zdrojový kód programu + logovací súbor doplnený o identifikáciu používateľov (v jednom zip).
+
+Príkazy v Pythone vhodné pre riešenie tohto zadania:
+
+import pandas as pd
+pd.read_csv() - načítanie log súboru
+
+Identifikovaných by malo byť cca 7200 sedení.
+
+Identifikácia sedení: STT_Q (ext)
+Požiadavky na absolvovanie
+Termín: sobota, 11 apríla 2026, 11:00
+
+Identifikujte sedenia na základe kvartilového odhadu časového okna (STT_Q). (= hornyQ + 1.5*Qrozpatie)
+
+Odovzdajte zdrojový kód programu + logovací súbor doplnený o identifikáciu používateľov (v jednom zip).
+
+Príkazy v Pythone vhodné pre riešenie tohto zadania:
+
+import pandas as pd
+pd.read_csv() - načítanie log súboru
+quantile() - metóda na vypočítanie kvartilu (0.25 - dolný kvartil, 0.75 - horný kvartil)
+
+Identifikovaných by malo byť cca 7500 sedení.

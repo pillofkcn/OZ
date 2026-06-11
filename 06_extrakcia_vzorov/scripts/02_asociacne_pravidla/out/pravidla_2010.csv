@@ -1,0 +1,406 @@
+antecedents,consequents,support,confidence,lift
+Business Conditions,Pillar3 related,0.18793430195830702,0.507679180887372,0.7066144284976933
+Business Conditions,Pricing List,0.2739524110339019,0.7400455062571104,1.715843334170642
+Pricing List,Business Conditions,0.2739524110339019,0.6351763700720128,1.715843334170642
+We support..,Business Conditions,0.12176247631080227,0.5976744186046511,1.614536868005397
+Pillar3 related,Pillar3 disclosure requirements,0.43640766477153087,0.6074150058616647,1.2947099922966991
+Pillar3 disclosure requirements,Pillar3 related,0.43640766477153087,0.9302064631956912,1.2947099922966994
+We support..,Pillar3 disclosure requirements,0.12671088650242157,0.6219638242894058,1.325720916315255
+Pricing List,Pillar3 related,0.2156769846283428,0.5000610277065788,0.696011084577533
+Reputation,Pillar3 related,0.3428616550852811,0.7463045720178755,1.0387457246520782
+We support..,Pillar3 related,0.16966729837860603,0.8328165374677003,1.1591576015340297
+We support..,Pricing List,0.12607917456306592,0.6188630490956073,1.4348739754205
+We support..,Reputation,0.17493156453990313,0.858656330749354,1.8690312431436609
+Business Conditions;Pillar3 related,Pillar3 disclosure requirements,0.12750052642661613,0.6784313725490196,1.44608195163164
+Business Conditions;Pillar3 disclosure requirements,Pillar3 related,0.12750052642661613,0.95279307631786,1.3261472214048997
+Business Conditions;Pillar3 disclosure requirements,Pricing List,0.11207622657401559,0.8375295043273013,1.941866283925475
+Pillar3 disclosure requirements;Pricing List,Business Conditions,0.11207622657401559,0.7964833520389075,2.15159239979111
+Business Conditions;Reputation,Pillar3 disclosure requirements,0.11644556748789218,0.6723404255319149,1.4330990488559532
+Business Conditions;Pillar3 disclosure requirements,Reputation,0.11644556748789218,0.8701809598741148,1.8941168229367118
+Pillar3 disclosure requirements;Reputation,Business Conditions,0.11644556748789218,0.6419036564132327,1.7340161913005925
+Business Conditions;We support..,Pillar3 disclosure requirements,0.10870709623078542,0.8927799394725465,1.9029676537500555
+Business Conditions;Pillar3 disclosure requirements,We support..,0.10870709623078542,0.8123524783634932,3.987454180618325
+Pillar3 disclosure requirements;We support..,Business Conditions,0.10870709623078542,0.8579144162858329,2.317540138191934
+We support..,Business Conditions;Pillar3 disclosure requirements,0.10870709623078542,0.5335917312661499,3.9874541806183257
+Business Conditions;Pillar3 related,Pricing List,0.12607917456306592,0.6708683473389356,1.5554516204138193
+Pillar3 related;Pricing List,Business Conditions,0.12607917456306592,0.5845740785940933,1.5791480655536683
+Business Conditions;Pillar3 related,Reputation,0.13792377342598441,0.7338935574229691,1.597460985081554
+Business Conditions;Reputation,Pillar3 related,0.13792377342598441,0.7963525835866261,1.1084051639662624
+Business Conditions;We support..,Pillar3 related,0.11565592756369762,0.9498486813661912,1.3220490585603875
+Business Conditions;Pillar3 related,We support..,0.11565592756369762,0.615406162464986,3.0207378455258076
+Pillar3 related;We support..,Business Conditions,0.11565592756369762,0.6816630468507602,1.8414208245132309
+We support..,Business Conditions;Pillar3 related,0.11565592756369762,0.5677002583979328,3.020737845525807
+Business Conditions;Reputation,Pricing List,0.1255527479469362,0.7249240121580546,1.6807831728248999
+Pricing List;Reputation,Business Conditions,0.1255527479469362,0.6351531291611184,1.7157805519830212
+Business Conditions;We support..,Pricing List,0.11049694672562645,0.9074794638996974,2.1040497859439338
+Pricing List;We support..,Business Conditions,0.11049694672562645,0.8764091858037578,2.3675012647224376
+We support..,Business Conditions;Pricing List,0.11049694672562645,0.5423772609819122,1.979822914990854
+Business Conditions;We support..,Reputation,0.11655085281111813,0.9571984435797666,2.083527172480949
+Business Conditions;Reputation,We support..,0.11655085281111813,0.6729483282674772,3.303185127588888
+Reputation;We support..,Business Conditions,0.11655085281111813,0.6662654228107132,1.7998262189579504
+We support..,Business Conditions;Reputation,0.11655085281111813,0.5720930232558139,3.3031851275888875
+Pillar3 related;Pricing List,Pillar3 disclosure requirements,0.12723731311855127,0.5899438613619722,1.2574701066463223
+Pillar3 disclosure requirements;Pricing List,Pillar3 related,0.12723731311855127,0.9042274597830152,1.2585510570074852
+Pillar3 disclosure requirements;Reputation,Pillar3 related,0.16477153084859972,0.9082994776552524,1.2642187043917918
+Pillar3 related;We support..,Pillar3 disclosure requirements,0.12471046536112866,0.73502947564381,1.566721265633956
+Pillar3 disclosure requirements;We support..,Pillar3 related,0.12471046536112866,0.984212712920648,1.3698787144373263
+We support..,Pillar3 disclosure requirements;Pillar3 related,0.12471046536112866,0.6121447028423773,1.402690081446779
+Pricing List;Reputation,Pillar3 disclosure requirements,0.11655085281111813,0.5896138482023967,1.2567666809305125
+Pillar3 disclosure requirements;Pricing List,Reputation,0.11655085281111813,0.8282828282828282,1.8029174522814946
+Pillar3 disclosure requirements;Reputation,Pricing List,0.11655085281111813,0.6424840394660476,1.4896407681797925
+Pricing List;We support..,Pillar3 disclosure requirements,0.10791745630659086,0.8559498956158663,1.8244641177198155
+Pillar3 disclosure requirements;Pricing List,We support..,0.10791745630659086,0.7669285447063224,3.7644895698297938
+Pillar3 disclosure requirements;We support..,Pricing List,0.10791745630659086,0.8516825924387204,1.9746811334024084
+We support..,Pillar3 disclosure requirements;Pricing List,0.10791745630659086,0.5297157622739018,3.7644895698297938
+Reputation;We support..,Pillar3 disclosure requirements,0.12160454832596336,0.6951549804393621,1.4817284569598432
+Pillar3 disclosure requirements;We support..,Reputation,0.12160454832596336,0.9597008724553385,2.0889741919516
+Pillar3 disclosure requirements;Reputation,We support..,0.12160454832596336,0.6703424260011607,3.2903939856118987
+We support..,Pillar3 disclosure requirements;Reputation,0.12160454832596336,0.5968992248062015,3.2903939856118987
+Pillar3 related;Pricing List,Reputation,0.1393977679511476,0.646326580424701,1.4068545573218312
+Pricing List;Reputation,Pillar3 related,0.1393977679511476,0.7051930758988015,0.9815245947958408
+Pricing List;We support..,Pillar3 related,0.11539271425563276,0.9152400835073068,1.2738790025135405
+Pillar3 related;Pricing List,We support..,0.11539271425563276,0.5350256285086649,2.6261878137340045
+Pillar3 related;We support..,Pricing List,0.11539271425563276,0.6801116971765435,1.576882924394681
+We support..,Pillar3 related;Pricing List,0.11539271425563276,0.5664082687338501,2.6261878137340045
+Pillar3 related;We support..,Reputation,0.15229522004632554,0.8976109215017064,1.9538234289958079
+Reputation;We support..,Pillar3 related,0.15229522004632554,0.8705988564550106,1.2117450085887589
+We support..,Pillar3 related;Reputation,0.15229522004632554,0.7475452196382428,2.180311529594359
+Pricing List;We support..,Reputation,0.11544535691724574,0.9156576200417537,1.9931055517718748
+Pricing List;Reputation,We support..,0.11544535691724574,0.5840213049267643,2.8666844207723035
+Reputation;We support..,Pricing List,0.11544535691724574,0.6599458320794463,1.5301270628806496
+We support..,Pricing List;Reputation,0.11544535691724574,0.5666666666666667,2.8666844207723035
+Business Conditions;Pillar3 related;Pricing List,Pillar3 disclosure requirements,0.11081280269530427,0.8789144050104384,1.8734131550244937
+Business Conditions;Pillar3 disclosure requirements;Pricing List,Pillar3 related,0.11081280269530427,0.9887271019257867,1.3761620770942442
+Business Conditions;Pillar3 disclosure requirements;Pillar3 related,Pricing List,0.11081280269530427,0.8691164327002477,2.0151026187689376
+Pillar3 disclosure requirements;Pillar3 related;Pricing List,Business Conditions,0.11081280269530427,0.8709143566404635,2.3526577245082825
+Business Conditions;Pillar3 related,Pillar3 disclosure requirements;Pricing List,0.11081280269530427,0.5896358543417367,4.190319000776517
+Business Conditions;Pillar3 disclosure requirements,Pillar3 related;Pricing List,0.11081280269530427,0.8280881195908734,3.839483016780139
+Pillar3 related;Pricing List,Business Conditions;Pillar3 disclosure requirements,0.11081280269530427,0.5137905784720527,3.8394830167801386
+Pillar3 disclosure requirements;Pricing List,Business Conditions;Pillar3 related,0.11081280269530427,0.7875046763935653,4.190319000776517
+Business Conditions;Pillar3 related;Reputation,Pillar3 disclosure requirements,0.11528742893240682,0.8358778625954199,1.7816804171748872
+Business Conditions;Pillar3 disclosure requirements;Pillar3 related,Reputation,0.11528742893240682,0.9042113955408753,1.9681906347764944
+Business Conditions;Pillar3 disclosure requirements;Reputation,Pillar3 related,0.11528742893240682,0.9900542495479204,1.3780092705460358
+Pillar3 disclosure requirements;Pillar3 related;Reputation,Business Conditions,0.11528742893240682,0.6996805111821085,1.8900925754288016
+Business Conditions;Pillar3 related,Pillar3 disclosure requirements;Reputation,0.11528742893240682,0.6134453781512604,3.381604295810024
+Business Conditions;Reputation,Pillar3 disclosure requirements;Pillar3 related,0.11528742893240682,0.6656534954407294,1.5253020264646677
+Business Conditions;Pillar3 disclosure requirements,Pillar3 related;Reputation,0.11528742893240682,0.8615263571990558,2.5127521390071035
+Pillar3 disclosure requirements;Reputation,Business Conditions;Pillar3 related,0.11528742893240682,0.6355194428322692,3.3816042958100243
+Business Conditions;Pillar3 related;We support..,Pillar3 disclosure requirements,0.10844388292272057,0.9376422394173873,1.9985920085247633
+Business Conditions;Pillar3 disclosure requirements;We support..,Pillar3 related,0.10844388292272057,0.9975786924939468,1.3884821836617098
+Business Conditions;Pillar3 disclosure requirements;Pillar3 related,We support..,0.10844388292272057,0.8505367464905037,4.174882696727031
+Pillar3 disclosure requirements;Pillar3 related;We support..,Business Conditions,0.10844388292272057,0.8695652173913043,2.3490132067072262
+Business Conditions;We support..,Pillar3 disclosure requirements;Pillar3 related,0.10844388292272057,0.8906182447038479,2.040794231169396
+Business Conditions;Pillar3 related,Pillar3 disclosure requirements;We support..,0.10844388292272057,0.5770308123249299,4.553916622735508
+Business Conditions;Pillar3 disclosure requirements,Pillar3 related;We support..,0.10844388292272057,0.8103855232100708,4.776321253148776
+Pillar3 related;We support..,Business Conditions;Pillar3 disclosure requirements,0.10844388292272057,0.6391560657772262,4.776321253148776
+Pillar3 disclosure requirements;We support..,Business Conditions;Pillar3 related,0.10844388292272057,0.8558371416701287,4.553916622735509
+We support..,Business Conditions;Pillar3 disclosure requirements;Pillar3 related,0.10844388292272057,0.5322997416020672,4.17488269672703
+Business Conditions;Pricing List;Reputation,Pillar3 disclosure requirements,0.1096546641398189,0.8733752620545073,1.8616064270632204
+Business Conditions;Pillar3 disclosure requirements;Pricing List,Reputation,0.1096546641398189,0.9783936120244245,2.1296625477272793
+Business Conditions;Pillar3 disclosure requirements;Reputation,Pricing List,0.1096546641398189,0.9416817359855334,2.1833499642110574
+Pillar3 disclosure requirements;Pricing List;Reputation,Business Conditions,0.1096546641398189,0.9408310749774165,2.541528313462884
+Business Conditions;Reputation,Pillar3 disclosure requirements;Pricing List,0.1096546641398189,0.6331306990881458,4.499420411477148
+Business Conditions;Pillar3 disclosure requirements,Pricing List;Reputation,0.1096546641398189,0.8194335169158143,4.145395229649217
+Pricing List;Reputation,Business Conditions;Pillar3 disclosure requirements,0.1096546641398189,0.5547270306258322,4.145395229649217
+Pillar3 disclosure requirements;Pricing List,Business Conditions;Reputation,0.1096546641398189,0.7792742237186681,4.499420411477148
+Pillar3 disclosure requirements;Reputation,Business Conditions;Pricing List,0.1096546641398189,0.6044689495066744,2.206474282249959
+Business Conditions;Pricing List;We support..,Pillar3 disclosure requirements,0.10591703516529796,0.9585516912815627,2.043160674100602
+Business Conditions;Pillar3 disclosure requirements;Pricing List,We support..,0.10591703516529796,0.9450446218882105,4.638777167283837
+Business Conditions;Pillar3 disclosure requirements;We support..,Pricing List,0.10591703516529796,0.9743341404358354,2.2590566741998206
+Pillar3 disclosure requirements;Pricing List;We support..,Business Conditions,0.10591703516529796,0.9814634146341464,2.6512911013069176
+Business Conditions;We support..,Pillar3 disclosure requirements;Pricing List,0.10591703516529796,0.8698659749243408,6.181808477240096
+Business Conditions;Pillar3 disclosure requirements,Pricing List;We support..,0.10591703516529796,0.7915027537372148,6.277823093942435
+Pricing List;We support..,Business Conditions;Pillar3 disclosure requirements,0.10591703516529796,0.8400835073068893,6.277823093942435
+Pillar3 disclosure requirements;Pricing List,Business Conditions;We support..,0.10591703516529796,0.7527123082678638,6.1818084772400965
+Pillar3 disclosure requirements;We support..,Business Conditions;Pricing List,0.10591703516529796,0.8358953053593685,3.0512427403164035
+We support..,Business Conditions;Pillar3 disclosure requirements;Pricing List,0.10591703516529796,0.5198966408268734,4.638777167283836
+Business Conditions;Reputation;We support..,Pillar3 disclosure requirements,0.10860181090755949,0.9317976513098465,1.986134221755144
+Business Conditions;Pillar3 disclosure requirements;We support..,Reputation,0.10860181090755949,0.9990314769975788,2.174584844396242
+Business Conditions;Pillar3 disclosure requirements;Reputation,We support..,0.10860181090755949,0.9326401446654612,4.577889454280387
+Pillar3 disclosure requirements;Reputation;We support..,Business Conditions,0.10860181090755949,0.8930735930735931,2.4125179143950475
+Business Conditions;We support..,Pillar3 disclosure requirements;Reputation,0.10860181090755949,0.8919152615650671,4.916663467408593
+Business Conditions;Reputation,Pillar3 disclosure requirements;We support..,0.10860181090755949,0.6270516717325227,4.94868033079809
+Business Conditions;Pillar3 disclosure requirements,Reputation;We support..,0.10860181090755949,0.8115656963021244,4.63933252090134
+Reputation;We support..,Business Conditions;Pillar3 disclosure requirements,0.10860181090755949,0.6208245561239844,4.63933252090134
+Pillar3 disclosure requirements;We support..,Business Conditions;Reputation,0.10860181090755949,0.8570835064395513,4.94868033079809
+Pillar3 disclosure requirements;Reputation,Business Conditions;We support..,0.10860181090755949,0.5986651189785258,4.916663467408593
+We support..,Business Conditions;Pillar3 disclosure requirements;Reputation,0.10860181090755949,0.5330749354005169,4.577889454280388
+Business Conditions;Pillar3 related;Pricing List,Reputation,0.11760370604337755,0.932776617954071,2.0303683550653755
+Business Conditions;Pricing List;Reputation,Pillar3 related,0.11760370604337755,0.9366876310272537,1.3037308205593283
+Business Conditions;Pillar3 related;Reputation,Pricing List,0.11760370604337755,0.8526717557251908,1.9769745724100727
+Pillar3 related;Pricing List;Reputation,Business Conditions,0.11760370604337755,0.8436555891238671,2.2790218388789785
+Business Conditions;Pillar3 related,Pricing List;Reputation,0.11760370604337755,0.6257703081232493,3.165681164609652
+Business Conditions;Reputation,Pillar3 related;Pricing List,0.11760370604337755,0.6790273556231002,3.1483533432795734
+Pillar3 related;Pricing List,Business Conditions;Reputation,0.11760370604337755,0.5452770319746155,3.1483533432795734
+Pricing List;Reputation,Business Conditions;Pillar3 related,0.11760370604337755,0.5949400798934753,3.165681164609652
+Business Conditions;Pricing List;We support..,Pillar3 related,0.1089176668772373,0.9857074797522629,1.3719592090690202
+Business Conditions;Pillar3 related;Pricing List,We support..,0.1089176668772373,0.8638830897703548,4.240393584826268
+Business Conditions;Pillar3 related;We support..,Pricing List,0.1089176668772373,0.9417387346381428,2.183482119270861
+Pillar3 related;Pricing List;We support..,Business Conditions,0.1089176668772373,0.9438868613138686,2.549783108293266
+Business Conditions;We support..,Pillar3 related;Pricing List,0.1089176668772373,0.8945092952875054,4.147449004950318
+Business Conditions;Pillar3 related,Pricing List;We support..,0.1089176668772373,0.5795518207282913,4.59672918018982
+Pricing List;We support..,Business Conditions;Pillar3 related,0.1089176668772373,0.8638830897703548,4.59672918018982
+Pillar3 related;Pricing List,Business Conditions;We support..,0.1089176668772373,0.5050036612155235,4.147449004950318
+Pillar3 related;We support..,Business Conditions;Pricing List,0.1089176668772373,0.641948495190816,2.343284706887921
+We support..,Business Conditions;Pillar3 related;Pricing List,0.1089176668772373,0.5346253229974159,4.240393584826268
+Business Conditions;Pillar3 related;We support..,Reputation,0.1142345757001474,0.9877105143377333,2.149942583976118
+Business Conditions;Reputation;We support..,Pillar3 related,0.1142345757001474,0.9801264679313461,1.3641912650076091
+Business Conditions;Pillar3 related;Reputation,We support..,0.1142345757001474,0.8282442748091604,4.065459494644654
+Pillar3 related;Reputation;We support..,Business Conditions,0.1142345757001474,0.7500864154856551,2.026257330569611
+Business Conditions;We support..,Pillar3 related;Reputation,0.1142345757001474,0.9381755296152184,2.7363092830601397
+Business Conditions;Pillar3 related,Reputation;We support..,0.1142345757001474,0.607843137254902,3.474748189977165
+Business Conditions;Reputation,Pillar3 related;We support..,0.1142345757001474,0.6595744680851063,3.887457832995557
+Pillar3 related;We support..,Business Conditions;Reputation,0.1142345757001474,0.6732857586099907,3.8874578329955574
+Reputation;We support..,Business Conditions;Pillar3 related,0.1142345757001474,0.6530243755642492,3.4747481899771646
+We support..,Business Conditions;Pillar3 related;Reputation,0.1142345757001474,0.5607235142118864,4.065459494644654
+Business Conditions;Pricing List;We support..,Reputation,0.10881238155401136,0.9847546450690805,2.1435085639661113
+Business Conditions;Pricing List;Reputation,We support..,0.10881238155401136,0.8666666666666667,4.25405684754522
+Business Conditions;Reputation;We support..,Pricing List,0.10881238155401136,0.9336043360433603,2.164621990416169
+Pricing List;Reputation;We support..,Business Conditions,0.10881238155401136,0.9425444596443228,2.5461567911552265
+Business Conditions;We support..,Pricing List;Reputation,0.10881238155401136,0.893644617380026,4.520818415912376
+Business Conditions;Reputation,Pricing List;We support..,0.10881238155401136,0.6282674772036473,4.983118579106674
+Pricing List;We support..,Business Conditions;Reputation,0.10881238155401136,0.8630480167014613,4.983118579106674
+Pricing List;Reputation,Business Conditions;We support..,0.10881238155401136,0.5504660452729693,4.520818415912376
+Reputation;We support..,Business Conditions;Pricing List,0.10881238155401136,0.6220282876918447,2.2705705905062032
+We support..,Business Conditions;Pricing List;Reputation,0.10881238155401136,0.5341085271317829,4.25405684754522
+Pillar3 related;Pricing List;Reputation,Pillar3 disclosure requirements,0.11428721836176037,0.8198640483383686,1.7475468427104635
+Pillar3 disclosure requirements;Pillar3 related;Pricing List,Reputation,0.11428721836176037,0.8982209350434422,1.9551512412152203
+Pillar3 disclosure requirements;Pricing List;Reputation,Pillar3 related,0.11428721836176037,0.9805781391147245,1.364819924576737
+Pillar3 disclosure requirements;Pillar3 related;Reputation,Pricing List,0.11428721836176037,0.6936102236421725,1.6081801303926166
+Pillar3 related;Pricing List,Pillar3 disclosure requirements;Reputation,0.11428721836176037,0.5298999267756895,2.921061813415844
+Pricing List;Reputation,Pillar3 disclosure requirements;Pillar3 related,0.11428721836176037,0.5781624500665778,1.3248219422755987
+Pillar3 disclosure requirements;Pricing List,Pillar3 related;Reputation,0.11428721836176037,0.8121960344182565,2.3688739244294794
+Pillar3 disclosure requirements;Reputation,Pillar3 related;Pricing List,0.11428721836176037,0.6300058038305281,2.9210618134158435
+Pillar3 related;Pricing List;We support..,Pillar3 disclosure requirements,0.10770688566013897,0.9333941605839416,1.9895371941710678
+Pillar3 disclosure requirements;Pricing List;We support..,Pillar3 related,0.10770688566013897,0.9980487804878049,1.3891364767106054
+Pillar3 disclosure requirements;Pillar3 related;Pricing List,We support..,0.10770688566013897,0.8465039304923458,4.155087509982584
+Pillar3 disclosure requirements;Pillar3 related;We support..,Pricing List,0.10770688566013897,0.863655550865344,2.0024412113069783
+Pricing List;We support..,Pillar3 disclosure requirements;Pillar3 related,0.10770688566013897,0.8542797494780793,1.9575269144855962
+Pillar3 disclosure requirements;Pricing List,Pillar3 related;We support..,0.10770688566013897,0.7654320987654321,4.511370818538054
+Pillar3 related;We support..,Pillar3 disclosure requirements;Pricing List,0.10770688566013897,0.6348122866894198,4.511370818538054
+Pillar3 disclosure requirements;We support..,Pillar3 related;Pricing List,0.10770688566013897,0.850020772746157,3.941175152327556
+We support..,Pillar3 disclosure requirements;Pillar3 related;Pricing List,0.10770688566013897,0.5286821705426357,4.155087509982585
+Pillar3 related;Reputation;We support..,Pillar3 disclosure requirements,0.12018319646241314,0.7891462150017283,1.6820715327842046
+Pillar3 disclosure requirements;Pillar3 related;We support..,Reputation,0.12018319646241314,0.9636977627691009,2.097674195205894
+Pillar3 disclosure requirements;Reputation;We support..,Pillar3 related,0.12018319646241314,0.9883116883116884,1.3755838827058056
+Pillar3 disclosure requirements;Pillar3 related;Reputation,We support..,0.12018319646241314,0.7293929712460063,3.5802451890928
+Pillar3 related;We support..,Pillar3 disclosure requirements;Reputation,0.12018319646241314,0.7083462612472852,3.904743348419451
+Reputation;We support..,Pillar3 disclosure requirements;Pillar3 related,0.12018319646241314,0.6870297923563046,1.5742844313148807
+Pillar3 disclosure requirements;We support..,Pillar3 related;Reputation,0.12018319646241314,0.9484835895305359,2.766374062140651
+Pillar3 disclosure requirements;Reputation,Pillar3 related;We support..,0.12018319646241314,0.6625072547881602,3.904743348419451
+We support..,Pillar3 disclosure requirements;Pillar3 related;Reputation,0.12018319646241314,0.5899224806201551,3.5802451890928
+Pricing List;Reputation;We support..,Pillar3 disclosure requirements,0.10775952832175195,0.9334245326037391,1.9896019323766414
+Pillar3 disclosure requirements;Pricing List;We support..,Reputation,0.10775952832175195,0.9985365853658538,2.17350761723499
+Pillar3 disclosure requirements;Pricing List;Reputation,We support..,0.10775952832175195,0.9245709123757905,4.53828140865388
+Pillar3 disclosure requirements;Reputation;We support..,Pricing List,0.10775952832175195,0.8861471861471861,2.0545895213050103
+Pricing List;We support..,Pillar3 disclosure requirements;Reputation,0.10775952832175195,0.854697286012526,4.711500187200796
+Pricing List;Reputation,Pillar3 disclosure requirements;We support..,0.10775952832175195,0.5451398135818908,4.302233443623431
+Pillar3 disclosure requirements;Pricing List,Reputation;We support..,0.10775952832175195,0.7658062102506547,4.377747448065434
+Reputation;We support..,Pillar3 disclosure requirements;Pricing List,0.10775952832175195,0.6160096298525429,4.377747448065434
+Pillar3 disclosure requirements;We support..,Pricing List;Reputation,0.10775952832175195,0.8504362276692978,4.302233443623431
+Pillar3 disclosure requirements;Reputation,Pricing List;We support..,0.10775952832175195,0.594022054556007,4.711500187200797
+We support..,Pillar3 disclosure requirements;Pricing List;Reputation,0.10775952832175195,0.5289405684754522,4.53828140865388
+Pillar3 related;Pricing List;We support..,Reputation,0.11286586649821015,0.9781021897810219,2.1290282109637095
+Pricing List;Reputation;We support..,Pillar3 related,0.11286586649821015,0.97765617875057,1.3607529873641433
+Pillar3 related;Pricing List;Reputation,We support..,0.11286586649821015,0.8096676737160121,3.974275744162627
+Pillar3 related;Reputation;We support..,Pricing List,0.11286586649821015,0.741099204977532,1.71828640275274
+Pricing List;We support..,Pillar3 related;Reputation,0.11286586649821015,0.8951983298538622,2.610960766759399
+Pillar3 related;Pricing List,Reputation;We support..,0.11286586649821015,0.5233097388332927,2.9915112244589914
+Pricing List;Reputation,Pillar3 related;We support..,0.11286586649821015,0.5709720372836218,3.365245057474303
+Pillar3 related;We support..,Pricing List;Reputation,0.11286586649821015,0.6652187403040645,3.365245057474303
+Reputation;We support..,Pillar3 related;Pricing List,0.11286586649821015,0.6452001203731568,2.991511224458991
+We support..,Pillar3 related;Pricing List;Reputation,0.11286586649821015,0.5540051679586563,3.9742757441626266
+Pillar3 disclosure requirements;Pillar3 related;Pricing List;Reputation,Business Conditions,0.10923352284691513,0.9557807461999078,2.581912834871082
+Business Conditions;Pillar3 disclosure requirements;Pillar3 related;Pricing List,Reputation,0.10923352284691513,0.9857482185273159,2.145671268379156
+Business Conditions;Pillar3 disclosure requirements;Pillar3 related;Reputation,Pricing List,0.10923352284691513,0.9474885844748858,2.196813517720607
+Business Conditions;Pillar3 related;Pricing List;Reputation,Pillar3 disclosure requirements,0.10923352284691513,0.9288272157564905,1.979802714375033
+Business Conditions;Pillar3 disclosure requirements;Pricing List;Reputation,Pillar3 related,0.10923352284691513,0.9961593855016803,1.386506717979918
+Pillar3 disclosure requirements;Pillar3 related;Pricing List,Business Conditions;Reputation,0.10923352284691513,0.8585022755482002,4.956872105262495
+Pillar3 disclosure requirements;Pillar3 related;Reputation,Business Conditions;Pricing List,0.10923352284691513,0.6629392971246005,2.4199067809721195
+Business Conditions;Pillar3 disclosure requirements;Pillar3 related,Pricing List;Reputation,0.10923352284691513,0.8567299752270849,4.334072599044928
+Pillar3 related;Pricing List;Reputation,Business Conditions;Pillar3 disclosure requirements,0.10923352284691513,0.7836102719033232,5.855806736851113
+Business Conditions;Pillar3 related;Pricing List,Pillar3 disclosure requirements;Reputation,0.10923352284691513,0.8663883089770354,4.7759466968449695
+Business Conditions;Pillar3 related;Reputation,Pillar3 disclosure requirements;Pricing List,0.10923352284691513,0.7919847328244275,5.628335946402104
+Pillar3 disclosure requirements;Pricing List;Reputation,Business Conditions;Pillar3 related,0.10923352284691513,0.9372177055103884,4.986943286799814
+Business Conditions;Pillar3 disclosure requirements;Pricing List,Pillar3 related;Reputation,0.10923352284691513,0.9746359793330202,2.842650861877791
+Business Conditions;Pillar3 disclosure requirements;Reputation,Pillar3 related;Pricing List,0.10923352284691513,0.9380650994575045,4.349398249766843
+Business Conditions;Pricing List;Reputation,Pillar3 disclosure requirements;Pillar3 related,0.10923352284691513,0.8700209643605871,1.993596892520351
+Pillar3 related;Pricing List,Business Conditions;Pillar3 disclosure requirements;Reputation,0.10923352284691513,0.5064681474249451,4.349398249766843
+Business Conditions;Pillar3 related,Pillar3 disclosure requirements;Pricing List;Reputation,0.10923352284691513,0.5812324929971988,4.986943286799814
+Pillar3 disclosure requirements;Pricing List,Business Conditions;Pillar3 related;Reputation,0.10923352284691513,0.7762813318368873,5.628335946402103
+Pillar3 disclosure requirements;Reputation,Business Conditions;Pillar3 related;Pricing List,0.10923352284691513,0.6021474172954149,4.775946696844969
+Business Conditions;Pillar3 disclosure requirements,Pillar3 related;Pricing List;Reputation,0.10923352284691513,0.8162863886703383,5.855806736851113
+Pricing List;Reputation,Business Conditions;Pillar3 disclosure requirements;Pillar3 related,0.10923352284691513,0.5525965379494008,4.334072599044928
+Business Conditions;Reputation,Pillar3 disclosure requirements;Pillar3 related;Pricing List,0.10923352284691513,0.6306990881458966,4.956872105262495
+Pillar3 disclosure requirements;Pillar3 related;Pricing List;We support..,Business Conditions,0.10591703516529796,0.9833822091886609,2.656474466118857
+Business Conditions;Pillar3 disclosure requirements;Pillar3 related;Pricing List,We support..,0.10591703516529796,0.9558194774346794,4.691665838074721
+Business Conditions;Pillar3 disclosure requirements;Pillar3 related;We support..,Pricing List,0.10591703516529796,0.9766990291262136,2.2645398214672956
+Business Conditions;Pillar3 related;Pricing List;We support..,Pillar3 disclosure requirements,0.10591703516529796,0.9724504591590141,2.0727860101194606
+Business Conditions;Pillar3 disclosure requirements;Pricing List;We support..,Pillar3 related,0.10591703516529796,1.0,1.3918522860492382
+Pillar3 disclosure requirements;Pillar3 related;Pricing List,Business Conditions;We support..,0.10591703516529796,0.8324369052544477,6.836563533166229
+Pillar3 disclosure requirements;Pillar3 related;We support..,Business Conditions;Pricing List,0.10591703516529796,0.8493035035880119,3.1001862709757635
+Business Conditions;Pillar3 disclosure requirements;Pillar3 related,Pricing List;We support..,0.10591703516529796,0.8307184145334434,6.588863049051061
+Pillar3 related;Pricing List;We support..,Business Conditions;Pillar3 disclosure requirements,0.10591703516529796,0.9178832116788322,6.8592090830256085
+Business Conditions;Pillar3 related;Pricing List,Pillar3 disclosure requirements;We support..,0.10591703516529796,0.8400835073068893,6.6299236829254955
+Business Conditions;Pillar3 related;We support..,Pillar3 disclosure requirements;Pricing List,0.10591703516529796,0.915794264906691,6.508203462838571
+Pillar3 disclosure requirements;Pricing List;We support..,Business Conditions;Pillar3 related,0.10591703516529796,0.9814634146341464,5.222375076860013
+Business Conditions;Pillar3 disclosure requirements;Pricing List,Pillar3 related;We support..,0.10591703516529796,0.9450446218882105,5.569986856155273
+Business Conditions;Pillar3 disclosure requirements;We support..,Pillar3 related;Pricing List,0.10591703516529796,0.9743341404358354,4.517561955508697
+Business Conditions;Pricing List;We support..,Pillar3 disclosure requirements;Pillar3 related,0.10591703516529796,0.9585516912815627,2.196459339877511
+Pillar3 related;We support..,Business Conditions;Pillar3 disclosure requirements;Pricing List,0.10591703516529796,0.6242631089047471,5.569986856155273
+Business Conditions;Pillar3 related,Pillar3 disclosure requirements;Pricing List;We support..,0.10591703516529796,0.5635854341736695,5.222375076860012
+Pillar3 disclosure requirements;Pricing List,Business Conditions;Pillar3 related;We support..,0.10591703516529796,0.7527123082678638,6.508203462838571
+Pillar3 disclosure requirements;We support..,Business Conditions;Pillar3 related;Pricing List,0.10591703516529796,0.8358953053593685,6.629923682925496
+Business Conditions;Pillar3 disclosure requirements,Pillar3 related;Pricing List;We support..,0.10591703516529796,0.7915027537372148,6.8592090830256085
+Pricing List;We support..,Business Conditions;Pillar3 disclosure requirements;Pillar3 related,0.10591703516529796,0.8400835073068893,6.588863049051061
+Business Conditions;We support..,Pillar3 disclosure requirements;Pillar3 related;Pricing List,0.10591703516529796,0.8698659749243408,6.83656353316623
+We support..,Business Conditions;Pillar3 disclosure requirements;Pillar3 related;Pricing List,0.10591703516529796,0.5198966408268734,4.69166583807472
+Pillar3 disclosure requirements;Pillar3 related;Reputation;We support..,Business Conditions,0.10833859759949463,0.9014454664914586,2.4351334018020117
+Business Conditions;Pillar3 disclosure requirements;Pillar3 related;We support..,Reputation,0.10833859759949463,0.9990291262135922,2.1745797274611434
+Business Conditions;Pillar3 disclosure requirements;Pillar3 related;Reputation,We support..,0.10833859759949463,0.9397260273972603,4.612670701922056
+Business Conditions;Pillar3 related;Reputation;We support..,Pillar3 disclosure requirements,0.10833859759949463,0.9483870967741935,2.02149475878844
+Business Conditions;Pillar3 disclosure requirements;Reputation;We support..,Pillar3 related,0.10833859759949463,0.9975763451284536,1.388478916475682
+Pillar3 disclosure requirements;Pillar3 related;We support..,Business Conditions;Reputation,0.10833859759949463,0.8687209793161671,5.015873472063802
+Pillar3 disclosure requirements;Pillar3 related;Reputation,Business Conditions;We support..,0.10833859759949463,0.6575079872204472,5.399922924876617
+Business Conditions;Pillar3 disclosure requirements;Pillar3 related,Reputation;We support..,0.10833859759949463,0.8497109826589595,4.857390859641768
+Pillar3 related;Reputation;We support..,Business Conditions;Pillar3 disclosure requirements,0.10833859759949463,0.7113722779122019,5.315982608662544
+Business Conditions;Pillar3 related;We support..,Pillar3 disclosure requirements;Reputation,0.10833859759949463,0.9367319071461083,5.163714250768274
+Business Conditions;Pillar3 related;Reputation,Pillar3 disclosure requirements;We support..,0.10833859759949463,0.7854961832061069,6.199121518979313
+Pillar3 disclosure requirements;Reputation;We support..,Business Conditions;Pillar3 related,0.10833859759949463,0.8909090909090909,4.7405347593582885
+Business Conditions;Pillar3 disclosure requirements;We support..,Pillar3 related;Reputation,0.10833859759949463,0.9966101694915255,2.9067414063658865
+Business Conditions;Pillar3 disclosure requirements;Reputation,Pillar3 related;We support..,0.10833859759949463,0.930379746835443,5.483553729719539
+Business Conditions;Reputation;We support..,Pillar3 disclosure requirements;Pillar3 related,0.10833859759949463,0.929539295392954,2.1299793070307063
+Pillar3 related;We support..,Business Conditions;Pillar3 disclosure requirements;Reputation,0.10833859759949463,0.6385355259075395,5.483553729719539
+Business Conditions;Pillar3 related,Pillar3 disclosure requirements;Reputation;We support..,0.10833859759949463,0.5764705882352941,4.7405347593582885
+Pillar3 disclosure requirements;We support..,Business Conditions;Pillar3 related;Reputation,0.10833859759949463,0.855006231823847,6.199121518979313
+Pillar3 disclosure requirements;Reputation,Business Conditions;Pillar3 related;We support..,0.10833859759949463,0.5972141613464886,5.163714250768274
+Business Conditions;Pillar3 disclosure requirements,Pillar3 related;Reputation;We support..,0.10833859759949463,0.8095987411487018,5.315982608662544
+Reputation;We support..,Business Conditions;Pillar3 disclosure requirements;Pillar3 related,0.10833859759949463,0.6193198916641589,4.857390859641768
+Business Conditions;We support..,Pillar3 disclosure requirements;Pillar3 related;Reputation,0.10833859759949463,0.8897535667963684,5.399922924876617
+Business Conditions;Reputation,Pillar3 disclosure requirements;Pillar3 related;We support..,0.10833859759949463,0.6255319148936169,5.015873472063802
+We support..,Business Conditions;Pillar3 disclosure requirements;Pillar3 related;Reputation,0.10833859759949463,0.5317829457364341,4.612670701922056
+Pillar3 disclosure requirements;Pricing List;Reputation;We support..,Business Conditions,0.10586439250368498,0.9824132877381533,2.653857055442827
+Business Conditions;Pillar3 disclosure requirements;Pricing List;We support..,Reputation,0.10586439250368498,0.9995029821073558,2.1756111662783693
+Business Conditions;Pillar3 disclosure requirements;Pricing List;Reputation,We support..,0.10586439250368498,0.9654344695151225,4.738861287573454
+Business Conditions;Pillar3 disclosure requirements;Reputation;We support..,Pricing List,0.10586439250368498,0.9747939893359184,2.2601228635939346
+Business Conditions;Pricing List;Reputation;We support..,Pillar3 disclosure requirements,0.10586439250368498,0.972907595549105,2.0737604000281418
+Pillar3 disclosure requirements;Pricing List;We support..,Business Conditions;Reputation,0.10586439250368498,0.9809756097560975,5.664016013047668
+Pillar3 disclosure requirements;Pricing List;Reputation,Business Conditions;We support..,0.10586439250368498,0.9083107497741644,7.4596934728534485
+Business Conditions;Pillar3 disclosure requirements;Pricing List,Reputation;We support..,0.10586439250368498,0.9445749178017848,5.399682557497052
+Pillar3 disclosure requirements;Reputation;We support..,Business Conditions;Pricing List,0.10586439250368498,0.8705627705627705,3.177788314683011
+Business Conditions;Pillar3 disclosure requirements;We support..,Pricing List;Reputation,0.10586439250368498,0.9738498789346247,4.926565193140381
+Business Conditions;Pillar3 disclosure requirements;Reputation,Pricing List;We support..,0.10586439250368498,0.909132007233273,7.210802342130795
+Pricing List;Reputation;We support..,Business Conditions;Pillar3 disclosure requirements,0.10586439250368498,0.9170086639306886,6.852673713622093
+Business Conditions;Pricing List;We support..,Pillar3 disclosure requirements;Reputation,0.10586439250368498,0.9580752739399714,5.28136909569463
+Business Conditions;Pricing List;Reputation,Pillar3 disclosure requirements;We support..,0.10586439250368498,0.8431865828092243,6.6544130980656515
+Business Conditions;Reputation;We support..,Pillar3 disclosure requirements;Pricing List,0.10586439250368498,0.9083107497741644,6.455020951257024
+Pillar3 disclosure requirements;Pricing List,Business Conditions;Reputation;We support..,0.10586439250368498,0.7523381967826411,6.4550209512570245
+Pillar3 disclosure requirements;We support..,Business Conditions;Pricing List;Reputation,0.10586439250368498,0.8354798504362276,6.654413098065652
+Pillar3 disclosure requirements;Reputation,Business Conditions;Pricing List;We support..,0.10586439250368498,0.5835751596053395,5.28136909569463
+Business Conditions;Pillar3 disclosure requirements,Pricing List;Reputation;We support..,0.10586439250368498,0.7911093627065303,6.852673713622093
+Pricing List;We support..,Business Conditions;Pillar3 disclosure requirements;Reputation,0.10586439250368498,0.8396659707724425,7.210802342130795
+Pricing List;Reputation,Business Conditions;Pillar3 disclosure requirements;We support..,0.10586439250368498,0.5355525965379494,4.926565193140381
+Reputation;We support..,Business Conditions;Pillar3 disclosure requirements;Pricing List,0.10586439250368498,0.6051760457417996,5.399682557497052
+Business Conditions;We support..,Pillar3 disclosure requirements;Pricing List;Reputation,0.10586439250368498,0.869433635970601,7.459693472853449
+Business Conditions;Reputation,Pillar3 disclosure requirements;Pricing List;We support..,0.10586439250368498,0.6112462006079027,5.664016013047668
+We support..,Business Conditions;Pillar3 disclosure requirements;Pricing List;Reputation,0.10586439250368498,0.5196382428940568,4.738861287573453
+Pillar3 related;Pricing List;Reputation;We support..,Business Conditions,0.10828595493788166,0.9594216417910448,2.591748223473078
+Business Conditions;Pillar3 related;Pricing List;We support..,Reputation,0.10828595493788166,0.9942000966650557,2.164068412541469
+Business Conditions;Pillar3 related;Pricing List;Reputation,We support..,0.10828595493788166,0.9207699194270368,4.519624131637207
+Business Conditions;Pillar3 related;Reputation;We support..,Pricing List,0.10828595493788166,0.947926267281106,2.197828313593542
+Business Conditions;Pricing List;Reputation;We support..,Pillar3 related,0.10828595493788166,0.9951620706337688,1.3851186030011045
+Pillar3 related;Pricing List;We support..,Business Conditions;Reputation,0.10828595493788166,0.9384124087591242,5.418262041576998
+Pillar3 related;Pricing List;Reputation,Business Conditions;We support..,0.10828595493788166,0.7768126888217523,6.379737932061395
+Business Conditions;Pillar3 related;Pricing List,Reputation;We support..,0.10828595493788166,0.8588726513569938,4.909763733125926
+Pillar3 related;Reputation;We support..,Business Conditions;Pricing List,0.10828595493788166,0.7110266159695818,2.595438431390887
+Business Conditions;Pillar3 related;We support..,Pricing List;Reputation,0.10828595493788166,0.9362767410104689,4.736488141740311
+Business Conditions;Pillar3 related;Reputation,Pricing List;We support..,0.10828595493788166,0.7851145038167939,6.227154536327272
+Pricing List;Reputation;We support..,Business Conditions;Pillar3 related,0.10828595493788166,0.937984496124031,4.991023386098625
+Business Conditions;Pricing List;We support..,Pillar3 related;Reputation,0.10828595493788166,0.9799904716531682,2.858267925613939
+Business Conditions;Pricing List;Reputation,Pillar3 related;We support..,0.10828595493788166,0.8624737945492663,5.083323673986305
+Business Conditions;Reputation;We support..,Pillar3 related;Pricing List,0.10828595493788166,0.9290876242095755,4.3077736171552585
+Pillar3 related;Pricing List,Business Conditions;Reputation;We support..,0.10828595493788166,0.5020746887966805,4.3077736171552585
+Pillar3 related;We support..,Business Conditions;Pricing List;Reputation,0.10828595493788166,0.6382252559726963,5.083323673986306
+Business Conditions;Pillar3 related,Pricing List;Reputation;We support..,0.10828595493788166,0.5761904761904763,4.991023386098626
+Pricing List;We support..,Business Conditions;Pillar3 related;Reputation,0.10828595493788166,0.8588726513569938,6.227154536327273
+Pricing List;Reputation,Business Conditions;Pillar3 related;We support..,0.10828595493788166,0.54780292942743,4.73648814174031
+Reputation;We support..,Business Conditions;Pillar3 related;Pricing List,0.10828595493788166,0.6190189587721938,4.909763733125926
+Business Conditions;We support..,Pillar3 related;Pricing List;Reputation,0.10828595493788166,0.8893212278426287,6.379737932061395
+Business Conditions;Reputation,Pillar3 related;Pricing List;We support..,0.10828595493788166,0.6252279635258359,5.418262041576997
+We support..,Business Conditions;Pillar3 related;Pricing List;Reputation,0.10828595493788166,0.5315245478036176,4.519624131637206
+Pillar3 disclosure requirements;Pillar3 related;Pricing List;We support..,Reputation,0.10754895767530007,0.9985337243401761,2.1735013896603625
+Pillar3 disclosure requirements;Pillar3 related;Pricing List;Reputation,We support..,0.10754895767530007,0.9410409949332106,4.619125255749681
+Pillar3 disclosure requirements;Pillar3 related;Reputation;We support..,Pricing List,0.10754895767530007,0.8948751642575559,2.07482590262865
+Pillar3 related;Pricing List;Reputation;We support..,Pillar3 disclosure requirements,0.10754895767530007,0.9528917910447762,2.031096551019588
+Pillar3 disclosure requirements;Pricing List;Reputation;We support..,Pillar3 related,0.10754895767530007,0.9980459208597948,1.3891324965308223
+Pillar3 disclosure requirements;Pillar3 related;Pricing List,Reputation;We support..,0.10754895767530007,0.8452627223831196,4.8319622854016675
+Pillar3 disclosure requirements;Pillar3 related;We support..,Pricing List;Reputation,0.10754895767530007,0.8623891937526382,4.36270176418778
+Pillar3 disclosure requirements;Pillar3 related;Reputation,Pricing List;We support..,0.10754895767530007,0.6527156549520766,5.177029887878767
+Pillar3 related;Pricing List;We support..,Pillar3 disclosure requirements;Reputation,0.10754895767530007,0.9320255474452556,5.137770545348252
+Pillar3 related;Pricing List;Reputation,Pillar3 disclosure requirements;We support..,0.10754895767530007,0.7715256797583082,6.08886656115032
+Pillar3 related;Reputation;We support..,Pillar3 disclosure requirements;Pricing List,0.10754895767530007,0.7061873487729001,5.018606388810329
+Pillar3 disclosure requirements;Pricing List;We support..,Pillar3 related;Reputation,0.10754895767530007,0.9965853658536586,2.9066690633741903
+Pillar3 disclosure requirements;Pricing List;Reputation,Pillar3 related;We support..,0.10754895767530007,0.9227642276422765,5.43866871495274
+Pillar3 disclosure requirements;Reputation;We support..,Pillar3 related;Pricing List,0.10754895767530007,0.8844155844155844,4.100648875166815
+Pricing List;Reputation;We support..,Pillar3 disclosure requirements;Pillar3 related,0.10754895767530007,0.9316005471956225,2.13470253251243
+Pillar3 related;We support..,Pillar3 disclosure requirements;Pricing List;Reputation,0.10754895767530007,0.6338814768848898,5.43866871495274
+Pillar3 disclosure requirements;Pricing List,Pillar3 related;Reputation;We support..,0.10754895767530007,0.7643097643097643,5.018606388810329
+Pillar3 disclosure requirements;We support..,Pillar3 related;Pricing List;Reputation,0.10754895767530007,0.8487744079767345,6.08886656115032
+Pillar3 disclosure requirements;Reputation,Pillar3 related;Pricing List;We support..,0.10754895767530007,0.5928612884503772,5.137770545348251
+Pricing List;We support..,Pillar3 disclosure requirements;Pillar3 related;Reputation,0.10754895767530007,0.853027139874739,5.177029887878767
+Pricing List;Reputation,Pillar3 disclosure requirements;Pillar3 related;We support..,0.10754895767530007,0.5440745672436751,4.36270176418778
+Reputation;We support..,Pillar3 disclosure requirements;Pillar3 related;Pricing List,0.10754895767530007,0.6148058982846826,4.8319622854016675
+We support..,Pillar3 disclosure requirements;Pillar3 related;Pricing List;Reputation,0.10754895767530007,0.5279069767441861,4.619125255749681
+Pillar3 disclosure requirements;Pillar3 related;Pricing List;Reputation;We support..,Business Conditions,0.10586439250368498,0.9843367596671561,2.6590530555513787
+Business Conditions;Pillar3 disclosure requirements;Pillar3 related;Pricing List;We support..,Reputation,0.10586439250368498,0.9995029821073558,2.1756111662783693
+Business Conditions;Pillar3 disclosure requirements;Pillar3 related;Pricing List;Reputation,We support..,0.10586439250368498,0.9691566265060241,4.75713159615205
+Business Conditions;Pillar3 disclosure requirements;Pillar3 related;Reputation;We support..,Pricing List,0.10586439250368498,0.9771622934888241,2.2656139298320155
+Business Conditions;Pillar3 related;Pricing List;Reputation;We support..,Pillar3 disclosure requirements,0.10586439250368498,0.9776373359261059,2.0838418798532663
+Business Conditions;Pillar3 disclosure requirements;Pricing List;Reputation;We support..,Pillar3 related,0.10586439250368498,1.0,1.3918522860492382
+Pillar3 disclosure requirements;Pillar3 related;Pricing List;We support..,Business Conditions;Reputation,0.10586439250368498,0.9828934506353861,5.675089358136716
+Pillar3 disclosure requirements;Pillar3 related;Pricing List;Reputation,Business Conditions;We support..,0.10586439250368498,0.9263012436665131,7.607444195715125
+Business Conditions;Pillar3 disclosure requirements;Pillar3 related;Pricing List,Reputation;We support..,0.10586439250368498,0.9553444180522566,5.461246634162102
+Pillar3 disclosure requirements;Pillar3 related;Reputation;We support..,Business Conditions;Pricing List,0.10586439250368498,0.8808585194918966,3.2153705680761084
+Business Conditions;Pillar3 disclosure requirements;Pillar3 related;We support..,Pricing List;Reputation,0.10586439250368498,0.9762135922330097,4.938522875648003
+Business Conditions;Pillar3 disclosure requirements;Pillar3 related;Reputation,Pricing List;We support..,0.10586439250368498,0.9182648401826484,7.283239625933023
+Pillar3 related;Pricing List;Reputation;We support..,Business Conditions;Pillar3 disclosure requirements,0.10586439250368498,0.9379664179104478,7.009287991592001
+Business Conditions;Pillar3 related;Pricing List;We support..,Pillar3 disclosure requirements;Reputation,0.10586439250368498,0.971967133881102,5.357947671272609
+Business Conditions;Pillar3 related;Pricing List;Reputation,Pillar3 disclosure requirements;We support..,0.10586439250368498,0.9001790510295434,7.104196615437144
+Business Conditions;Pillar3 related;Reputation;We support..,Pillar3 disclosure requirements;Pricing List,0.10586439250368498,0.9267281105990783,6.585906168701867
+Pillar3 disclosure requirements;Pricing List;Reputation;We support..,Business Conditions;Pillar3 related,0.10586439250368498,0.9824132877381533,5.22742935962856
+Business Conditions;Pillar3 disclosure requirements;Pricing List;We support..,Pillar3 related;Reputation,0.10586439250368498,0.9995029821073558,2.9151786654554477
+Business Conditions;Pillar3 disclosure requirements;Pricing List;Reputation,Pillar3 related;We support..,0.10586439250368498,0.9654344695151225,5.690162327927169
+Business Conditions;Pillar3 disclosure requirements;Reputation;We support..,Pillar3 related;Pricing List,0.10586439250368498,0.9747939893359184,4.519694074060314
+Business Conditions;Pricing List;Reputation;We support..,Pillar3 disclosure requirements;Pillar3 related,0.10586439250368498,0.972907595549105,2.229354968039903
+Pillar3 disclosure requirements;Pillar3 related;Pricing List,Business Conditions;Reputation;We support..,0.10586439250368498,0.8320231692180389,7.138713695784041
+Pillar3 disclosure requirements;Pillar3 related;We support..,Business Conditions;Pricing List;Reputation,0.10586439250368498,0.8488813845504432,6.761153367262146
+Pillar3 disclosure requirements;Pillar3 related;Reputation,Business Conditions;Pricing List;We support..,0.10586439250368498,0.6424920127795527,5.814568020371788
+Business Conditions;Pillar3 disclosure requirements;Pillar3 related,Pricing List;Reputation;We support..,0.10586439250368498,0.8303055326176713,7.192195119747051
+Pillar3 related;Pricing List;We support..,Business Conditions;Pillar3 disclosure requirements;Reputation,0.10586439250368498,0.9174270072992701,7.878591062683967
+Pillar3 related;Pricing List;Reputation,Business Conditions;Pillar3 disclosure requirements;We support..,0.10586439250368498,0.759441087613293,6.986122469879959
+Business Conditions;Pillar3 related;Pricing List,Pillar3 disclosure requirements;Reputation;We support..,0.10586439250368498,0.8396659707724425,6.9048895154949435
+Pillar3 related;Reputation;We support..,Business Conditions;Pillar3 disclosure requirements;Pricing List,0.10586439250368498,0.6951261666090564,6.202262405310303
+Business Conditions;Pillar3 related;We support..,Pillar3 disclosure requirements;Pricing List;Reputation,0.10586439250368498,0.9153390987710514,7.8535598555803485
+Business Conditions;Pillar3 related;Reputation,Pillar3 disclosure requirements;Pricing List;We support..,0.10586439250368498,0.767557251908397,7.11244758890337
+Pillar3 disclosure requirements;Pricing List;We support..,Business Conditions;Pillar3 related;Reputation,0.10586439250368498,0.9809756097560975,7.11244758890337
+Pillar3 disclosure requirements;Pricing List;Reputation,Business Conditions;Pillar3 related;We support..,0.10586439250368498,0.9083107497741644,7.8535598555803485
+Business Conditions;Pillar3 disclosure requirements;Pricing List,Pillar3 related;Reputation;We support..,0.10586439250368498,0.9445749178017848,6.202262405310303
+Pillar3 disclosure requirements;Reputation;We support..,Business Conditions;Pillar3 related;Pricing List,0.10586439250368498,0.8705627705627705,6.904889515494943
+Business Conditions;Pillar3 disclosure requirements;We support..,Pillar3 related;Pricing List;Reputation,0.10586439250368498,0.9738498789346247,6.986122469879959
+Business Conditions;Pillar3 disclosure requirements;Reputation,Pillar3 related;Pricing List;We support..,0.10586439250368498,0.909132007233273,7.878591062683967
+Pricing List;Reputation;We support..,Business Conditions;Pillar3 disclosure requirements;Pillar3 related,0.10586439250368498,0.9170086639306886,7.192195119747052
+Business Conditions;Pricing List;We support..,Pillar3 disclosure requirements;Pillar3 related;Reputation,0.10586439250368498,0.9580752739399714,5.814568020371787
+Business Conditions;Pricing List;Reputation,Pillar3 disclosure requirements;Pillar3 related;We support..,0.10586439250368498,0.8431865828092243,6.761153367262146
+Business Conditions;Reputation;We support..,Pillar3 disclosure requirements;Pillar3 related;Pricing List,0.10586439250368498,0.9083107497741644,7.138713695784041
+Pillar3 related;We support..,Business Conditions;Pillar3 disclosure requirements;Pricing List;Reputation,0.10586439250368498,0.6239528389699037,5.690162327927168
+Business Conditions;Pillar3 related,Pillar3 disclosure requirements;Pricing List;Reputation;We support..,0.10586439250368498,0.5633053221288515,5.227429359628561
+Pillar3 disclosure requirements;Pricing List,Business Conditions;Pillar3 related;Reputation;We support..,0.10586439250368498,0.7523381967826411,6.585906168701866
+Pillar3 disclosure requirements;We support..,Business Conditions;Pillar3 related;Pricing List;Reputation,0.10586439250368498,0.8354798504362276,7.104196615437144
+Pillar3 disclosure requirements;Reputation,Business Conditions;Pillar3 related;Pricing List;We support..,0.10586439250368498,0.5835751596053395,5.357947671272609
+Business Conditions;Pillar3 disclosure requirements,Pillar3 related;Pricing List;Reputation;We support..,0.10586439250368498,0.7911093627065303,7.009287991592001
+Pricing List;We support..,Business Conditions;Pillar3 disclosure requirements;Pillar3 related;Reputation,0.10586439250368498,0.8396659707724425,7.283239625933023
+Pricing List;Reputation,Business Conditions;Pillar3 disclosure requirements;Pillar3 related;We support..,0.10586439250368498,0.5355525965379494,4.938522875648004
+Reputation;We support..,Business Conditions;Pillar3 disclosure requirements;Pillar3 related;Pricing List,0.10586439250368498,0.6051760457417996,5.461246634162102
+Business Conditions;We support..,Pillar3 disclosure requirements;Pillar3 related;Pricing List;Reputation,0.10586439250368498,0.869433635970601,7.607444195715125
+Business Conditions;Reputation,Pillar3 disclosure requirements;Pillar3 related;Pricing List;We support..,0.10586439250368498,0.6112462006079027,5.675089358136716
+We support..,Business Conditions;Pillar3 disclosure requirements;Pillar3 related;Pricing List;Reputation,0.10586439250368498,0.5196382428940568,4.75713159615205

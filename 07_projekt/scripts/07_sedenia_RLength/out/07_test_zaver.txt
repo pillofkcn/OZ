@@ -1,0 +1,14 @@
+=== Zaver KS testu a vyber metody ===
+
+Pocet hodnot Length: 49,759
+Priemer Length: 173.59s
+
+KS statistika: 0.5995
+P-hodnota: 0.000000
+
+KS test: p=0.000000 < 0.05
+-> data NEMAJU exponencialne rozdelenie
+-> fallback na STT_Q = Q3 + 1.5*IQR = 31.00 + 1.5*30.00 = 76.00s
+
+Pouzity prah: 76.00s
+Pocet sedeni: 33,496

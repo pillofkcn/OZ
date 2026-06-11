@@ -1,0 +1,98 @@
+CRISP-DM II
+
+Prednáska 6
+Michal Munk
+FÁZY PROCESU WEB LOG MININGU
+
+Proces objavovania znalostí na základe pouzívania webu sa rozdeuje do
+troch základných castí:
+
+Metodika CRISP-DM, fázy procesu:
+FÁZY PROCESU:                                           Log File
+                                                     Hrubé dáta
+     Príprava dát                                    Bez robotov
+                                      Rozlísené sedenia na základe agenta
+             Získanie súboru      Rozlísené sedenia na základe casu/struktúry
+           z webového servera       Doplnené záznamy logovacieho súboru
+
+             Cistenie súboru
+          od nepotrebných dát
+
+      Cistenie súboru od robotov
+          vyhadávacích sluzieb
+
+       Identifikácia pouzívateov
+        na základe rôznej verzie
+       internetového prehliadaca
+
+           Identifikácia sedení
+       na základe casu/struktúry
+
+             Dopanie ciest
+FÁZY PROCESU:
+
+     Príprava dát
+
+     Identifikácia pouzívateov/sedení:
+      na základe rôznej verzie internetového prehliadaca
+      na základe struktúry prehadávaných stránok
+      na základe casu
+
+     178.41.1.187 - - [16/Dec/2019:18:16:26 +0100] "GET " ..
+     178.41.1.187 - - [16/Dec/2019:18:19:47 +0100] "GET /studium " ..
+     178.41.1.187 - - [16/Dec/2019:18:52:37 +0100] "GET /studium/akreditovane-programy "..
+     178.41.1.187 - - [16/Dec/2019:18:54:25 +0100] "GET /prijimaciekonanie " ..
+     178.41.1.187 - - [16/Dec/2019:18:59:58 +0100] "GET /prijimaciekonanie/podmienky "..
+FÁZY PROCESU:
+
+     Príprava dát
+FÁZY PROCESU:
+
+     Príprava dát
+
+Premenná  má exponenciálne rozdelenie
+
+                                    = -,
+                                  = 1 - -,
+
+kde   0
+
+Ak je  relatívna pocetnos navigacných stránok, na odhad hranicného casu
+ môzeme pouzi kvantilovú funkciu
+
+                   -1 ,  =  = - ln 1-
+
+                                                      
+
+pre 0   < 1
+
+Maximálne vierohodný odhad parametra  (priemerná intenzita udalostí) je
+
+                    = 1 ,
+
+                          
+
+kde  je pozorovaný priemer dzky návstev
+FÁZY PROCESU:
+
+     Príprava dát
+FÁZY PROCESU:
+
+     Príprava dát
+
+Ak máme odhad hranicného casu , tak sedenie je sekvencia navstívených
+stránok s casovou známkou, pre ktorú platí:
+
+, 1, 1, 1 , ... , , ,  ,
+
+                     ,                                   (1)
+
+kde 1   <  a pre poslednú stránku sedenia platí:
+
+                    >                                    (2)
+
+Od stránky s vlastnosou (2) je definované alsie sedenie
+FÁZY PROCESU:
+
+     Príprava dát
+

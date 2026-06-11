@@ -1,0 +1,18 @@
+Čistenie dát I (ext)
+Požiadavky na absolvovanie
+Termín: sobota, 14 marca 2026, 11:00
+
+Vytvorte program na čistenie dát od nepotrebných dát:
+
+- upravte dátový súbor identifikovaním premenných (IP, Cookie, user, DateTime, RequestMethod, URL, StatusCode, Bytes, Referrer, Agent), ale môžete zmazať z logu Cookie, user a Bytes
+
+- očistite dáta (RequestMethod/Version, StatusCode, URL).
+
+Odovzdajte zdrojový kód programu + očistený logovací súbor (v jednom zip).
+
+Príkazy v Pythone vhodné pre riešenie tohto zadania:
+
+import pandas as pd
+pd.read_csv() - načítanie log súboru
+
+Po očistení by ste mali mať približne 56500 záznamov.

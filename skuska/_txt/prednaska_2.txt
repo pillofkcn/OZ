@@ -1,0 +1,88 @@
+ZDROJE DÁT I
+
+Prednáska 2
+Michal Munk
+ZDROJE DÁT
+
+ Databázy
+
+       Produkcné databázy
+       Dátové sklady
+       Verejné databázy
+
+ Text
+
+       Kolekcie elektronických dokumentov
+
+ Web
+
+       Obsah
+       Mapa webu
+       Logovacie súbory
+
+ ..
+DATABÁZY
+
+ Produkcné databázy
+
+ Dátové sklady
+
+       Subjektovo orientovaný
+       Integrovaný
+       Casovo premenný
+       Nemenný
+
+ Verejné databázy
+
+       Verejná databáza DATAcube - RegDat
+       Databáza STATdat
+       Databázy Eurostatu
+       ..
+TROJVRSTVOVÁ ARCHITEKTÚRA DÁTOVÉHO SKLADU
+DATABÁZA BANKY
+DATABÁZA BANKY + RegDat
+TEXT
+
+ Kolekcie elektronických dokumentov
+
+       Kvalifikacné práce
+       Lekárske správy popisujúce symptómy
+       Otvorené odpovede v dotazníkoch
+       ..
+
+ Obsah webu
+
+       Webové stránky
+       Textové príspevky ­ tweety, statusy, blogy
+       Diskusie
+       ..
+VEKTOROVÁ REPREZENTÁCIA TEXTU
+
+ world frequency
+
+                   wf
+
+ binary frequency
+
+                   f(wf) = 1, pre wf > 0
+
+ log frequency
+
+                   f(wf) = 1 + log(wf), pre wf > 0
+VEKTOROVÁ REPREZENTÁCIA TEXTU
+
+ inverse document frequency
+
+                             0,  , = 0
+
+ ,  =  1 + log ,                 ,      ,    1  ,
+                               
+
+kde (1 + log(,)) predstavuje pocet výskytov kmeového slova v dokumente,
+
+dfi je pocet výskytov kmeového slova v celej kolekcii dokumentov (pocet
+dokumentov, ktoré obsahujú i-te slovo) a N udáva pocet dokumentov v kolekcii
+VEKTOROVÁ REPREZENTÁCIA TEXTU
+VEKTOROVÁ REPREZENTÁCIA TEXTU
+VEKTOROVÁ REPREZENTÁCIA TEXTU
+

@@ -1,0 +1,28 @@
+
+Extrakcia vzorov z dát o používaní webu komerčnej banky a metaanalýza extrahovaných vzorov so sledovaných období
+Požiadavky na absolvovanie
+Termín: sobota, 16 mája 2026, 23:59
+
+Z priloženého, anonymizovaného a predspracovaného logovacieho súboru: 
+
+    identifikujte obdobia pre ktoré chcete vykonať asociačnú/sekvenčnú analýzu (rok/pol rok/kvartál, ..)
+    Filter dát
+
+    extrahujte vzory (frekventované transakcie/sekvencie alebo asociačné/sekvenčné pravidlá) z jednotlivých období (minimálne 10 pravidiel pre každé obdobie)
+
+    Frekventované transakcie/sekvencie:
+        Frequent itemsets (Data mining-Sequence, Association, and Link Analysis)
+
+    Asociačné/sekvenčné pravidlá:
+        Association/Sequence rules (Data mining-Sequence, Association, and Link Analysis)
+
+    z extrahovaných vzorov z jednotlivých období vytvorte dátovú maticu jedinečných vzorov (frekventované transakcie/sekvencie alebo asociačné/sekvenčné pravidlá) z premennými popisujúcimi ich výskyt v jednotlivých obdobiach
+    Vzor, O1(0/1), O2(0/1), O3(0/1), O4(0/1), ..
+
+    zosumarizujte dosiahnuté výsledky
+
+    Testovanie rozdielov medzi závislými vzorkami:
+        Cochran Q Test (Statistics-Nonparametrics)
+        Coeff. of Concordance (Statistics-Nonparametrics-Comparing multiple dep. samples (variables))
+        respektíve použite ľubovoľné metódy a techniky na zosumarizovanie výsledkov zo sledovaných období, napr. popisné charakteristiky, početnosti, vizualizácia dát, testy, miery ..
+

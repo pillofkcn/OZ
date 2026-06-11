@@ -1,0 +1,7 @@
+Prehľadávanie webu (ext)
+Požiadavky na absolvovanie
+Termín: sobota, 14 marca 2026, 11:00
+
+Vytvorte Python skript na prehľadávanie webových stránok a získanie ich textového obsahu. Texty exportujte to txt súborov.
+
+Odovzdajte zdrojové kódy a exportované súbory v jednom zip.

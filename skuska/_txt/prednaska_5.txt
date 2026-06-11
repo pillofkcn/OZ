@@ -1,0 +1,103 @@
+CRISP-DM I
+
+Prednáska 5
+Michal Munk
+FÁZY PROCESU WEB LOG MININGU
+
+Proces objavovania znalostí na základe pouzívania webu sa rozdeuje do
+troch základných castí:
+
+Metodika CRISP-DM, fázy procesu:
+FÁZY PROCESU:
+
+     Porozumenie problematike
+
+     Typy problémov - úloh:
+      Deskripcia dát a sumarizácia
+      Segmentácia
+      Deskripcia konceptov
+      Klasifikácia
+      Predikcia
+      Analýza závislostí
+FÁZY PROCESU:
+
+     Porozumenie dátam
+
+      Informacné systémy - dáta vo vlastnej struktúre,
+         organizované v databáze
+
+      Web/proxy servery - dáta v spolocnej standardnej struktúre,
+         v textovom formáte
+
+     178.41.1.187 - - [16/Dec/2019:18:16:26 +0100] "GET /studium/akreditovane-
+     programy HTTP/1.1" 200 15364 "http://www.ukf.sk/studium" "Mozilla/5.0
+     (Windows; U; Windows NT 5.1; sk; rv:1.9.2.13) Gecko/20101203 Firefox/3.6.13
+     BLNGBAR"
+     ...
+FÁZY PROCESU:                                           Log File
+                                                     Hrubé dáta
+     Príprava dát                                    Bez robotov
+                                      Rozlísené sedenia na základe agenta
+             Získanie súboru      Rozlísené sedenia na základe casu/struktúry
+           z webového servera       Doplnené záznamy logovacieho súboru
+
+             Cistenie súboru
+          od nepotrebných dát
+
+      Cistenie súboru od robotov
+          vyhadávacích sluzieb
+
+       Identifikácia pouzívateov
+        na základe rôznej verzie
+       internetového prehliadaca
+
+           Identifikácia sedení
+       na základe casu/struktúry
+
+             Dopanie ciest
+FÁZY PROCESU:
+
+     Príprava dát
+
+   GET / HTTP/1.1
+
+   GET /favicon.ico HTTP/1.1
+
+   GET /templates/system/css/system.css HTTP/1.1
+   GET /templates/system/css/general.css HTTP/1.1
+   GET /templates/newukf/js/hs.css HTTP/1.1
+   GET /templates/newukf/css/template.css HTTP/1.1
+   GET /templates/newukf/css/editor_content.css HTTP/1.1
+
+   GET /templates/newukf/js/ja.script.js HTTP/1.1
+   GET /media/system/js/mootools.js HTTP/1.1
+   GET /media/system/js/caption.js HTTP/1.1
+   GET /templates/newukf/js/highslide.js HTTP/1.1
+
+   GET /templates/newukf/images/user-increase.png HTTP/1.1
+   GET /templates/newukf/images/ukf_header_logo.png HTTP/1.1
+   GET /templates/newukf/images/en.gif HTTP/1.1
+   GET /dokumenty/images/reklama/e-prihlaska.gif HTTP/1.1
+   GET /templates/newukf/images/ukf_budova_jesen.jpg HTTP/1.1
+FÁZY PROCESU:
+
+     Príprava dát
+
+Identifikácia robotov:
+ na základe poa User-Agent, resp. IP adresy
+ na základe prístupu k súboru robots.txt v adresári servera
+ na základe prístupu k skrytému odkazu
+
+                                               Agent
+msnbot/1.1 (+http://search.msn.com/msnbot.htm)
+ia_archiver (+http://www.alexa.com/site/help/webmasters; crawler@alexa.com)
+Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+
+IP adresa          Host
+
+65.55.110.205 msnbot-65-55-110-205.search.msn.com
+
+74.6.18.226 llf520148.crawl.yahoo.net
+
+77.88.27.25 spider27.yandex.ru
+

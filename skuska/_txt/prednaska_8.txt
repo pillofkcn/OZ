@@ -1,0 +1,240 @@
+CRISP-DM IV
+
+Prednáska 8
+Michal Munk
+FÁZY PROCESU WEB LOG MININGU
+
+Proces objavovania znalostí na základe pouzívania webu sa rozdeuje do
+troch základných castí:
+
+Metodika CRISP-DM, fázy procesu:
+FÁZY PROCESU:                                           Log File
+                                                     Hrubé dáta
+     Príprava dát                                    Bez robotov
+                                      Rozlísené sedenia na základe agenta
+             Získanie súboru      Rozlísené sedenia na základe casu/struktúry
+           z webového servera       Doplnené záznamy logovacieho súboru
+
+             Cistenie súboru
+          od nepotrebných dát
+
+      Cistenie súboru od robotov
+          vyhadávacích sluzieb
+
+       Identifikácia pouzívateov
+        na základe rôznej verzie
+       internetového prehliadaca
+
+           Identifikácia sedení
+       na základe casu/struktúry
+
+             Dopanie ciest
+FÁZY PROCESU:
+
+     Príprava dát
+
+Identifikácia pouzívateov
+· na základe rôznej verzie internetového prehliadaca
+· na základe HTTP/web/Internet/browser cookie
+Identifikácia sedení
+· na základe struktúry prehadávaných stránok
+· na základe casu
+· na základe kombinácie casu a struktúry
+
+IP  Cookie         ..  Agent
+
+91.226.112.32 91.226.112.32.1379883231097502 .. Opera/9.80 (Windows NT 6.1) Presto/2.12.388 Version/12.16
+
+91.226.112.32 91.226.112.32.1379883231097502 .. Opera/9.80 (Windows NT 6.1) Presto/2.12.388 Version/12.16
+
+91.226.112.32 91.226.112.32.1379883231097502 .. Opera/9.80 (Windows NT 6.1) Presto/2.12.388 Version/12.16
+
+91.226.112.32 91.226.112.32.1379883231097502 .. Opera/9.80 (Windows NT 6.1) Presto/2.12.388 Version/12.16
+
+ = , , , , , , , , ,  ,
+
+kde  (Web Access Log Set) je mnozina webových prístupov zachytená v
+logovacom súbore a zoradená poda polozky 
+  , kde  je mnozina mozných poziadaviek na webový server
+FÁZY PROCESU:
+
+     Príprava dát
+
+     Ak sú odkazujúce stránky dostupné (Extended Log File, ELF), tak sedenie je
+     sekvencia navstívených stránok s casovou známkou pre ktorú platí:
+
+        = , 1, 1, 1 , ... , , ,  ,
+                                         = -1,
+
+     kde  (User Session Set) je mnozina sedení,  je casová známka
+     posledného záznamu sedenia a 1 <   
+
+     Dva po sebe nasledujúce záznamy z  nepatria do jedného sedenia, ak
+     rovnos neplatí
+FÁZY PROCESU:
+
+     Príprava dát
+
+     Ak máme odhad dzky casu sedenia , tak sedenie je sekvencia navstívených
+     stránok s casovou známkou pre ktorú platí:
+
+                     = , 1, 1 , ... , ,  ,
+                                       - 1  ,
+
+     kde  je casová známka posledného záznamu sedenia, 1     a  je
+     pocet záznamov vo 
+
+     Vsetky alsie záznamy logovacieho súboru, ktorých casová známka je väcsia ako
+     1 +  uz patria do alsieho sedenia
+FÁZY PROCESU:
+
+     Príprava dát
+
+     Ak máme odhad vekosti casového okna (Session Timeout Threshold, STT) ,
+     tak sedenie je sekvencia navstívených stránok s casovou známkou pre ktorú
+     platí:
+
+                     = , 1, 1 , ... , ,  ,
+
+                                      - -1  ,
+
+     kde  je casová známka posledného záznamu sedenia a 1 <   
+
+     Ak po dvoch po sebe nasledujúcich záznamov z  nerovnos neplatí, tak
+     záznamy patria do dvoch rozdielnych sedení
+FÁZY PROCESU:
+
+     Príprava dát
+
+    178.41.1.187 - - [16/Dec/2019:18:16:26 +0100] "GET " ...
+    178.41.1.187 - - [16/Dec/2019:18:19:47 +0100] "GET /studium " ...
+    178.41.1.187 - - [16/Dec/2019:18:52:37 +0100] "GET /studium/akreditovane-programy "...
+    178.41.1.187 - - [16/Dec/2019:18:54:25 +0100] "GET /prijimaciekonanie " ...
+    178.41.1.187 - - [16/Dec/2019:18:59:58 +0100] "GET /prijimaciekonanie/podmienky "...
+
+    Sedenie 1
+    178.41.1.187 - - [16/Dec/2019:18:16:26 +0100] "GET " ...
+    178.41.1.187 - - [16/Dec/2019:18:19:47 +0100] "GET /studium " ...
+
+    Sedenie 2
+    178.41.1.187 - - [16/Dec/2019:18:52:37 +0100] "GET /studium/akreditovane-programy "...
+    178.41.1.187 - - [16/Dec/2019:18:54:25 +0100] "GET /prijimaciekonanie " ...
+    178.41.1.187 - - [16/Dec/2019:18:59:58 +0100] "GET /prijimaciekonanie/podmienky "...
+FÁZY PROCESU:
+
+     Príprava dát
+
+       Ak premenná  nemá exponenciálne rozdelenie
+
+       Na odhad casového okna  môzeme pouzi kvartilový odhad
+                                       =  =  + 1,5,
+
+       kde  je horný kvartil (75. percentil) a  je kvartilové rozpätie (stredných
+       50% hodnôt)
+
+       Odhady strednej hodnoty sa síce pouzívajú, ale ich pouzitie nie je vhodné
+
+ x1   n   xi                  n   ~x  xm  ~x  xm  xm1
+  n  i 1                                            2
+               xG  n xi
+                             i 1
+FÁZY PROCESU:
+
+     Príprava dát
+
+Ak premenná  má exponenciálne rozdelenie
+                               = -,
+
+                             = 1 - -,
+
+kde   0
+
+Na odhad casového okna  môzeme pouzi kvantilovú funkciu
+
+                   -1 ,   =  =  =      - ln 1 -   ,
+
+                                          
+
+kde  relatívna pocetnos navigacných stránok 0   < 1
+
+Maximálne vierohodný odhad parametra  (priemerná intenzita udalostí) je
+
+                            =       1  ,
+                               
+
+kde  je pozorovaný priemer dzky návstev
+FÁZY PROCESU:
+
+     Príprava dát
+
+Ak máme odhad vekosti casového okna , tak sedenie je sekvencia
+navstívených stránok s casovou známkou pre ktorú platí:
+
+ = , 1, 1, 1 , ... , , ,  ,
+
+                    = -1                                        (1)
+
+alebo rovnos neplatí, resp.  nie je definovaný, ale:
+
+                    - -1  ,                                     (2)
+
+kde  je casová známka posledného záznamu sedenia a 1 <   
+
+Dva po sebe nasledujúce záznamy z  nepatria do jedného sedenia, ak
+neplatí (1) a zárove (2)
+FÁZY PROCESU:
+
+     Príprava dát
+
+   IP adresa       Cas poziadavky URL adresa Odkazujúca (referer)
+194.160.10.10
+194.160.10.10      12:00  stránka A  -
+194.160.10.10
+194.160.10.10      12:01  stránka B  stránka A
+194.160.10.10
+194.160.10.10      12:04  stránka C  stránka B
+194.160.10.10
+194.160.10.10      12:08  stránka D  stránka C
+
+  Sedenie 1        13:00  stránka A  -
+194.160.10.10
+194.160.10.10      13:04  stránka E  stránka D
+194.160.10.10
+194.160.10.10      13:09  stránka B  stránka A
+194.160.10.10
+                   13:12  stránka C  stránka B
+  Sedenie 2
+194.160.10.10      12:00  stránka A       -
+194.160.10.10      12:01  stránka B  stránka A
+194.160.10.10      12:04  stránka C  stránka B
+                   12:08  stránka D  stránka C
+                   13:04  stránka E  stránka D
+
+                   13:00  stránka A       -
+                   13:09  stránka B  stránka A
+                   13:12  stránka C  stránka B
+FÁZY PROCESU:
+
+     Príprava dát
+
+                   Aktuálna navigácia               Mapa webu
+
+                   stránka B  stránka C  stránka D   URL Odkazujúca
+                                                    adresa stránka
+
+stránka A                                           B            A
+
+                                                    X            A
+
+                   stránka X                        C            B
+
+                                                    D            C
+
+    Záznamy logovacieho súboru                    Dopanie ciest
+
+194.160.10.10#5#2 12:00 stránka A        ABCDX
+194.160.10.10#5#2 12:01 stránka B        ABCDCX
+194.160.10.10#5#2 12:04 stránka C        ABCDCBX
+194.160.10.10#5#2 12:08 stránka D        ABCDCBAX
+194.160.10.10#5#2 12:15 stránka X
+

@@ -1,0 +1,104 @@
+01
+
+Prehľadávanie webu (ext)
+Požiadavky na absolvovanie
+Termín: sobota, 14 marca 2026, 11:00
+
+Vytvorte Python skript na prehľadávanie webových stránok a získanie ich textového obsahu. Texty exportujte to txt súborov.
+
+Odovzdajte zdrojové kódy a exportované súbory v jednom zip.
+
+02
+
+Reprezentácia textu I (ext)
+Požiadavky na absolvovanie
+Termín: sobota, 14 marca 2026, 11:00
+
+Transformujte frekvenciu výskytu slov zo súboru Dokumenty na binárnu, logaritmickú a inverznú dokumentovú frekvenciu, ktoré budú v jednotlivých hárkoch.
+
+Výsledný súbor odovzdajte.
+
+03
+
+Reprezentácia textu II (ext)
+Požiadavky na absolvovanie
+Termín: sobota, 14 marca 2026, 11:00
+
+Pomocou knižnice nltk v Pythone extrahujte lemy slov (základy slov) z anglických textov získaných z webu (Texty z webu.zip).
+
+Následne vytvorte dátovú maticu, ktorá bude obsahovať frekvenciu lém v jednotlivých dokumentoch, z ktorej odvodíte binárnu, logaritmickú a inverznú frekvenciu.
+
+Odovzdajte výsledný súbor a zdrojový kód v jednom zip súbore.
+
+Importy v Pythone vhodné pre riešenie tohto zadania:
+
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize, sent_tokenize
+from nltk.stem import WordNetLemmatizer
+
+nltk.download('punkt_tab')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('stopwords')
+nltk.download('wordnet')
+
+stop_words = set(stopwords.words('english'))
+
+Postup dosiahnutia výsledkov:
+
+    načítajte texty do Pythonu;
+    rozdeľte vety na slová pomocou príkazu: tokenized = sent_tokenize(data)
+    wordsList = nltk.word_tokenize(word)
+    inicializovať lematizátor: lemmatizer = WordNetLemmatizer();
+    získajte základ slova (lemmu) pre dané slová: lemma_word = lemmatizer.lemmatize(word);
+
+04
+
+Reprezentácia textu III (ext)
+Požiadavky na absolvovanie
+Termín: sobota, 14 marca 2026, 11:00
+
+Pokračujte s textami z predchádzajúceho cvičenia. Spracujte nasledujúce zadanie s pomocou knižnice nltk v Pythone:
+
+    Rozdeľte texty na vety a identifikujte v nich slová, pre ktoré si budete pamätať, ku ktorej vete patria.
+    Odstráňte z matice tzv. stop slová a priraďte slovám poradie v danej vete.
+    Pomocou morfologickej anotácie otagujte jednotlivé slová.
+    Vytvorte dátový súbor, ktorý bude obsahovať všetky dané slová z identifikátorom vety, daným slovom, jeho slovným základom (lema), tagom a poradím vo vete.
+    Odovzdajte výsledný súbor a zdrojový kód v jednom zip súbore.
+
+Importy v Pythone vhodné pre riešenie tohto zadania:
+
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize, sent_tokenize
+from nltk.stem import WordNetLemmatizer
+import string
+
+nltk.download('punkt_tab')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('stopwords')
+nltk.download('wordnet')
+
+stop_words = set(stopwords.words('english'))
+# ako zistim, ci je slovo stopword? Napr:
+# if word not in stop_words:
+
+# ako zistim, ci slovo je interpunkcia? Napr:
+if word not in string.punctuation:
+
+# rozbitie textu na vety
+tokenized = sent_tokenize(text)
+
+# rozbitie vety na slova
+wordsList = nltk.word_tokenize(tokenized)
+
+# lematizacia slova
+for word in wordList:
+ lemma_word = lemmatizer.lemmatize(word);
+
+# tagovanie zoznamu slov
+tagged = nltk.pos_tag(wordsList)
+
+# ziskanie tagu zo zoznamu
+for word, tag in tagged:
+...

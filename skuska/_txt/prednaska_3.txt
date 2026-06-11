@@ -1,0 +1,22 @@
+ZDROJE DÁT II
+
+Prednáska 3
+Michal Munk
+      REPREZENTÁCIA TEXTU: TRANSAKCNÝ/SEKVENCNÝ MODEL
+
+https://www.sciencedirect.com/science/article/pii/S1877050913004298?via%3Dihub
+      SUBSTANTÍVA
+
+https://korpus.sk/attachments/publications/2004-garabik-gianitsova-horak-simkova-tokenizacia.pdf
+     ZÁZNAM LOGOVACIEHO SÚBORU
+
+178.41.1.187 - - [16/Dec/2019:18:16:26 +0100]
+"GET /studium/akreditovane-programy HTTP/1.1" 200 15364
+"http://www.ukf.sk/studium" "Mozilla/5.0 (Windows; U; Windows NT 5.1;
+sk; rv:1.9.2.13) Gecko/20101203 Firefox/3.6.13 BLNGBAR"
+...
+PRIAME PRIPOJENIE DO INTERNETU
+PRIPOJENIE PROSTREDNÍCTVOM PROXY SERVERA
+PRIPOJENIE PROSTREDNÍCTVOM VYROVNÁVACA ZÁAZE
+MAPA WEBU
+

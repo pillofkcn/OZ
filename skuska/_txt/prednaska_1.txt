@@ -1,0 +1,53 @@
+ÚVOD DO PROBLEMATIKY ZÍSKAVANIA ZNALOSTÍ
+
+Prednáska 1
+Michal Munk
+PROCES OBJAVOVANIA ZNALOSTÍ
+
+ Dnesná doba - charakteristická mnozstvom elektronicky
+   dostupných dát na jednej strane - casto nedostatkom
+   znalostí na strane druhej
+
+ Obrovské mnozstvo údajov - slabá výpovedná hodnota
+ Koncept objavovania znalostí (Knowledge Discovery)
+
+Objavovanie znalostí chápeme ako proces, ktorý zahruje
+výber dát, predspracovanie dát, transformáciu dát,
+analýzu dát a interpretáciu výsledkov
+
+ Knowledge Discovery in Databases
+ Knowledge Discovery from Texts/Text Mining
+ Knowledge Discovery from Web/Web Mining
+PROCES OBJAVOVANIA ZNALOSTÍ
+
+Objavovanie znalostí z webu (web mining) môzeme definova
+ako extrakciu zaujímavých a potenciálne uzitocných znalostí
+a informácií z aktivít súvisiacich s webom
+ Web Content Mining
+ Web Structure Mining
+ Web Log Mining/Web Usage Mining
+
+Cieom objavovania znalostí na základe pouzívania webu
+(web log mining) je analýza správania sa pouzívateov pri
+prechádzaní webu
+PRINCÍP OBJAVOVANIA ZNALOSTÍ
+
+uzitocné   · Akcné znalosti
+pravidlá
+
+sekvencné              · Znalosti
+ pravidlá
+
+     pocet návstev,           · Informácie
+   priemerná dzka                    · Dáta
+
+       sekvencie
+
+dáta o pouzívaní webu
+FÁZY PROCESU WEB LOG MININGU
+
+Proces objavovania znalostí na základe pouzívania webu sa rozdeuje do
+troch základných castí:
+
+Metodika CRISP-DM, fázy procesu:
+

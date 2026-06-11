@@ -1,0 +1,135 @@
+            FAKULTA PRÍRODNÝCH VIED
+
+                     UNIVERZITA KONSTANTÍNA FILOZOVA V NITRE
+
+CRISP-DM VI
+
+Prednáska 10
+Michal Munk
+
+          Katedra informatiky
+          FPV UKF v Nitre
+FÁZY PROCESU WEB LOG MININGU
+
+Proces objavovania znalostí na základe pouzívania webu sa rozdeuje do
+troch základných castí:
+Metodika CRISP-DM, fázy procesu:
+
+  Katedra informatiky
+  FPV UKF v Nitre
+FÁZY PROCESU:
+
+     Modelovanie a vyhodnotenie výsledkov
+
+              Katedra informatiky
+              FPV UKF v Nitre
+FÁZY PROCESU:
+
+     Modelovanie a vyhodnotenie výsledkov
+
+              Katedra informatiky
+              FPV UKF v Nitre
+FÁZY PROCESU:
+
+     Modelovanie a vyhodnotenie výsledkov
+
+              Katedra informatiky
+              FPV UKF v Nitre
+FÁZY PROCESU:
+
+     Modelovanie a vyhodnotenie výsledkov
+
+              Katedra informatiky
+              FPV UKF v Nitre
+FÁZY PROCESU:
+
+     Vyhodnotenie výsledkov
+
+     Vo fáze vyhodnotenia výsledkov majú svoje uplatnenie hlavne
+     základné statistické metódy, a to za úcelom:
+
+     Overenia predpokladov pouzitia
+      Rozdelenie premennej - testy rozdelenia
+      Rovnos rozptylov - testy o rozptyle a ich neparametrické
+
+         alternatívy/univariacné testy
+      Homogenita variancno-kovariancných matíc - testy
+
+         o rozptyle a ich neparametrické alternatívy/multivariacné
+         testy
+      Nezávislos premenných - vzahy medzi premennými
+
+              Katedra informatiky
+              FPV UKF v Nitre
+FÁZY PROCESU:
+
+     Vyhodnotenie výsledkov
+
+     Vo fáze vyhodnotenia výsledkov majú svoje uplatnenie hlavne
+     základné statistické metódy, a to za úcelom:
+
+     Porovnania výsledkov
+      Porovnanie rozdelenia pravdepodobnosti empirických
+
+         relatívnych pocetností prístupov a odhadnutých
+         pravdepodobností výberu webovej casti j v case i - testy
+         o strednej hodnote a ich neparametrické alternatívy
+      Porovnanie teoretických a empirických pocetností prístupov
+         pre vybrané kategórie obsahu portálu - testy rozdelenia
+
+              Katedra informatiky
+              FPV UKF v Nitre
+FÁZY PROCESU:
+
+     Vyhodnotenie výsledkov
+
+     Vo fáze vyhodnotenia výsledkov majú svoje uplatnenie hlavne
+     základné statistické metódy, a to za úcelom:
+
+     Vizualizácie
+      Vizualizácia rozdielov empirických a teoretických pocetností
+
+         prístupov a identifikácia extrémnych hodnôt - popisná
+         statistika
+      Vizualizácia empirických a teoretických logitov pre
+         jednotlivé webové casti, okrem referencnej - popisná
+         statistika
+
+              Katedra informatiky
+              FPV UKF v Nitre
+FÁZY PROCESU:
+
+     Vyuzitie výsledkov
+
+     Vseobecne môzeme aplikácie web log miningu rozdeli do
+     piatich kategórií: personalizácia, zlepsovanie systémov,
+     modifikácia webových stránok, bussines intelligence
+     a charakteristika pouzívania
+
+     Analýza návstevnosti - Analýza závislostí
+     Plánovanie údrzby - Predikcia
+     Restrukturalizácia - Analýza závislostí
+     Personalizácia - Segmentácia, Klasifikácia, Analýza závislostí
+
+              Katedra informatiky
+              FPV UKF v Nitre
+SÚHRN
+
+ Cieom prednásky bolo prezentova fázy procesu získavania
+   znalostí
+
+ Zamerali sme sa na zdroje dát o pouzívaní webu
+ Podobne by sme postupovali aj pri riadení procesu
+
+   objavovania znalostí z databáz, ci textov
+ Najväcsie rozdiely medzi oblasami objavovania znalostí pri
+
+   riadení procesu metodikou CRISP-DM sú vo fáze prípravy dát
+ Príprava dát predstavuje casovo najnárocnejsiu fázu v rámci
+
+   celého procesu objavovania znalostí
+ Zlozitos prípravy dát závisí od pouzitého zdroja dát
+
+  Katedra informatiky
+  FPV UKF v Nitre
+

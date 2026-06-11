@@ -1,0 +1,45 @@
+
+Prieskum dát
+Bloky
+Osnova sekcie
+
+        Prieskum dát o používaní webu komerčnej banky v sledovanom období Zadanie
+
+        Spravte prieskum dát o používaní webu komerčnej banky v sledovanom období, podľa vlastného uváženia:
+
+        - do analýzy zahrňte aspoň jednu premennú z každej skupiny premenných charakterizujúcich rovnaké vlastnosti prístupov používateľov,
+
+        - analyzujte vybrané vzťahy medzi premennými.
+
+        --
+
+        Samozrejme, zadanie je voľné, som zvedavý na Vaše analytické schopnosti ..
+
+        Ale pre inšpiráciu, máte tam premenné, ktoré majú potenciál byť závislé DV (tzn. vysvetľované) a reprezentujú navštívený obsah webu používateľmi (odvodené su z URL) ..
+
+        Ďalej tam máte premenné, ktoré majú potenciál byť nezávislé IV (tzn. vysvetľujúce, resp. prediktory) a reprezentujú čas prístupu (odvodené sú z časovej známky) ..
+
+        Tak sa napr. môžete pozrieť na vývoj návštevnosti z hľadiska času, resp. môžete vyjadriť silu tejto závislosti ..
+
+        Ďalšou inšpiráciou je pracovať z časom stráveným na stránkach z hľadiska kategórií obsahu a období .. 
+
+        Prístup je obmedzený nasledujúcim spôsobom - nie je dostupné, kým nie je splnené: Patríte k 2025/... ...
+        Prieskum dát o používaní webu komerčnej banky v sledovanom období Zadanie
+
+        Spravte prieskum dát o používaní webu komerčnej banky v sledovanom období, podľa vlastného uváženia:
+
+        - do analýzy zahrňte aspoň jednu premennú z každej skupiny premenných charakterizujúcich rovnaké vlastnosti prístupov používateľov,
+
+        - analyzujte vybrané vzťahy medzi premennými.
+
+        --
+
+        Samozrejme, zadanie je voľné, som zvedavý na Vaše analytické schopnosti ..
+
+        Ale pre inšpiráciu, máte tam premenné, ktoré majú potenciál byť závislé DV (tzn. vysvetľované) a reprezentujú navštívený obsah webu používateľmi (odvodené su z URL) ..
+
+        Ďalej tam máte premenné, ktoré majú potenciál byť nezávislé IV (tzn. vysvetľujúce, resp. prediktory) a reprezentujú čas prístupu (odvodené sú z časovej známky) ..
+
+        Tak sa napr. môžete pozrieť na vývoj návštevnosti z hľadiska času, resp. môžete vyjadriť silu tejto závislosti ..
+
+        Ďalšou inšpiráciou je pracovať z časom stráveným na stránkach z hľadiska kategórií obsahu a období ..

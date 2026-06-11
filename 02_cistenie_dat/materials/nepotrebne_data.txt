@@ -1,0 +1,26 @@
+\.bmp
+\.jpg
+\.jpeg
+\.png
+\.gif
+\.JPG (treba počítať aj s alternatívou ostatných prípon s veľkými písmenami)
+\.css
+\.flv
+\.ico
+\.swf
+\.rss
+\.xml
+\.cur
+\.js
+\.json
+\.svg
+prípony fontov (napr. \.svg, \.woff, \.eot, ...)
+
+Návratové kódy (viď anglicky HTML status codes):
+1xx
+4xx
+5xx
+
+Request method:
+POST
+HEAD

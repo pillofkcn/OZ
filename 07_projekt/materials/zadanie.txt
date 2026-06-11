@@ -1,0 +1,27 @@
+
+Projekt
+Bloky
+Osnova sekcie
+
+        Logovací súbor URL
+        Zadanie projektu
+
+        Na priloženom logovacom súbore zopakujte postup, ktorý ste sa naučili za celý semester. Každý má pridelený špecifický týždeň podľa rozdelenia, takže si z logovacieho súboru vyberte vami pridelené časové obdobie.
+            očistite dátový súbor od nepotrebných údajov (RequestMethod/Version, StatusCode, URL)
+            očistite dátový súbor od prístupov robotov vyhľadávacích služieb
+                identifikujte robotov na základe prístupu k súboru robots.txt (URL)
+                identifikujte robotov na základe poľa User-Agent (Agent)
+            vyselektujte z dátového súboru len vaše skúmané obdobie a vytvorte premennú UnixTime
+            identifikujte používateľov na základe IP adresy a poľa User-Agent
+            vytvorte premennú Length na základe User_ID a 60 min. STT.
+            identifikujte sedenia na základe metódy:
+                Reference Length (použite hodnotu pre podiel navigačných stránok: 40%; v prípade nesplnenia podmienky, použite STT_Q),
+                h-ref.
+            doplňte chýbajúce požiadavky do identifikovaných sedení pre obe metódy (dopĺňanie ciest).
+
+        Termín: projekt budete obhajovať na skúške
+
+        Odovzdaje: zdrojový kód a finálne súbory ako jeden zip
+
+        LOGY PRE MOJ PROJEKT SU V TOMTO ROZMEDZI:
+        17.12.2017 23.12.2017 Martin Studený

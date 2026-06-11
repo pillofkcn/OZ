@@ -1,0 +1,94 @@
+CRISP-DM V
+
+Prednáska 9
+Michal Munk
+FÁZY PROCESU WEB LOG MININGU
+
+Proces objavovania znalostí na základe pouzívania webu sa rozdeuje do
+troch základných castí:
+
+Metodika CRISP-DM, fázy procesu:
+FÁZY PROCESU:
+
+     Modelovanie
+
+     Typy problémov - úloh:
+      Deskripcia dát a sumarizácia
+      Segmentácia
+      Deskripcia konceptov
+      Klasifikácia
+      Predikcia
+      Analýza závislostí
+FÁZY PROCESU:
+
+     Modelovanie
+
+     Deskripcia dát a sumarizácia
+
+     Odporúcané metódy (CRISP-DM)
+      Popisná statistika
+      Vizualizácia dát
+      OLAP analýza dát
+FÁZY PROCESU:
+
+     Modelovanie
+
+     Segmentácia
+
+     Odporúcané metódy (CRISP-DM)
+      Techniky zhlukovania
+      Neurónové siete
+      Vizualizácia dát
+FÁZY PROCESU:
+
+     Modelovanie
+
+     Deskripcia konceptov
+
+     Odporúcané metódy (CRISP-DM)
+      Rozhodovacie pravidlá
+      Zhlukovanie konceptov
+FÁZY PROCESU:
+
+     Modelovanie
+
+     Klasifikácia
+
+     Odporúcané metódy (CRISP-DM)
+      Diskriminacná analýza
+      Rozhodovacie pravidlá
+      Rozhodovacie stromy
+      Neurónové siete
+      k-najblizsích susedov/metódy zalozené na analógii
+      Prípadové usudzovanie/metódy zalozené na analógii
+      Genetické algoritmy
+FÁZY PROCESU:
+
+     Modelovanie
+
+     Predikcia
+
+     Odporúcané metódy (CRISP-DM)
+      Regresná analýza
+      Regresné stromy
+      Neurónové siete
+      k-najblizsích susedov/metódy zalozené na analógii
+      Box-Jenkinsova metodológia/casové rady
+      Genetické algoritmy
+FÁZY PROCESU:
+
+     Modelovanie
+
+     Analýza závislostí
+
+     Odporúcané metódy (CRISP-DM)
+      Korelacná analýza
+      Regresná analýza
+      Asociacné pravidlá
+      Bayesovské siete
+      Induktívne logické programovanie
+      Vizualizácia dát
+FÁZY PROCESU:
+
+     Modelovanie
+

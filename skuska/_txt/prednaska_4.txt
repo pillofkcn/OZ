@@ -1,0 +1,64 @@
+PROCES OBJAVOVANIA ZNALOSTÍ
+
+Prednáska 4
+Michal Munk
+METODIKY PROCESU KD
+
+ CRISP-DM
+
+               Business Understanding  Data Understanding 
+                          Data Preparation  Modeling 
+                              Evaluation  Deployment
+
+ 5A
+
+     Assess  Access 
+          Analyze 
+
+      Act  Automate
+METODIKY PROCESU KD
+
+ SEMMA      Sample  Explore 
+ Six Sigma  Modify  Modell 
+
+                     Assess
+
+            Define  Measure 
+            Analyze Improve 
+
+                     Control
+METODIKY PROCESU KD
+
+ WUM
+
+      Preprocessing  Pattern Discovery  Pattern Analysis
+
+ CRISP-DM
+
+      .. Data Preparation  Modeling  Evaluation ..
+
+           Casovo nárocné  Analyticky nárocné
+
+      <> medzi oblasami KD = medzi oblasami KD
+VP vs. KD
+
+<>
+
+ Výskumné plány: Cenzus, Výberové zisovanie, Experimentálne plány
+
+      Cielené získavanie dát
+      Merania/pozorovania/..
+      Pouzitie metód je súcasou plánu
+
+ Objavovanie znalostí: KDD, TM, WUM, WCM, WSM
+
+      Dátové zdroje
+      Veké dáta
+      Pouzitie metód je formalizované
+
+=
+
+       Validné dáta
+       Proces
+       Analytické metódy
+

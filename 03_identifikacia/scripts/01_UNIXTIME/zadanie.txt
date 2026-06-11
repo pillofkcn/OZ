@@ -1,0 +1,14 @@
+UNIXTIME (ext)
+Požiadavky na absolvovanie
+Termín: sobota, 11 apríla 2026, 11:00
+
+Vytvorte premennú UNIXTIME, ktorú vytvoríte z dátumu a času prístupu.
+
+Odovzdajte zdrojový kód programu + logovací súbor doplnený o premennú unixtime (v jednom zip).
+
+Príkazy v Pythone vhodné pre riešenie tohto zadania:
+
+import pandas as pd
+import datetime
+pd.read_csv() - načítanie log súboru
+datetime.datetime(year, month, day, hour, minute, second).timestamp() - konverzia datumu na unixtime
