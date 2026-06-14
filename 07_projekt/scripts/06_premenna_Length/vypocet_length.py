@@ -45,7 +45,7 @@ print(f"Nacitane: {len(df):,} riadkov")
 
 # === KROK 2: Cas predosleho kliku toho isteho pouzivatela ===
 # Pre kazdy klik chceme vediet, kedy ten isty pouzivatel klikol
-# tesne predtym. Tabulku si v hlave rozdelime po pouzivateloch
+# tesne predtym. Tabulku si rozdelime po pouzivateloch
 # a v kazdej skupine posunieme casy o jeden riadok nizsie.
 # Prvy klik pouzivatela nema predchodcu -> ostane prazdne (NaN).
 df["PREV_UNIXTIME"] = df.groupby("USER_ID")["UNIXTIME"].shift(1)

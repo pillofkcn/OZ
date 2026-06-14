@@ -6,11 +6,29 @@
 # .txt suboru. Toto je prvy krok WUM (Web Usage Mining) - vyrobime si surovy
 # textovy material, ktory v dalsich ulohach budeme cistit a analyzovat.
 #
-# TEORIA (pre laika):
-#   - Webova stranka = HTML kod (text s "tagmi" ako <p>, <div>, <a>).
-#   - "Scraping" = stiahnut HTML a vytahnut z neho iba citatelny text bez tagov.
-#   - HTML parser = nastroj, ktory chape strukturu HTML a vie z nej vybrat
-#     iba slova, nie znacky. My pouzivame BeautifulSoup.
+# TEORIA (od nuly - akoby si to nikdy nevidel):
+#
+#   1) CO JE WEBOVA STRANKA NAOZAJ
+#   To, co vidis v prehliadaci, je v skutocnosti textovy subor v jazyku HTML.
+#   HTML je text "obaleny" do znaciek (tagov), napr. <p>odsek</p>, <a>odkaz</a>,
+#   <div>blok</div>. Tagy hovoria prehliadacu, ako obsah zobrazit; nas ale
+#   zaujima iba samotny text vnutri, nie znacky.
+#
+#   2) AKO STRANKU "STIAHNEME" (HTTP poziadavka)
+#   Server s webom pocuva na adrese (URL). Posleme mu HTTP poziadavku typu GET
+#   ("daj mi obsah tejto stranky") a server vrati odpoved = HTML text. V Pythone
+#   to spravi requests.get(url).
+#
+#   3) SCRAPING A PARSER
+#   "Scraping" = stiahnut HTML a vytiahnut z neho iba citatelny text bez tagov.
+#   Aby sme tagy spolahlivo odstranili, nepouzivame "rucne mazanie", ale PARSER -
+#   nastroj, ktory HTML chape ako strom znaciek a vie z neho vybrat len text.
+#   My pouzivame BeautifulSoup.
+#
+#   4) PRECO TO ROBIME (zaradenie do WUM)
+#   Toto je uplny zaciatok Web Usage Mining: najprv potrebujeme SUROVY TEXTOVY
+#   MATERIAL (clanky), ktory v dalsich ulohach budeme cistit a prevadzat na
+#   cisla (reprezentacia textu, TF-IDF).
 #
 # VSTUP:  zoznam 5 URL (zadane priamo v kode nizsie).
 # VYSTUP: out/articles/article_1.txt .. article_5.txt (kodovanie UTF-8,

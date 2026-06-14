@@ -28,13 +28,13 @@
 #   predka. My doplname len jedneho rodica cieloveho URL.
 #
 # VSTUP:
-#   - in/cleaned_log4_href.csv  ... ocisteny log z predchadzajuceho cvicenia,
+#   - in/09_href.csv  ... ocisteny log z predchadzajuceho cvicenia,
 #                                   uz ma rozpoznanych pouzivatelov a sedenia
 #                                   (sedenie = jedna navsteva, sled klikov)
 #   - in/mapa_webu.xlsx         ... excel so zoznamom stranok a ich rodicov
 #
 # VYSTUP:
-#   - out/cleaned_log4_doplnene.csv  ... povodne riadky + nove doplnene riadky
+#   - out/04_doplnene.csv  ... povodne riadky + nove doplnene riadky
 #
 # POUZITE KNIZNICE:
 #   - pandas: praca s tabulkami (nacitanie CSV/Excel, iteracia po riadkoch)
@@ -52,30 +52,50 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))  # umoznuje spustenie skrip
 import pandas as pd  # pandas = kniznica na pracu s tabulkami v Pythone
 
 # === KROK 1: Nacitanie logu ===
-df = pd.read_csv("in/cleaned_log4_href.csv")  # nacitame ocisteny log so sedeniami
+df = pd.read_csv("in/09_href.csv")  # nacitame ocisteny log so sedeniami
 print(f"Nacitane: {len(df)} zaznamov")  # vypiseme kolko riadkov sme nacitali (kontrola)
 
 # === KROK 2: Nacitanie a uprava mapy webu ===
-mapa = pd.read_excel("in/mapa_webu.xlsx")  # nacitame excel s mapou stranok webu UKF
-mapa.columns = ["idx", "URL", "Root", "ReferencePage"]  # premenujeme stlpce na jednotne nazvy
-mapa = mapa.iloc[1:].reset_index(drop=True)  # preskocime prvy riadok (povazujeme ho za hlavicku)
+# Mapa webu je hotovy Excel od ucitela: pre kazdu stranku hovori jej "rodica"
+# (stranku, z ktorej sa na nu prirodzene da dostat).
+mapa_df = pd.read_excel("in/mapa_webu.xlsx")
 
-# Z plnej adresy "https://www.ukf.sk/univerzita" spravime kratku cestu "/univerzita".
-# V logu su tiez len kratke cesty, takze sa to musi zhodovat.
-mapa["path"] = mapa["URL"].str.replace("https://www.ukf.sk", "", regex=False)  # odrezeme domenu z URL
-mapa["ref_path"] = mapa["ReferencePage"].str.replace("https://www.ukf.sk", "", regex=False)  # to iste pre rodicovsku stranku
+# Excel ma 4 stlpce - pomenujeme si ich. Realne pouzijeme len dva:
+#   URL           = adresa stranky (kam pouzivatel ide),
+#   ReferencePage = jej rodicovska stranka (odkial sa na nu chodi).
+# Stlpce idx a Root nepotrebujeme.
+mapa_df.columns = ["idx", "URL", "Root", "ReferencePage"]
 
-# Ak po odrezani domeny nezostalo nic, je to hlavna stranka - oznacime ju "/".
-mapa.loc[mapa["path"] == "", "path"] = "/"  # prazdna cesta = hlavna stranka
-mapa.loc[mapa["ref_path"] == "", "ref_path"] = "/"  # to iste pre rodicovsku stranku
+# Prvy riadok Excelu nie su data, ale druha hlavicka - zahodime ho.
+mapa_df = mapa_df.iloc[1:].reset_index(drop=True)
 
-# Vyrobime slovnik: pre kazdu stranku si ulozime jej rodica.
-# Napr. parent["/univerzita/kontakt"] = "/univerzita". Pouzijeme ho na rychle vyhladanie rodica.
-parent = dict(zip(mapa["path"], mapa["ref_path"]))  # slovnik {stranka: rodicovska stranka}
+# V Exceli su PLNE adresy (https://www.ukf.sk/univerzita), v logu su len CESTY
+# (/univerzita). Aby sa dali porovnat, odrezeme z adries domenu - ostane len cesta.
+# str.replace iba zmaze prefix "https://www.ukf.sk":
+#   URL           -> cesta samotnej stranky,
+#   ReferencePage -> cesta jej rodica, ulozime ju do noveho stlpca ref_path.
+# Pozn.: projekt na to pouziva funkciu url_to_path (cez urlparse), ktora ale
+#   zahadzuje ?parametre (napr. /oznamy?start=20 -> /oznamy). Tu ich NECHAVAME -
+#   query tu odlisuje rozne stranky a ich zliatim by pocet doplneni prestrelil
+#   ocakavanie zo zadania (~690). Preto tu staci str.replace, nie url_to_path.
+mapa_df["URL"] = mapa_df["URL"].str.replace("https://www.ukf.sk", "", regex=False)
+mapa_df["ref_path"] = mapa_df["ReferencePage"].str.replace("https://www.ukf.sk", "", regex=False)
 
-# Mnozina vsetkych stranok z mapy - rychle overenie, ci je stranka v mape (operacia "in" je okamzita).
-map_paths = set(mapa["path"].unique())  # mnozina vsetkych znamych stranok
-print(f"Mapa webu: {len(map_paths)} stranok")  # vypiseme kolko stranok ma mapa (kontrola)
+# Z hlavnej stranky ostane po odrezani domeny prazdny retazec; v logu sa pise "/".
+mapa_df.loc[mapa_df["URL"] == "", "URL"] = "/"
+mapa_df.loc[mapa_df["ref_path"] == "", "ref_path"] = "/"
+
+# parent = slovnik {stranka: jej rodic}. dict(zip(...)) spari kazdu URL s jej
+# ref_path, takze rodica lubovolnej stranky najdeme v jednom kroku.
+# Pozn.: Excel ma kazdu stranku PRAVE RAZ (jeden zadany rodic), takze tu sa nic
+#   nevybera. V projekte sa mapa stavia z logu, kde ma stranka VELA Referrerov,
+#   tak sa tam berie NAJCASTEJSI (groupby + value_counts().idxmax()); tu to odpada.
+parent = dict(zip(mapa_df["URL"], mapa_df["ref_path"]))
+
+# map_paths = mnozina vsetkych stranok v mape (kluce slovnika). Sluzi na rychly
+# test "je tato stranka v mape?" - hladanie cez `in` je v mnozine okamzite.
+map_paths = set(parent.keys())
+print(f"Mapa webu: {len(map_paths)} stranok")
 
 # === KROK 3 + 4: Prechod logom a doplnanie chybajucich stranok ===
 #
@@ -84,49 +104,51 @@ print(f"Mapa webu: {len(map_paths)} stranok")  # vypiseme kolko stranok ma mapa 
 # Vysledne riadky zbierame do zoznamu a na konci z nich naraz vyrobime tabulku
 # (je to rychlejsie ako pridavat po jednom do DataFrame).
 
-new_rows = []  # sem zbierame vsetky riadky (povodne + doplnene) v spravnom poradi
-added_count = 0  # pocitadlo, kolko stranok sme doplnili
+new_rows = []      # sem zbierame vystup (povodne zaznamy + doplnene)
+added_count = 0    # kolko stranok sme doplnili (pre vypis)
 
-for i in range(len(df)):
-    # Kazdy povodny riadok zachovame - pridame ho do vystupu.
-    new_rows.append(df.iloc[i].to_dict())  # pridame aktualny riadok ako slovnik
+# Premena DataFrame na zoznam slovnikov - iteracia je takto vyrazne rychlejsia.
+records = df.to_dict("records")
 
-    # Pri poslednom riadku uz neexistuje dalsi - nie je co porovnavat, koncime.
-    if i + 1 >= len(df):
+# Prejdeme vsetky zaznamy. enumerate vrati dvojicu (i, curr):
+#   i    = poradove cislo riadku (0, 1, 2, ...) - treba ho, aby sme sa vedeli
+#          pozriet na NASLEDUJUCI riadok cez records[i+1],
+#   curr = aktualny zaznam = jeden riadok logu ako slovnik (IP, URL, SESSION_ID...).
+for i, curr in enumerate(records):
+    new_rows.append(curr)                       # aktualny zaznam ide vzdy do vystupu
+
+    if i + 1 >= len(records):                   # posledny zaznam uz nema naslednika, koncime
         continue
 
-    curr = df.iloc[i]  # aktualny riadok (stranka A)
-    next_row = df.iloc[i + 1]  # nasledujuci riadok (stranka B)
+    next_row = records[i + 1]
 
-    # Doplname len v ramci jedneho sedenia. Ked sa zmenilo sedenie, ide o ineho
-    # pouzivatela alebo o novu navstevu - tam by doplnenie nedavalo zmysel.
+    # Doplnat ma zmysel len v ramci jedneho sedenia. Ak nasledujuci zaznam
+    # patri inemu sedeniu, ide o novu navstevu - tam ziadna "medzera" nie je.
     if curr["SESSION_ID"] != next_row["SESSION_ID"]:
         continue
 
-    url_from = curr["URL"]  # adresa stranky A (odkial pouzivatel ide)
-    url_to = next_row["URL"]  # adresa stranky B (kam pouzivatel ide)
+    url_from = curr["URL"]                      # stranka, na ktorej pouzivatel je
+    url_to = next_row["URL"]                    # stranka, na ktoru ide
 
-    # Ak A a B su tie iste (refresh stranky), netreba nic doplnat.
-    if url_from == url_to:
+    if url_from == url_to:                      # ta ista stranka (refresh) - netreba nic doplnat
         continue
 
-    # Hlavna podmienka doplnenia:
-    #   - A nie je v mape webu (nevieme overit, kde je v strukture)
-    #   - B je v mape webu (vieme zistit jeho rodica)
-    # V takomto pripade vlozime rodica B ako medzistranku.
+    # Podmienka doplnenia: prva stranka v mape nie je, druha ano.
+    # (Ked druha ma znameho rodica, vieme co medzi ne vlozit.)
     if url_from not in map_paths and url_to in map_paths:
-        ref_page = parent.get(url_to)  # zistime rodica stranky B (None ak nie je v mape)
-        # Vlozime len ak rodic existuje a nie je rovny stranke A
-        # (ak by bol rovny A, znamena to ze A je priamo rodicom B - ziadna diera).
+        ref_page = parent.get(url_to)           # rodic druhej stranky z mapy (None ak nie je)
+
+        # Vlozime len ak rodic existuje a nie je to ta ista stranka, z ktorej ideme
+        # (inak by sme vytvorili duplikat).
         if ref_page and ref_page != url_from:
-            new_row = curr.to_dict()  # skopirujeme udaje z A (USER_ID, SESSION_ID, cas...)
-            new_row["URL"] = ref_page  # adresu zmenime na rodicovsku stranku
-            new_rows.append(new_row)  # pridame doplneny riadok medzi A a B
-            added_count += 1  # zvysime pocitadlo doplnenych zaznamov
+            doplneny = curr.copy()              # novy zaznam zdedi vsetky udaje od aktualneho (IP, cas, pouzivatel...)
+            doplneny["URL"] = ref_page          # menime len URL na doplnenu stranku
+            new_rows.append(doplneny)
+            added_count += 1
 
 # === KROK 5: Ulozenie vysledku ===
 result = pd.DataFrame(new_rows)  # zo zoznamu slovnikov vyrobime tabulku
-result.to_csv("out/cleaned_log4_doplnene.csv", index=False)  # ulozime do CSV (bez stlpca s indexom)
+result.to_csv("out/04_doplnene.csv", index=False)  # ulozime do CSV (bez stlpca s indexom)
 
 print(f"Doplnenych zaznamov: {added_count}")  # vypiseme kolko sme doplnili (cakane: ~690)
 print(f"Celkovy pocet zaznamov: {len(result)}")  # vypiseme finalny pocet riadkov vo vystupe

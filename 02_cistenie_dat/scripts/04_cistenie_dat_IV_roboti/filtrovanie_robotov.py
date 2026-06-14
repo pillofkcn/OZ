@@ -17,11 +17,11 @@
 #      prehliadac to vzdy posle, takze prazdne pole je tiez podozrive.
 #
 # VSTUP:
-#   in/05_cleaned_log.csv  - log po predoslych krokoch cistenia
-#   in/07_robot_ips.csv    - zoznam IP adries oznacenych ako roboti
+#   in/01_cleaned_log.csv  - log po predoslych krokoch cistenia
+#   in/03_robot_ips.csv    - zoznam IP adries oznacenych ako roboti
 #
 # VYSTUP:
-#   out/08_cleaned_log.csv - finalny ocisteny log (~20000 riadkov)
+#   out/04_cleaned_log.csv - finalny ocisteny log (~20000 riadkov)
 #
 # POUZITE KNIZNICE:
 #   pandas - praca s tabulkovymi datami (DataFrame)
@@ -36,7 +36,7 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))  # umoznuje spustenie skrip
 import pandas as pd  # kniznica na pracu s tabulkami
 
 # === KROK 1: Nacitanie logu ===
-df = pd.read_csv("in/05_cleaned_log.csv")  # nacitame tabulku zo suboru
+df = pd.read_csv("in/01_cleaned_log.csv")  # nacitame tabulku zo suboru
 print(f"Nacitane: {len(df)} riadkov")      # kolko riadkov mame na zaciatku
 
 # === KROK 2: Vyhodenie robotov podla mena prehliadaca ===
@@ -72,7 +72,7 @@ print(f"Po odstraneni prazdnych agentov: {len(df)}")
 # V predoslej ulohe sme nasli IP adresy, ktore sa chovali ako roboti
 # (prilis vela klikov, nelidske vzorce). Tu ich pouzijeme — aj keby
 # robot klamal o svojom mene, IP adresu lahko nezmeni.
-robot_ips = pd.read_csv("in/07_robot_ips.csv")["IP"].unique()  # nacitame zoznam podozrivych IP (bez duplikatov)
+robot_ips = pd.read_csv("in/03_robot_ips.csv")["IP"].unique()  # nacitame zoznam podozrivych IP (bez duplikatov)
 df = df[~df["IP"].isin(robot_ips)]  # nechame iba riadky, ktorych IP NIE JE v zozname robotov
 print(f"Po odstraneni robot IP: {len(df)}")
 
@@ -86,4 +86,4 @@ print(f"\nFinal: {len(df)} riadkov")  # konecny pocet riadkov
 # Ulozime finalny vyciteny log pre dalsie ulohy.
 # index=False = neulozit cislovanie ako prvy stlpec (inak by sa pri
 # nacitani objavil zvlastny stlpec "Unnamed: 0").
-df.to_csv("out/08_cleaned_log.csv", index=False)
+df.to_csv("out/04_cleaned_log.csv", index=False)

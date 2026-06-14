@@ -28,7 +28,7 @@
 #   5) Ulozime cistu tabulku do CSV.
 #
 # VSTUP:  in/Log_jeden_den.log  - surovy log za jeden den
-# VYSTUP: out/05_cleaned_log.csv - tabulka so stlpcami
+# VYSTUP: out/01_cleaned_log.csv - tabulka so stlpcami
 #         IP, DateTime, RequestMethod, URL, StatusCode, Referrer, Agent
 #
 # POUZITE KNIZNICE:
@@ -43,8 +43,15 @@ import pandas as pd
 
 # === KROK 1: Sablona na rozlozenie jedneho riadku logu ===
 #
-# Regex = sablona, kde () = "toto si zapamataj" (zachytena skupina).
-# Casti, ktore nepotrebujeme (Cookie, user), len preskocime.
+# REGEX OD NULY: regularny vyraz je "sablona", ktora popisuje, ako vyzera text.
+# Stavebne kamene, ktore tu pouzivame:
+#   \S+      = jeden a viac znakov, ktore NIE su medzera (suvisly kus textu),
+#   \s+      = jedna a viac medzier (oddelovac medzi poliami),
+#   [^\]]+   = jeden a viac znakov, ktore nie su ']' (vsetko v hranatej zatvorke),
+#   [^"]*    = nula a viac znakov okrem '"' (vsetko v uvodzovkach),
+#   \d{3}    = presne 3 cifry,
+#   ( ... )  = ZACHYTENA SKUPINA = "tuto cast si zapamataj" (vytiahneme ju potom).
+# Casti bez zatvoriek (napr. Cookie, user = "-") len preskocime, neukladame.
 # Cislovanie skupin zlava: 1=IP, 2=DateTime, 3=Method, 4=URL,
 # 5=Status, 6=Bytes (zahodime), 7=Referrer, 8=Agent.
 pattern = re.compile(
@@ -128,4 +135,4 @@ print(f"Po odstraneni statickych suborov: {len(df)}")
 df = df.reset_index(drop=True)
 print(f"\nFinal: {len(df)} riadkov")     # zadanie ocakava cca 56500, dostavame ~57650 (ok)
 # index=False = neukladaj cisla riadkov ako zvlastny stlpec
-df.to_csv("out/05_cleaned_log.csv", index=False)
+df.to_csv("out/01_cleaned_log.csv", index=False)

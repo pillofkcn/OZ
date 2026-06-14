@@ -6,21 +6,34 @@
 #   pocet, kolko raz sa slovo objavilo v dokumente. Tento "pocet" prerobime
 #   na tri ine cisla, ktore sa lepsie hodia na porovnavanie dokumentov.
 #
-# TEORIA (pre laika):
-#   - Surovy pocet (tf = term frequency) hovori len "kolko raz tam to slovo je".
-#     To je hrube: slovo "ten" je vsade, ale nic neprezradi.
-#   - BINARNA schema: zaujima nas len "je tam slovo alebo nie" (1 alebo 0).
-#     Najjednoduchsie, ignoruje pocet.
-#   - LOGARITMICKA schema: tlmi velke pocty. Slovo s tf=100 nedostane 100x
-#     vyssiu vahu nez slovo s tf=1, lebo dolezitost neresie linearne.
-#     Vzorec: 1 + log10(tf). Slovo s tf=1 dostane vahu 1 (nie 0).
-#   - IDF (inverzna dokumentova frekvencia): hovori, ako vzacne je slovo
-#     v celej kolekcii. Slovo, ktore je v kazdom dokumente, je nezaujimave
-#     (vaha blizko 0). Slovo, ktore je len v 1 dokumente, je velmi specificke
-#     (vysoka vaha). Vzorec: log10(N / df_t), kde N je pocet dokumentov
-#     a df_t je v kolkych dokumentoch sa slovo objavilo.
-#   - TF-IDF: spojenie log-tf a IDF. Slovo dostane vysoku vahu len ak je
-#     v dokumente caste, ale v celej kolekcii zriedkave (= dobry rozlisovac).
+# TEORIA (od nuly - akoby si to nikdy nevidel):
+#
+#   1) PRECO TEXT PREVADZAME NA CISLA
+#   Pocitac nevie porovnavat "slova", vie pocitat s cislami. Aby sme vedeli
+#   povedat, ktore dokumenty su si podobne, musime kazdy dokument premenit na
+#   rad cisel (vektor).
+#
+#   2) BAG-OF-WORDS A TABULKA DOKUMENTY x SLOVA
+#   Najjednoduchsi model je "vrece slov" (bag-of-words): na poradi slov nezalezi,
+#   zaujima nas len, ktore slova a kolkokrat su v dokumente. Z toho vznikne
+#   tabulka: riadok = dokument, stlpec = slovo, bunka = pocet vyskytov. Kazdy
+#   riadok je potom VEKTOR dokumentu (vektorovy model).
+#
+#   3) tf = TERM FREQUENCY (surovy pocet)
+#   Cislo v bunke je tf = kolkokrat sa slovo objavilo v dokumente. Surove tf je
+#   ale hrube: slovo "ten" je vsade a nic neprezradi, pritom ma velky pocet.
+#   Preto tf prevadzame na rozumnejsie VAHY (vahove schemy):
+#
+#   - BINARNA: zaujima nas len "je tam slovo alebo nie" -> 1 alebo 0 (ignoruje pocet).
+#   - LOGARITMICKA: tlmi velke pocty, lebo dolezitost nerastie linearne. Slovo
+#     s tf=100 nema byt 100x dolezitejsie nez s tf=1. Vzorec: 1 + log10(tf)
+#     (log tlmi: log10(10)=1, log10(100)=2; slovo s tf=1 dostane vahu 1, nie 0).
+#   - IDF (inverzna dokumentova frekvencia): ako VZACNE je slovo v celej kolekcii.
+#     Slovo v kazdom dokumente je nezaujimave (vaha ~0), slovo len v 1 dokumente
+#     je specificke (vysoka vaha). Vzorec: log10(N / df_t), N = pocet dokumentov,
+#     df_t = v kolkych dokumentoch sa slovo objavilo.
+#   - TF-IDF: log-tf NASOBENE IDF. Slovo dostane vysoku vahu len ak je v dokumente
+#     caste A ZAROVEN v celej kolekcii zriedkave = najlepsi rozlisovac dokumentov.
 #
 # VSTUP: in/vektorova_reprezentacia.xlsx, harok "wf" - tabulka dokumenty x slova
 #        s poctom vyskytov (raw tf).
@@ -47,31 +60,38 @@ import pandas as pd
 
 # === KROK 1: Nacitanie vstupnej tabulky ===
 
-# nacitame harok "wf"; index_col=0 = prvy stlpec su nazvy dokumentov (riadkove popisky)
+# Nacitame harok "wf". index_col=0 = prvy stlpec (nazvy dokumentov) pouzi ako
+# popisky riadkov, nie ako data.
 df = pd.read_excel("in/vektorova_reprezentacia.xlsx", sheet_name="wf", index_col=0)
-N = len(df)                                   # pocet dokumentov (riadkov) - potrebujeme do vzorca IDF
-wf = df.values.astype(float)                  # vytiahneme cisla ako numpy pole; float aby log10 a delenie fungovali
+N = len(df)                                   # N = pocet dokumentov (riadkov), ide do vzorca IDF
+wf = df.values.astype(float)                  # cisla z tabulky ako numpy pole; float, aby log10 a delenie fungovali
 
 # === KROK 2: Binarna reprezentacia ===
 
-# pre kazdu bunku: je tam slovo (>0)? Ano = 1, nie = 0.
+# (wf > 0) da pre kazdu bunku True/False (je tam slovo?), .astype(int) prevedie
+# True->1, False->0. Vysledok: matica 1/0.
 binary = (wf > 0).astype(int)
 
 # === KROK 3: Logaritmicka frekvencia ===
 
-# Vzorec: ak je slovo v dokumente (tf>0), vaha = 1 + log10(tf), inak 0.
-# Preco zlozity zapis: log10(0) je minus nekonecno, takze pocitame log10 LEN
-# tam, kde je tf>0. Na ostatnych miestach necham nulu.
+# Chceme: ak je slovo v dokumente (tf>0), vaha = 1 + log10(tf), inak 0.
+# Problem: log10(0) je minus nekonecno. Preto log10 ratame LEN tam, kde tf>0,
+# inde necham 0. Rozklad zapisu:
+#   np.log10(wf, where=wf>0, out=zeros) = log10 len pre bunky s tf>0, inde 0,
+#   1 + ...                              = posun, aby slovo s tf=1 malo vahu 1,
+#   np.where(wf>0, ..., 0)               = finalna poistka: kde nie je slovo, daj 0.
 log_wf = np.where(wf > 0, 1 + np.log10(wf, where=wf > 0, out=np.zeros_like(wf)), 0)
 
 # === KROK 4: IDF a TF-IDF ===
 
-# Pre kazde slovo spocitame v kolkych dokumentoch sa objavilo (df_t).
-# sum(axis=0) = scitanie po stlpcoch (dokumenty zhora dolu pre kazde slovo).
+# df_t = v kolkych DOKUMENTOCH sa slovo objavilo. (wf>0) da maticu True/False,
+# .sum(axis=0) scita po STLPCOCH (zhora dolu) = pocet dokumentov pre kazde slovo.
 doc_freq = (wf > 0).sum(axis=0)
-# IDF = log10(N / df_t). Ak by nahodou df_t=0, nahradime 1 aby sme nedelili nulou.
+# IDF = log10(N / df_t). np.where(...>0, df_t, 1) je poistka proti deleniu nulou
+# (ak by slovo nebolo nikde, namiesto 0 pouzijeme 1).
 idf = np.log10(N / np.where(doc_freq > 0, doc_freq, 1))
-# TF-IDF = log-tf nasobene IDF. numpy automaticky nasobi kazdy riadok po stlpcoch.
+# TF-IDF = log-tf * IDF. idf je rad cisel (jedno na slovo); numpy ho automaticky
+# vynasobi s kazdym riadkom (broadcasting) -> kazda bunka log_wf sa nasobi IDF svojho slova.
 tfidf = log_wf * idf
 
 # === KROK 5: Zapis vsetkych harkov do jedneho Excel suboru ===

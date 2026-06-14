@@ -7,20 +7,30 @@
 # len ako s "kuskami textu". Teraz pridavame gramaticku informaciu, ktora
 # pomaha pri pokrocilejsej analyze (napr. vybrat len podstatne mena).
 #
-# TEORIA (pre laika):
-#   - POS tagging = "part of speech" = urcenie slovneho druhu. Algoritmus
-#     pozrie slovo aj jeho susedov vo vete a rozhodne, ci je to napr.
-#     podstatne meno (NN), sloveso (VB), pridavne meno (JJ) atd. Susedov
-#     potrebuje preto, lebo "lead" moze byt kov (NN) aj "viest" (VB) -
-#     zalezi od kontextu.
-#   - Lemma = zakladny slovnikovy tvar slova. Napriklad "running" -> "run",
-#     "cats" -> "cat", "better" -> "good". Vdaka tomu vieme spojit rozne
-#     tvary toho isteho slova do jednej skupiny.
-#   - WordNet = anglicky slovnik, podla ktoreho hladame lemmu. Pozna len 4
-#     kategorie: noun (n), verb (v), adjective (a), adverb (r). Preto
-#     potrebujeme mapovat detailne POS tagy na tieto 4 pismena.
-#   - Stop slova = velmi caste slova bez vyznamu pre analyzu (the, is, on).
-#     Vyhadzujeme ich, lebo by nam len zaplnali tabulku.
+# TEORIA (od nuly - akoby si to nikdy nevidel):
+#
+#   1) MORFOLOGIA A POS TAGGING
+#   Morfologia = gramaticka informacia o slove (akeho je druhu, v akom tvare).
+#   POS tagging ("part of speech" = slovny druh) kazdemu slovu prideli druh:
+#   podstatne meno (NN), sloveso (VB), pridavne meno (JJ), prislovka (RB)...
+#   Su to znacky tzv. Penn Treebank tagsetu (NN, NNS, VBG, JJR...) - prve
+#   pismeno hovori hrubu kategoriu (N/V/J/R).
+#
+#   2) PRECO TAGGER POTREBUJE KONTEXT
+#   Rovnake slovo moze byt rozny druh: "lead" je kov (podstatne meno) aj "viest"
+#   (sloveso). Tagger preto pozera CELU vetu (susedne slova), nie slovo samo.
+#   Dolezity dosledok: tagujeme PRED vyhadzovanim slov, aby mal tagger plnu vetu.
+#
+#   3) LEMMA (zakladny tvar)
+#   Lemma = slovnikovy tvar slova: "running" -> "run", "cats" -> "cat",
+#   "better" -> "good". Spaja rozne tvary toho isteho slova do jedneho.
+#   WordNet (anglicky slovnik) pozna len 4 kategorie: noun (n), verb (v),
+#   adjective (a), adverb (r) - preto detailny POS tag (VBG, JJR...) musime
+#   preklopit na jedno z tychto 4 pismen, inak by lematizacia nebola presna.
+#
+#   4) STOP SLOVA
+#   Velmi caste slova takmer bez vyznamu pre analyzu (the, is, on). Vyhadzujeme
+#   ich, lebo by len zaplnali tabulku a nic nerozlisuju.
 #
 # VSTUP:  in/*.txt - 5 anglickych textovych suborov (z predoslych cviceni)
 # VYSTUP: out/identifikacia.xlsx - tabulka so stlpcami:

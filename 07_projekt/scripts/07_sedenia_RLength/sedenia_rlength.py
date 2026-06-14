@@ -35,6 +35,16 @@
 #   Analogia z bezneho zivota: cakanie na zastavke MHD, prichod
 #   zakaznikov do obchodu - cas medzi udalostami ma podobny tvar.
 #
+#   PARAMETER LAMBDA (lambda, λ):
+#   Cela exponencialna krivka je urcena JEDINYM cislom - lambda = "rychlost"
+#   procesu (priblizne kolko klikov spravi clovek za sekundu). Cim vacsia
+#   lambda, tym kratsie pauzy. Plati jednoduchy vztah:
+#       PRIEMERNA pauza = 1 / lambda      (a teda  lambda = 1 / priemer)
+#   To je pre nas kluc: staci z dat spocitat PRIEMER pauz a uz mame odhad
+#   lambdy (= 1/priemer). Vdaka tomu nikde nepocitame lambdu zvlast - vsade
+#   len dosadime priemer pauz: aj do vzorca prahu (bod 3, kde 1/lambda=priemer),
+#   aj do KS testu (bod 4, kde "scale" krivky = priemer = 1/lambda).
+#
 #   3) ODKIAL POCHADZA VZOREC prah = -ln(1 - p) * priemer
 #   Je to "inverzia" matematickej krivky exponencialneho rozdelenia.
 #   Pre danu pravdepodobnost p najde hodnotu t, pod ktorou je p % vsetkych dat.
@@ -53,7 +63,10 @@
 #     "Vyzeraju tieto data ako dana teoreticka krivka?"
 #   Princip: porovna ako sa hodnoty NAHROMADILI v nasich datach (empiricka
 #   krivka) s tym, ako by sa nahromadili v idealnej exponenciale
-#   (teoreticka krivka), a vezme NAJVACSI ROZDIEL medzi nimi.
+#   (teoreticka krivka), a vezme NAJVACSI ROZDIEL medzi nimi (= KS statistika).
+#   Dolezite: teoreticku krivku nastavime na ROVNAKY priemer ako maju nase data
+#   (cize rovnaku lambdu, lebo priemer = 1/lambda) - testujeme teda len TVAR
+#   rozdelenia (ci klesa exponencialne), nie jeho velkost.
 #     - mala vzdialenost -> data sa podobaju krivke -> p-hodnota velka.
 #     - velka vzdialenost -> data sa nepodobaju -> p-hodnota mala.
 #   p-hodnota = pravdepodobnost ze by sme videli taku alebo este vacsiu
@@ -122,7 +135,14 @@ print(f"Priemer Length: {mean_length:.2f}s")
 #   p >= 0.05 -> data sa podobaju krivke, mozeme pouzit RLength
 #   p <  0.05 -> data sa nepodobaju krivke, pouzijeme zalozny STT_Q
 
-ks_stat, p_value = kstest(length_data, "expon", args=(0, mean_length))   # porovname pauzy s teoretickou krivkou; scale = priemer pauz
+# kstest porovna nase pauzy (length_data) s exponencialnou krivkou ("expon").
+# args=(loc, scale) nastavuje, ako tu krivku "polozit":
+#   loc=0             -> krivka zacina v nule (pauza nemoze byt zaporna),
+#   scale=mean_length -> skala krivky = priemer nasich pauz.
+# Preco priemer: scale exponencialy JE 1/lambda, a 1/lambda = priemer. Cize
+# dosadenim priemeru dostane teoreticka krivka rovnaku lambdu ako nase data
+# (lambdu teda neodhadujeme zvlast - priemer pauz je rovno jej odhad).
+ks_stat, p_value = kstest(length_data, "expon", args=(0, mean_length))
 print(f"\nKS test:")
 print(f"  KS statistika: {ks_stat:.4f}")   # cim mensie cislo, tym lepsie sa data podobaju krivke
 print(f"  P-hodnota: {p_value:.6f}")       # cim vacsie, tym menej dovodov povedat ze data NIE su exponencialne

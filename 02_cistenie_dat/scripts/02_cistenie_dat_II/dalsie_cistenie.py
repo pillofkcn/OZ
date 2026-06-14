@@ -31,8 +31,8 @@
 #   pre nas log; IP zoznam by sme potrebovali externy, skryty odkaz by sa
 #   musel na webe predtym nasadit.
 #
-# VSTUP : in/05_cleaned_log.csv   (~57000 riadkov, vystup z ulohy 05)
-# VYSTUP: out/06_cleaned_log.csv  (~31500 riadkov, vstup pre cv2)
+# VSTUP : in/01_cleaned_log.csv   (~57000 riadkov, vystup z ulohy 05)
+# VYSTUP: out/02_cleaned_log.csv  (~31500 riadkov, vstup pre cv2)
 #
 # POUZITE KNIZNICE:
 #   - pandas: praca s tabulkou (filtre, mazanie duplikatov, ukladanie CSV).
@@ -47,7 +47,7 @@ import re
 import pandas as pd
 
 # === KROK 0: Nacitanie vstupu ===
-df = pd.read_csv("in/05_cleaned_log.csv")  # nacitame log z prveho kola cistenia
+df = pd.read_csv("in/01_cleaned_log.csv")  # nacitame log z prveho kola cistenia
 print(f"Nacitane: {len(df)} riadkov")      # kontrola, ci sme nacitali ocakavany pocet
 
 # === KROK 1: Vyhodenie robotov podla User-Agent ===
@@ -101,4 +101,4 @@ print(f"Po odstraneni presmerovani: {len(df)}")
 df = df.reset_index(drop=True)
 print(f"\nFinal: {len(df)} riadkov")  # malo by byt cca 31500
 # index=False = neukladame cislovanie riadkov ako stlpec (inak by pribudol "Unnamed: 0").
-df.to_csv("out/06_cleaned_log.csv", index=False)
+df.to_csv("out/02_cleaned_log.csv", index=False)

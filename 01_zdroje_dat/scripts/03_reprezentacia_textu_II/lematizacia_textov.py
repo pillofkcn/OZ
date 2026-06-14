@@ -7,22 +7,34 @@
 # (rozne sposoby ako "vahovat" slova) — to potrebuju algoritmy strojoveho
 # ucenia, lebo nevedia pracovat priamo s pismenkami, len s cislami.
 #
-# TEORIA (jednoducho):
-#   - LEMATIZACIA = ku kazdemu slovu najdeme jeho zakladny tvar v slovniku.
-#     Napr. "cats" -> "cat", "running" -> "run". Pouziva slovnik (WordNet).
-#     Lepsia ako "stemming" (ten len odrezava koncovky podla pravidla).
-#   - Aby sme dokument mohli porovnavat s inym, prerobime ho na vektor cisel.
-#     Riadky vektora = vsetky slova ktore poznam, hodnoty = kolko krat sa
-#     dane slovo v dokumente objavilo. Tomuto sa hovori Vector Space Model.
-#   - 4 sposoby vahovania toho istho slova v dokumente:
-#       wf      = surovy pocet vyskytov (cisty pocet)
-#       binary  = bola tam aspon raz? 1 = ano, 0 = nie
-#       log     = 1 + log10(pocet); tlmi efekt slov co sa opakuju velakrat
-#       tf-idf  = log_pocet * idf; idf zvyhodnuje slova co su zriedkave
-#                 v korpuse (caste slova ako "the" maju nizku vahu)
-#   - IDF (inverse document frequency) = log10(N / df), kde N = pocet
-#     dokumentov, df = v kolkych dokumentoch sa slovo objavilo. Cim
-#     v menej dokumentoch, tym vyssia hodnota = slovo je "vzacne".
+# TEORIA (od nuly - akoby si to nikdy nevidel):
+#
+#   1) TOKENIZACIA (rozsekanie textu na kusky)
+#   Pocitac dostane jeden dlhy retazec textu. Najprv ho musime rozdelit:
+#     - na VETY (sentence tokenization) - nie len podla bodky, lebo bodka je aj
+#       v skratkach ("Mr.", "U.S.A."); na to je sikovny model (Punkt),
+#     - vetu na SLOVA (word tokenization). Jedno take slovo = TOKEN.
+#
+#   2) LEMATIZACIA (zjednotenie tvarov slova)
+#   To iste slovo ma vela tvarov: "cat/cats", "run/running/ran". Pre analyzu
+#   chceme, aby sa pocitali ako jedno. LEMA = zakladny slovnikovy tvar.
+#   Lematizator ho najde v slovniku WordNet: "cats" -> "cat", "running" -> "run".
+#   (STEMMING je lacnejsia alternativa - len odrezava koncovky podla pravidla,
+#    napr. "running" -> "runn"; lematizacia je presnejsia, lebo pozna slovnik.)
+#
+#   3) VEKTOROVY MODEL (z textu cisla)
+#   Aby sa dali dokumenty porovnavat, kazdy prerobime na VEKTOR cisel:
+#   riadky = vsetky slova (lemy), ktore poznam; hodnota = kolkokrat je slovo
+#   v dokumente. Tabulka slova x dokumenty = Vector Space Model.
+#
+#   4) VAHOVE SCHEMY (ten isty pocet sa da vyjadrit 4 sposobmi)
+#       wf      = surovy pocet vyskytov,
+#       binary  = bolo slovo v dokumente? 1 = ano, 0 = nie,
+#       log     = 1 + log10(pocet); tlmi slova, co sa opakuju velakrat,
+#       tf-idf  = log_pocet * idf; zvyhodni slova zriedkave v korpuse.
+#   IDF (inverse document frequency) = log10(N / df), N = pocet dokumentov,
+#   df = v kolkych dokumentoch slovo je. Cim v menej dokumentoch, tym vyssia
+#   IDF = slovo je "vzacne" a teda rozlisujuce (caste "the" ma IDF blizko 0).
 #
 # VSTUP:  in/*.txt - 5 anglickych textovych suborov (kazdy = jeden dokument)
 # VYSTUP: out/lemma_frekvencia.xlsx - 1 zosit, 5 harkov (wf, binary, log, idf, tf-idf)
@@ -96,8 +108,11 @@ for fname in files:
 # Stlpce = jednotlive dokumenty.
 # V bunke = kolko krat sa to slovo objavilo v tom dokumente.
 
-# Najprv potrebujeme zoznam vsetkych unikatnych slov v korpuse.
-# dict.fromkeys zachova poradie prveho vyskytu (oproti set(), ktory by ho premiesal).
+# Zoznam vsetkych UNIKATNYCH slov v korpuse (bez opakovani).
+#   vnutorne "for lemmas in ... for l in lemmas" = prejdi vsetky dokumenty a v
+#     kazdom vsetky slova (sploste do jedneho dlheho zoznamu),
+#   dict.fromkeys(...) = vyhodi duplicity, ale ZACHOVA poradie prveho vyskytu
+#     (obycajny set() by poradie premiesal).
 all_lemmas = list(dict.fromkeys(l for lemmas in doc_lemmas.values() for l in lemmas))
 
 # Vyrobime prazdnu tabulku samych nul, rozmer = (pocet slov) x (pocet dokumentov).
@@ -135,8 +150,9 @@ doc_freq = (vals > 0).sum(axis=1)
 # np.where zabranuje deleniu nulou (ak by sa slovo neobjavilo nikde, pouzijeme 1).
 idf = np.log10(N / np.where(doc_freq > 0, doc_freq, 1))
 
-# Kazdy riadok (slovo) v log_wf vynasobime jeho idf hodnotou.
-# [:, np.newaxis] zmeni idf z riadku na stlpec, aby sa to dalo nasobit po riadkoch.
+# TF-IDF = log_wf * idf. Tu su slova v RIADKOCH, takze kazdy riadok (slovo)
+# treba vynasobit jeho vlastnou idf. idf je ale plochy rad; idf[:, np.newaxis]
+# ho postavi "na vysku" (zo riadku spravi stlpec), aby numpy nasobil po riadkoch.
 tfidf = pd.DataFrame(np.round(log_wf * idf[:, np.newaxis], 4), index=wf.index, columns=wf.columns)
 
 # === KROK 5: Ulozenie do Excelu (1 subor, 5 harkov) ===

@@ -7,17 +7,42 @@
 #   stranky banky. Zaroven porovnat obdobie krizy vs po krize a sledovat,
 #   ake kategorie obsahu (napr. ucty, uvery) ludia navstevovali kedy.
 #
-# TEORIA (jednoducho):
-#   - V logu mame jeden riadok = jedno otvorenie stranky.
-#   - Ked spocitame riadky za mesiac/kvartal, dostaneme "kolko ludi to
-#     pouzivalo v danom case". To je zakladna casova agregacia.
-#   - "Crisis" je priznak (0/1), ci dany pristup bol pocas financnej krizy
-#     alebo uz po nej. Hranica je niekde okolo konca roku 2010.
-#   - Kategoria = oznacenie obsahu stranky (z cv1 cisteneho logu).
+# TEORIA (od nuly - akoby si to nikdy nevidel):
+#
+#   1) JEDEN RIADOK = JEDNO OTVORENIE STRANKY
+#   Log je zoznam pristupov. Kazdy riadok znamena, ze niekto v danom case
+#   otvoril jednu stranku. Sam o sebe jeden riadok nehovori nic; sila je v
+#   tom, ked ich SPOCITAME.
+#
+#   2) CASOVA AGREGACIA (z jednotlivych klikov spravime "navstevnost")
+#   Agregovat = poskladat vela drobnych zaznamov do jedneho cisla. Ked vsetky
+#   kliky roztriedime podla mesiaca a v kazdom mesiaci ich spocitame,
+#   dostaneme pre kazdy mesiac jedno cislo = kolko pristupov v nom bolo.
+#   Tomuto sa hovori "navstevnost za mesiac".
+#
+#   3) CASOVY RAD
+#   Ked tie mesacne cisla zoradime za sebou v case (jan 2009, feb 2009, ...),
+#   vznikne CASOVY RAD - postupnost hodnot v case. Nakresleny ako ciara hned
+#   ukaze trend: rastie navstevnost, klesa, ma sezonne vlny?
+#
+#   4) PRIZNAK "crisis" (0/1)
+#   Priznak = stlpec, ktory iba odlisuje dve situacie. Tu: crisis = 1 znamena
+#   "pristup spada do obdobia financnej krizy" (zhruba do konca roku 2010),
+#   crisis = 0 = "uz po krize". Rozdelenim dat podla neho vieme porovnat,
+#   ci sa po krize chodilo na stranku viac alebo menej.
+#
+#   5) KONTINGENCNA TABULKA cez pivot / unstack (kategorie v case)
+#   Chceme vidiet dve veci naraz: KEDY (kvartal) a CO (kategoria). Najprv
+#   data zoskupime podla oboch a spocitame kliky. Vznikne "dlha" tabulka
+#   (kvartal, kategoria, pocet). Funkcia unstack ju "rozhodi" na sirku: kazda
+#   kategoria dostane vlastny stlpec, riadky su kvartaly. Takto sa daju
+#   jednotlive kategorie pohodlne vykreslit ako samostatne ciary.
 #
 # VSTUP:
-#   in/logs5.csv - vycisteny log banky (stlpce time, category, crisis,
-#                  yearQuartal, ...). Oddelovac je bodkociarka.
+#   in/logs5.csv - POSKYTNUTY bankovy dataset (zo studie v materials/), CSV s ';'.
+#                  Nie je to vystup tvojich cv1-4; stlpce length/frame/anonIP/
+#                  unixTime zodpovedaju Length/SESSION_ID/USER_ID/UNIXTIME z cv1-4.
+#                  Tu pouzivame najma: time (datum), category, crisis, yearQuartal.
 #
 # VYSTUP:
 #   out/mesacne_navstevy.csv  - pocet pristupov za kazdy mesiac
@@ -44,62 +69,78 @@ import matplotlib.pyplot as plt
 
 # === KROK 1: Nacitanie logu a prevod textu na datum ===
 print("Nacitavam dataset...")
-df = pd.read_csv("in/logs5.csv", sep=";", quotechar='"', low_memory=False)  # nacitame CSV; sep=";" lebo banka pouziva bodkociarku, low_memory=False = pandas si preberie cely subor naraz a spravne urci typy
-df["datum"] = pd.to_datetime(df["time"], format="%d.%m.%Y %H:%M:%S", errors="coerce")  # text "28.05.2010 14:23:01" prerobime na realny datum; errors="coerce" = ak by bol riadok pokazeny, nehodi chybu ale prazdnu hodnotu
-df["mesiac"] = df["datum"].dt.to_period("M")  # z datumu vytiahneme len mesiac a rok (napr. 2010-05); kazdy klik tak vieme priradit do meseiac-skupiny
+# Nacitame CSV; sep=";" lebo stlpce su oddelene bodkociarkou,
+# low_memory=False = pandas precita cely subor naraz a spravne urci typy stlpcov.
+df = pd.read_csv("in/logs5.csv", sep=";", quotechar='"', low_memory=False)
+# Stlpec "time" je zatial len TEXT. to_datetime ho podla zadaneho formatu
+# (den.mesiac.rok hodina:minuta:sekunda) prerobi na skutocny datum, s ktorym
+# sa da pocitat. errors="coerce" = pokazeny riadok nezhodi skript, da prazdnu hodnotu.
+df["datum"] = pd.to_datetime(df["time"], format="%d.%m.%Y %H:%M:%S", errors="coerce")
+# Z datumu vezmeme len rok+mesiac (napr. 2010-05). to_period("M") = "zaokruhli
+# na mesiac". Vdaka tomu vieme kazdy klik zaradit do jeho mesiaca.
+df["mesiac"] = df["datum"].dt.to_period("M")
 
 # === KROK 2: Pocet pristupov za kazdy mesiac ===
-# Zoskupime kliky podla mesiaca a spocitame ich. Vysledok je rad cisel:
-# pre kazdy mesiac vieme, kolko otvoreni stranky tam padlo.
+# groupby("mesiac") roztriedi kliky do skupin podla mesiaca, .size() spocita
+# riadky v kazdej skupine. Vysledok: pre kazdy mesiac jedno cislo = navstevnost.
 mesacne = df.groupby("mesiac").size()
 print(f"\nMesacne navstevy:")
-print(f"  Min: {mesacne.min()} ({mesacne.idxmin()})")        # mesiac s najmensou navstevnostou
-print(f"  Max: {mesacne.max()} ({mesacne.idxmax()})")        # mesiac s najvacsou navstevnostou
-print(f"  Priemer: {mesacne.mean():.0f}")                    # priemerny pocet pristupov za mesiac, zaokruhleny
+# idxmin()/idxmax() = ktory mesiac (index) ma najmensiu/najvacsiu hodnotu.
+print(f"  Min: {mesacne.min()} ({mesacne.idxmin()})")        # najslabsi mesiac
+print(f"  Max: {mesacne.max()} ({mesacne.idxmax()})")        # najsilnejsi mesiac
+print(f"  Priemer: {mesacne.mean():.0f}")                    # priemer cez mesiace; :.0f = bez desatinnych miest
 
 # === KROK 3: Porovnanie obdobia krizy a po krize ===
-# Rozdelime tabulku na 2 casti podla stlpca crisis a v kazdej spocitame
-# kliky za mesiac. Potom porovname, ci po krize ludia chodili na stranku
-# viac alebo menej.
-kriza = df[df["crisis"] == 1].groupby("mesiac").size()      # nechame len riadky z obdobia krizy a spocitame ich za mesiac
-po_krize = df[df["crisis"] == 0].groupby("mesiac").size()   # to iste pre obdobie po krize
-zmena_pct = (po_krize.mean() / kriza.mean() - 1) * 100      # o kolko percent narastol/klesol priemer po krize oproti krize
+# Otazka: chodili ludia na stranku po krize viac alebo menej?
+# df[df["crisis"] == 1] = vyber len riadky z obdobia krizy; potom rovnako
+# ako v KROKu 2 spocitame kliky za mesiac. To iste pre po krize (crisis == 0).
+kriza = df[df["crisis"] == 1].groupby("mesiac").size()
+po_krize = df[df["crisis"] == 0].groupby("mesiac").size()
+# Percentualna zmena priemernej mesacnej navstevnosti: (novy/stary - 1)*100.
+# Vysledok +X% = narast po krize, -X% = pokles.
+zmena_pct = (po_krize.mean() / kriza.mean() - 1) * 100
 
 print(f"\n=== KRIZA vs PO KRIZE ===")
-print(f"Pocas krizy: priemer {kriza.mean():.0f}/mesiac, celkom {kriza.sum():,}")   # {:,} = oddeluje tisicky ciarkou pre citatelnost
+# :, = oddeli tisicky (1,234,567) pre citatelnost; :.0f = bez desatinnych miest.
+print(f"Pocas krizy: priemer {kriza.mean():.0f}/mesiac, celkom {kriza.sum():,}")
 print(f"Po krize:    priemer {po_krize.mean():.0f}/mesiac, celkom {po_krize.sum():,}")
-print(f"Zmena: {zmena_pct:+.1f}%")                          # {:+} = vzdy zobrazi znamienko + alebo -
+print(f"Zmena: {zmena_pct:+.1f}%")                          # :+ = vzdy ukaz znamienko (+ aj -)
 
 # === KROK 4: Pristupy po kategoriach a kvartaloch ===
-# Chceme vediet, ci napr. "hypoteky" maju iny casovy vzorec ako "ucty".
-# Zoskupime data dvojnasobne (kvartal + kategoria), spocitame kliky a
-# rozhodime tabulku tak, aby kazda kategoria mala vlastny stlpec.
-# fill_value=0 = ak nejaka kategoria nebola v danom kvartali navstivena,
-# dame tam 0 namiesto prazdnej hodnoty (graf by sa inak prerusil).
+# Chceme vediet, ci ma napr. "hypoteky" iny casovy vyvoj ako "ucty".
+# groupby(["yearQuartal","category"]).size() = spocita kliky pre kazdu dvojicu
+# (kvartal, kategoria). unstack() potom "rozhodi" kategorie do stlpcov, takze
+# riadok = kvartal, stlpec = kategoria (vhodne na vykreslenie ciar).
+# fill_value=0 = chybajucu kombinaciu (kategoria v kvartali nebola) vyplni 0,
+# inak by v grafe vznikla diera.
 kat_v_case = df.groupby(["yearQuartal", "category"]).size().unstack(fill_value=0)
 
 # === KROK 5: Vykreslenie 2 grafov nad sebou ===
-fig, axes = plt.subplots(2, 1, figsize=(14, 10))            # 2 grafy pod sebou, siroka plocha pre dlhu casovu os
+# subplots(2, 1) = 2 grafy pod sebou (2 riadky, 1 stlpec). axes[0] = horny, axes[1] = dolny.
+fig, axes = plt.subplots(2, 1, figsize=(14, 10))
 
-# Horny graf: mesacny vyvoj celkovej navstevnosti
-mesacne.plot(ax=axes[0], color="steelblue", linewidth=2)    # modra ciara, hrubsia aby bola dobre vidno
-axes[0].axvline(x=pd.Period("2010-12"), color="red", linestyle="--", label="Koniec krizy")  # cervena prerusovana ciara oznaci, kde sa kriza skoncila
+# Horny graf: mesacny vyvoj celkovej navstevnosti (casovy rad).
+mesacne.plot(ax=axes[0], color="steelblue", linewidth=2)    # modra ciara, hrubsia pre citatelnost
+# axvline = zvisla ciara; oznaci koniec krizy (12/2010), aby bolo vidno predel.
+axes[0].axvline(x=pd.Period("2010-12"), color="red", linestyle="--", label="Koniec krizy")
 axes[0].set_title("Mesacny pocet pristupov (2009-2012)")
 axes[0].set_ylabel("Pocet pristupov")
-axes[0].legend()
-axes[0].grid(alpha=0.3)                                     # jemna mriezka v pozadi pre lahsie citanie hodnot
+axes[0].legend()                                            # zobrazi vysvetlivku k ciaram (popisky z "label")
+axes[0].grid(alpha=0.3)                                     # jemna mriezka v pozadi; alpha=0.3 = slabo viditelna
 
-# Dolny graf: vyvoj jednotlivych kategorii v case
-kat_v_case.plot(ax=axes[1], kind="line", marker="o", linewidth=2)  # ciara s bodkami, lebo kvartalov je malo a bodky pomahaju oku
+# Dolny graf: vyvoj jednotlivych kategorii v case (kazda kategoria vlastna ciara).
+# marker="o" = na kazdy kvartal da bodku (kvartalov je malo, bodky pomahaju oku).
+kat_v_case.plot(ax=axes[1], kind="line", marker="o", linewidth=2)
 axes[1].set_title("Vyvoj pristupov po kategoriach (kvartalne)")
-axes[1].legend(loc="upper left", fontsize=8)                # mensie pismo v legende, lebo kategorii je vela
+axes[1].legend(loc="upper left", fontsize=8)                # legenda vlavo hore, mensie pismo (kategorii je vela)
 axes[1].grid(alpha=0.3)
 
-plt.tight_layout()                                          # automaticky upravi rozostupy, aby sa titulky neprekryvali
-plt.savefig("out/navstevnost.png", dpi=150)                 # ulozime obrazok v dobrej kvalite na prezentaciu
+plt.tight_layout()                                          # doladi rozostupy, aby sa titulky neprekryvali
+plt.savefig("out/navstevnost.png", dpi=150)                 # uloz obrazok; dpi=150 = vyssia kvalita
 
-# Uloz aj samotne tabulky, ak ich budeme potrebovat pozriet rucne
-mesacne.to_csv("out/mesacne_navstevy.csv", header=["pocet"])  # header=["pocet"] = pomenuje stlpec v CSV, inak by bol bezmenny
+# Ulozime aj samotne tabulky do CSV, keby sme do nich chceli pozriet rucne.
+# header=["pocet"] pomenuje jediny datovy stlpec (inak by ostal bez nazvu).
+mesacne.to_csv("out/mesacne_navstevy.csv", header=["pocet"])
 kat_v_case.to_csv("out/kategorie_v_case.csv")
 
 print("\nGraf ulozeny -> out/navstevnost.png")

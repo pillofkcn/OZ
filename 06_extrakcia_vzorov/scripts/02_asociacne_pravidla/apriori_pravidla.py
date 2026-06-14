@@ -1,5 +1,5 @@
 # ==========================================================
-# CV5 - Uloha 02: Hladanie asociacnych pravidiel (Apriori)
+# CV6 - Uloha 02: Hladanie asociacnych pravidiel (Apriori)
 # ==========================================================
 #
 # CIEL:
@@ -7,26 +7,47 @@
 #   kategoriu X, casto navstivil aj kategoriu Y". Inymi slovami hladame
 #   skupiny kategorii, ktore sa na webe casto objavuju spolocne.
 #
-# TEORIA - vysvetlene jednoducho:
-#   Predstav si nakupne kosiky v obchode. Kazdy clovek si dal do kosika
-#   par veci. My chceme najst dvojice/trojice veci, co ludia kupuju
-#   spolu (klasicky priklad: chlieb + maslo). Tu nie je obchod, ale web:
-#   "kosik" = jedno sedenie (jedna navsteva webu), "veci v kosiku" =
-#   kategorie stranok, ktore clovek pocas tej navstevy otvoril.
+# TEORIA (od nuly - akoby si asociacne pravidla nikdy nevidel):
 #
-#   Tri cisla, podla ktorych hodnotime pravidla X => Y:
-#     - support    = ako casto sa X aj Y vyskytnu spolu (podiel transakcii).
-#                    Napr. 0.05 = "v 5% navstev sa to stalo".
-#     - confidence = ked uz mam X, aka je sanca ze tam je aj Y.
-#                    Napr. 0.5 = "v polovici pripadov ked je X, je aj Y".
-#     - lift       = kolkokrat castejsie sa X a Y vyskytnu spolu, ako by
-#                    sme cakali keby boli nezavisle. lift > 1 znamena
-#                    "tie dve veci sa pritahuju" (suvisia).
+#   1) CO JE ASOCIACNE PRAVIDLO X => Y
+#   Pravidlo "X => Y" znamena: "ked je v kosiku X, casto je v nom aj Y".
+#   X = lava strana (antecedent), Y = prava strana (consequent). Kosik =
+#   jedno sedenie, polozky = kategorie stranok (z ulohy 01). Priklad:
+#   {uvery} => {kalkulacka}  ("kto pozeral uvery, casto aj kalkulacku").
 #
-#   Apriori je algoritmus, ktory tieto pravidla najde rozumne rychlo.
-#   Postupne stavia vacsie a vacsie skupiny kategorii od najmensich.
-#   Ked nejaka mala skupina nie je dost casta, vsetky vacsie skupiny
-#   ktore ju obsahuju, zahodi (uz nemozu byt castejsie).
+#   2) TRI CISLA, KTORYMI PRAVIDLO HODNOTIME
+#   Majme 1000 sedeni (kosikov).
+#     - support (podpora) = ako casto sa X aj Y vyskytnu SPOLU, ako podiel
+#       zo VSETKYCH kosikov. Ak su X a Y spolu v 50 z 1000 -> support 0.05
+#       (5%). Hovori "ako caste/dolezite je toto vobec".
+#     - confidence (spolahlivost) = KED UZ mam v kosiku X, aka je sanca,
+#       ze je v nom aj Y. = (kosiky s X aj Y) / (kosiky s X). Ak X je v
+#       200 kosikoch a z nich 100 ma aj Y -> confidence 0.5 (50%). Hovori
+#       "ako spolahlivo X "predpoveda" Y".
+#     - lift (zdvih) = kolkokrat CASTEJSIE su X a Y spolu, nez keby spolu
+#       nijako nesuviseli (boli nezavisle). lift = confidence / support(Y).
+#         lift = 1  -> nezavisle (Y je s X presne tak caste ako vseobecne),
+#         lift > 1  -> "pritahuju sa" (X zvysuje sancu na Y) = zaujimave,
+#         lift < 1  -> "odpudzuju sa" (X znizuje sancu na Y).
+#       Preco lift: confidence sama klame, ak je Y caste uz aj bez X.
+#
+#   3) FREKVENTOVANY ITEMSET
+#   Itemset = skupina poloziek (napr. {uvery, kalkulacka}). "Frekventovany"
+#   = vyskytuje sa aspon v min_support podiele kosikov. Pravidla sa robia
+#   len z frekventovanych itemsetov (zo zriedkavych nema zmysel).
+#
+#   4) APRIORI A JEHO TRIK (anti-monotonia)
+#   Naivne by sme museli preverit vsetky mozne skupiny kategorii - tych je
+#   privela. Apriori vyuziva pravidlo: AK je nejaka mala skupina zriedkava,
+#   tak KAZDA vacsia skupina, ktora ju obsahuje, je este zriedkavejsia
+#   (pridanim polozky pocet kosikov nemoze narast). Preto staci, ze hned
+#   ako je mala skupina pod prahom, vsetky jej nadskupiny zahodime bez
+#   pocitania. Tym sa hladanie obrovsky zrychli. Apriori teda stava skupiny
+#   od najmensich (1 polozka -> 2 -> 3 ...) a zriedkave vetvy odrezava.
+#
+#   5) PRAHY
+#   - min_support    = co je dost caste, aby nas to zaujimalo (tu 5%).
+#   - min_confidence = ako spolahlive musi pravidlo byt, aby preslo (tu 50%).
 #
 # VSTUP:  in/transakcie_{rok}.csv  - jeden riadok = jedno sedenie,
 #                                    stlpec category = "kat1;kat2;kat3"
@@ -61,45 +82,48 @@ for rok in [2009, 2010, 2011, 2012]:
     print(f"\n=== Rok {rok} ===")
 
     # === KROK 1: Nacitanie transakcii ===
-    # Subor obsahuje vycistene sedenia z predoslej ulohy.
+    # Transakcie (kosiky) sme pripravili v ulohe 01, kazdy rok ma vlastny subor.
     df = pd.read_csv(f"in/transakcie_{rok}.csv")
-    # Z textu "kat1;kat2;kat3" spravime zoznam ["kat1","kat2","kat3"].
-    # Vysledok je zoznam zoznamov - presny tvar co Apriori potrebuje.
+    # V CSV je kosik ulozeny ako jeden text "kat1;kat2;kat3". split(";") ho
+    # rozseka spat na zoznam ["kat1","kat2","kat3"]. tolist() = zoznam takychto
+    # zoznamov (jeden na kazdy kosik) - presne tvar, ktory Apriori chce.
     transakcie = df["category"].str.split(";").tolist()
     print(f"Pocet transakcii: {len(transakcie)}")
 
-    # === KROK 2: Prerobenie na tabulku ano/nie ===
-    # Apriori potrebuje tabulku: riadky = sedenia, stlpce = vsetky kategorie,
-    # bunka True/False = "obsahovalo to sedenie tuto kategoriu?".
+    # === KROK 2: Prerobenie na tabulku ano/nie (one-hot) ===
+    # Apriori nevie pracovat so zoznamami kategorii, chce tabulku 0/1:
+    # riadok = kosik, stlpec = jedna kategoria, bunka True/False = "bola
+    # tato kategoria v tomto kosiku?".
     te = TransactionEncoder()
-    te_array = te.fit(transakcie).transform(transakcie)
-    # Zabalime do tabulky s nazvami stlpcov, aby pravidla pouzivali nazvy kategorii.
+    te_array = te.fit(transakcie).transform(transakcie)  # fit = zisti vsetky kategorie, transform = vyrobi True/False maticu
+    # Zabalime do DataFrame a stlpce pomenujeme nazvami kategorii (te.columns_).
     df_te = pd.DataFrame(te_array, columns=te.columns_)
 
-    # === KROK 3: Najdenie castych skupin kategorii ===
-    # Apriori vrati skupiny kategorii, ktore sa objavuju v aspon 5% sedeni.
+    # === KROK 3: Najdenie castych skupin kategorii (frekventovane itemsety) ===
+    # apriori vrati skupiny kategorii, ktore su aspon v MIN_SUPPORT (5%) kosikov.
     # use_colnames=True = vo vystupe budu nazvy kategorii, nie cisla stlpcov.
     itemsets = apriori(df_te, min_support=MIN_SUPPORT, use_colnames=True)
     print(f"Frekventovanych itemsetov: {len(itemsets)}")
 
     # === KROK 4: Vytvorenie pravidiel X => Y ===
-    # Z kazdej najdenej skupiny vyrobi vsetky mozne pravidla "ked X, tak Y"
-    # a nechame len tie, kde spolahlivost (confidence) je aspon 50%.
+    # Z castych skupin vyrobi vsetky pravidla "ked X, tak Y" a necha len tie so
+    # spolahlivostou aspon MIN_CONFIDENCE (50%). metric/min_threshold = podla
+    # akej metriky a od akej hranice pravidla filtrovat.
     pravidla = association_rules(itemsets, metric="confidence", min_threshold=MIN_CONFIDENCE)
     print(f"Asociacnych pravidiel: {len(pravidla)}")
 
-    # Lava aj prava strana pravidla je zatial specialna mnozina (frozenset).
-    # Spravime z toho normalny text "kat1;kat2", aby sa to dalo precitat v Exceli.
-    # sorted = aby bolo poradie kategorii vzdy rovnake (mnozina ho nema).
+    # Obe strany pravidla su zatial frozenset (specialna mnozina). Prerobime ich
+    # na obycajny text "kat1;kat2", aby sa dali ulozit a citat. sorted = stabilne
+    # poradie (mnozina poradie nema), join = spoji do jedneho retazca.
     pravidla["antecedents"] = pravidla["antecedents"].apply(lambda x: ";".join(sorted(x)))
     pravidla["consequents"] = pravidla["consequents"].apply(lambda x: ";".join(sorted(x)))
 
     # === KROK 5: Ulozenie pravidiel ===
-    # Ulozime len 5 dolezitych stlpcov - obe strany pravidla a tri metriky.
+    # Ulozime 5 stlpcov: obe strany pravidla + tri metriky (support/confidence/lift).
     out_path = f"out/pravidla_{rok}.csv"
     pravidla[["antecedents", "consequents", "support", "confidence", "lift"]].to_csv(out_path, index=False)
     print(f"Ulozene -> {out_path}")
-    # Ukazka prvych 5 pravidiel pre rychlu kontrolu (len ak nieco vzniklo).
+    # Ak nejake pravidla vznikli, ukaz prvych 5 (head) na rychlu kontrolu.
     if len(pravidla) > 0:
         print(pravidla[["antecedents", "consequents", "support", "confidence"]].head(5).to_string())
 

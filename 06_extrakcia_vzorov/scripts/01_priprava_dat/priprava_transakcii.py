@@ -8,24 +8,37 @@
 #   v dalsich ulohach pouzijeme na hladanie vzorov "kto pozrel A,
 #   pozrel aj B" (asociacne pravidla).
 #
-# TEORIA - jednoducho:
-#   Asociacne pravidlo = pravidlo typu "kto kupil chleb, kupil aj
-#   maslo". V nasom pripade nejde o nakup, ale o navstevu kategorii
-#   na webe banky pocas jedneho sedenia (sedenie = jedna navsteva
-#   stranky od prichodu po odchod).
-#   Transakcia (kosik) = mnozina veci, ktore patria spolu (sem
-#   patria vsetky kategorie navstivene v jednom sedeni).
-#   Aby z kosika vznikla aspon jedna dvojica typu A->B, musi mat
-#   aspon 2 polozky. Kosiky s 1 polozkou nas teda nezaujimaju.
+# TEORIA (od nuly - akoby si to nikdy nevidel):
 #
-#   POZN. k typu modelu: Pouzivame TRANSAKCNY MODEL - kosik je
-#   MNOZINA kategorii (poradie navstevy sa stratuje). Apriori (cv6)
-#   toto vyzaduje. Alternativou by bol SEKVENCNY MODEL (zachovane
-#   poradie), ktory by bol vstupom pre algoritmy ako PrefixSpan -
-#   to vsak nie je v zadani tohto cvicenia.
+#   1) ANALYZA NAKUPNEHO KOSIKA (market basket analysis)
+#   Klasicky priklad z obchodu: pozrieme sa na tisice nakupnych
+#   blokov a hladame veci, ktore ludia kupuju SPOLU (chlieb + maslo).
+#   Z toho sa daju robit pravidla "kto kupil chleb, kupi aj maslo".
+#   My nemame obchod, ale web banky - princip je vsak rovnaky.
+#
+#   2) AKO SA TO PREKLOPI NA WEB
+#   - TRANSAKCIA (kosik) = jedno SEDENIE = jedna navsteva webu (od
+#     prichodu po odchod). V datach ho urcuje cislo sedenia "frame".
+#   - POLOZKA (vec v kosiku) = KATEGORIA stranky, ktoru pocas tej
+#     navstevy clovek otvoril (uvery, ucty, info...).
+#   Kosik je teda MNOZINA kategorii navstivenych v jednom sedeni.
+#
+#   3) PRECO MNOZINA (transakcny model) A NIE PORADIE
+#   Berieme len, CO bolo v kosiku, nie v akom PORADI. Preto kazdu
+#   kategoriu dame do kosika len raz a zoradime abecedne ("A;B" aj
+#   "B;A" je ten isty kosik). Toto vyzaduje algoritmus Apriori (cv6).
+#   Alternativa so zachovanym poradim = SEKVENCNY MODEL (vstup pre
+#   algoritmy ako PrefixSpan), ten ale v tomto zadani nie je.
+#
+#   4) PRECO KOSIK MUSI MAT ASPON 2 POLOZKY
+#   Pravidlo "A => B" potrebuje aspon dve rozne polozky. Z kosika
+#   s jedinou kategoriou ziadnu dvojicu nevyrobime, takze taky
+#   kosik je pre hladanie pravidiel zbytocny a vyhodime ho.
 #
 # VSTUP:
-#   in/logs5.csv - log banky, oddelovac ";", roky 2009-2012
+#   in/logs5.csv - POSKYTNUTY bankovy dataset (zo studie v materials/),
+#                  oddelovac ";", roky 2009-2012. Nie je to vystup cv1-4;
+#                  stlpec frame (sedenie) zodpoveda SESSION_ID z cv1-4.
 #
 # VYSTUP:
 #   out/transakcie_<rok>.csv pre kazdy rok zvlast
@@ -49,49 +62,54 @@ import pandas as pd
 # === KROK 1: Nacitanie logu ===
 
 print("Nacitavam logs5.csv...")
-df = pd.read_csv("in/logs5.csv", sep=";", quotechar='"', low_memory=False)  # nacitame log; sep=";" lebo stlpce su oddelene bodkociarkou; low_memory=False = pandas si data prejde celé a urci typy stlpcov spravne
+# sep=";" = stlpce oddelene bodkociarkou; low_memory=False = pandas precita
+# cely subor naraz a spravne urci typy stlpcov.
+df = pd.read_csv("in/logs5.csv", sep=";", quotechar='"', low_memory=False)
 print(f"Nacitanych: {len(df)} zaznamov")
-print(f"Roky: {sorted(df['year'].unique())}")  # vypiseme aké roky su v datach (kontrola, ze sme nacitali vsetko)
+# unique() = zoznam roznych rokov; kontrola, ze mame data za 2009-2012.
+print(f"Roky: {sorted(df['year'].unique())}")
 
 
 # === KROK 2: Filter - vyber stlpcov a vyhodenie prazdnych kategorii ===
 
-# Z celeho logu nas zaujimaju len tieto stlpce. Ostatne nepotrebujeme.
-# .copy() vyrobi novu tabulku, aby pandas nehlasil varovanie pri uprave.
+# Ponechame len stlpce, ktore potrebujeme (ostatne zahodime).
+# .copy() = samostatna tabulka, aby pandas pri dalsich upravach nevypisoval varovanie.
 df = df[["frame", "anonIP", "category", "year", "yearQuartal"]].copy()
 
-# Riadky bez kategorie nemozeme dat do kosika - vyhodime ich.
+# dropna(subset=["category"]) = vyhod riadky, kde kategoria chyba (NaN) -
+# bez kategorie niet co dat do kosika.
 df = df.dropna(subset=["category"])
 print(f"Po filtrovani: {len(df)} zaznamov")
 
 
 # === KROK 3 + 4: Vytvorenie kosikov pre kazdy rok ===
 
+# Kazdy rok spracujeme zvlast (chceme transakcie za jednotlive obdobia).
 for rok in sorted(df["year"].unique()):
-    # Z celeho logu vyberieme len riadky pre aktualny rok.
+    # Vyber len riadky daneho roku.
     df_rok = df[df["year"] == rok]
 
-    # Pre kazde sedenie chceme jeden riadok so zoznamom kategorii.
-    # groupby("frame") = zoskupime riadky podla cisla sedenia.
-    # set(x) = vyhodime duplicity (kazdu kategoriu chceme len raz).
-    # sorted(...) = zoradime abecedne, aby kosik "A;B" a "B;A"
-    #               vychadzal rovnako (aby vysledok bol stale rovnaky).
-    # ";".join(...) = spojime kategorie do jedneho retazca, aby sa
-    #                 dali ulozit do CSV.
+    # Cielom je: 1 sedenie = 1 riadok so zoznamom jeho kategorii.
+    # Citaj retazec sprava dolava:
+    #   groupby("frame")["category"] = poskladaj kategorie kazdeho sedenia,
+    #   set(x)        = vyhod duplicity (kazda kategoria v kosiku len raz),
+    #   sorted(...)   = zorad abecedne (aby "A;B" a "B;A" bol rovnaky kosik),
+    #   ";".join(...) = spoj kategorie do jedneho textu "kat1;kat2;...",
+    #   reset_index() = sprav z toho normalnu tabulku so stlpcami frame, category.
     transakcie = (
         df_rok.groupby("frame")["category"]
         .apply(lambda x: ";".join(sorted(set(x))))
         .reset_index()
     )
 
-    # Ponechame len kosiky s aspon 2 kategoriami.
-    # Ak retazec obsahuje aspon jednu ';', znamena to, ze su v nom
-    # aspon 2 polozky (bodkociarka je medzi nimi oddelovac).
+    # Necheme len kosiky s aspon 2 kategoriami. Ak text obsahuje ';', su v nom
+    # aspon dve polozky (bodkociarka je oddelovac medzi nimi). Kosik s 1 polozkou
+    # by ziadne pravidlo A=>B nedal.
     transakcie = transakcie[transakcie["category"].str.contains(";")]
 
-    # Vysledok ulozime do CSV - kazdy rok vlastny subor.
+    # Uloz transakcie daneho roku do vlastneho CSV.
     out_path = f"out/transakcie_{rok}.csv"
-    transakcie.to_csv(out_path, index=False)  # index=False = nezapise pomocne cislovanie riadkov, vystup ostane cisty
+    transakcie.to_csv(out_path, index=False)  # index=False = nepridavaj stlpec s cislami riadkov
     print(f"  {rok}: {len(transakcie)} transakcii -> {out_path}")
 
 print("\nHotovo!")

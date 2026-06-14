@@ -11,17 +11,36 @@
 #   Vystupom potom v dalsom skripte statisticky overujeme, ci sa spravanie
 #   pouzivatelov medzi rokmi menilo.
 #
-# TEORIA (jednoducho):
-#   - Asociacne pravidlo ma tvar "ak X, tak typicky aj Y". Lava strana sa
-#     vola antecedents, prava strana consequents. Priklad pravidla:
-#       {/uvod} => {/produkty}  (kto pozrel uvod, casto pozrie produkty)
-#   - Pravidla sme z dat extrahovali algoritmom Apriori (najde casto
-#     spolu sa vyskytujuce skupiny stranok a postavi z nich pravidla).
-#   - Aby sme vedeli porovnavat roky, kazde pravidlo prepiseme do textu
-#     "antecedents => consequents". Rovnaky text = rovnake pravidlo.
-#   - Vystupna binarna matica (samé 0 a 1) je presne to, co potrebuje
-#     nasledujuci test (Cochran Q) — ten porovna, ci sa pravidla v rokoch
-#     vyskytuju rovnako casto.
+# TEORIA (od nuly - akoby si to nikdy nevidel):
+#
+#   1) PRIPOMENUTIE: ASOCIACNE PRAVIDLO
+#   Pravidlo ma tvar "ak X, tak typicky aj Y". Lava strana = antecedents,
+#   prava = consequents. Priklad: {/uvod} => {/produkty}. Pravidla nasiel
+#   v ulohe 02 algoritmus Apriori, zvlast pre kazdy rok.
+#
+#   2) PROBLEM: AKO POROVNAT 4 ROKY
+#   Pre kazdy rok mame vlastny zoznam pravidiel. Niektore pravidla su
+#   v jednom roku a v inom nie. Chceme jednu prehladnu tabulku, z ktorej
+#   sa da povedat, ktore pravidlo bolo v ktorom roku.
+#
+#   3) RIESENIE A: PRAVIDLO AKO TEXT
+#   Kazde pravidlo prepiseme do jedneho textu "antecedents => consequents".
+#   Vyhoda: rovnaky text = rovnake pravidlo, takze ho vieme rozoznat naprie
+#   rokmi (porovnavanie textov je jednoznacne).
+#
+#   4) RIESENIE B: BINARNA MATICA VYSKYTU
+#   Postavime tabulku, kde:
+#     - kazdy RIADOK = jedno unikatne pravidlo (zo vsetkych rokov dohromady),
+#     - kazdy STLPEC = jeden rok (O1_2009 ... O4_2012),
+#     - BUNKA = 1 ak sa pravidlo v tom roku objavilo, inak 0.
+#   Je to "kto-kde" mapa: jednym pohladom vidno vyskyt pravidla v case.
+#
+#   5) PRECO PRAVE TAKATO MATICA
+#   Nasledujuci test (Cochranov Q) potrebuje presne data 0/1 merane
+#   opakovane na tych istych objektoch (tu: tie iste pravidla, merane v 4
+#   rokoch). Tato matica je teda priamo jeho vstup. Stlpec pocet_obdobi
+#   (sucet jednotiek v riadku) navyse hned ukaze, ako stabilne pravidlo je:
+#   1 = bolo len v jednom roku, 4 = bolo vo vsetkych styroch.
 #
 # VSTUP:
 #   in/pravidla_2009.csv, ..., in/pravidla_2012.csv
@@ -44,63 +63,61 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))  # umoznuje spustenie skrip
 
 import pandas as pd  # kniznica na pracu s tabulkami
 
-# styri obdobia (roky), pre ktore mame pravidla; poradie urci stlpce O1..O4
+# Styri obdobia (roky), pre ktore mame pravidla. Poradie tu urci poradie stlpcov O1..O4.
 obdobia = [2009, 2010, 2011, 2012]
 
 # === KROK 1: Nacitanie pravidiel z CSV suborov ===
-# Pre kazdy rok si do "tasky" (mnozina) ulozime vsetky pravidla z toho roku.
-# Pravidlo prepiseme do textovej podoby "lava_strana => prava_strana",
-# aby sme rovnake pravidlo vedeli rozoznat v roznych rokoch.
+# Pre kazdy rok si zostavime MNOZINU jeho pravidiel. Kazde pravidlo prepiseme
+# na jeden text "lava => prava", aby sme to iste pravidlo vedeli rozoznat
+# naprie rokmi (porovnanie textov je jednoznacne).
 
-pravidla_po_obdobiach = {}  # bude: { rok: mnozina textov pravidiel }
+pravidla_po_obdobiach = {}  # slovnik { rok: mnozina textov pravidiel }
 for rok in obdobia:
-    df = pd.read_csv(f"in/pravidla_{rok}.csv")  # nacitame pravidla pre dany rok
-    # spojime obe strany pravidla do jedneho textu, napr. "{/uvod} => {/produkty}"
+    df = pd.read_csv(f"in/pravidla_{rok}.csv")  # pravidla daneho roku z ulohy 02
+    # Spojime obe strany do jedneho textu, napr. "{/uvod} => {/produkty}".
     df["pravidlo"] = df["antecedents"] + " => " + df["consequents"]
-    # ulozime ako mnozinu - automaticky vyhodi duplicity a rychlo sa v nej hlada
+    # set(...) = mnozina: automaticky vyhodi pripadne duplicity a rychlo sa v nej overuje "je v nej?".
     pravidla_po_obdobiach[rok] = set(df["pravidlo"].tolist())
-    # vypiseme pocet pravidiel pre kontrolu (musi byt aspon 10 podla zadania)
-    print(f"Rok {rok}: {len(pravidla_po_obdobiach[rok])} pravidiel")
+    print(f"Rok {rok}: {len(pravidla_po_obdobiach[rok])} pravidiel")  # kontrola (podla zadania aspon 10)
 
 # === KROK 2: Zjednotenie vsetkych pravidiel zo vsetkych rokov ===
-# Spojime vsetky styri mnoziny do jednej velkej - kazde pravidlo bude v nej
-# presne raz, aj ked sa objavilo vo viacerych rokoch.
+# union spoji vsetky 4 mnoziny do jednej; kazde pravidlo v nej bude prave raz,
+# aj keby sa vyskytlo vo viacerych rokoch. *... = rozbali hodnoty slovnika ako
+# samostatne argumenty pre union.
 vsetky_pravidla = set().union(*pravidla_po_obdobiach.values())
 print(f"\nUnikatnych pravidiel celkom: {len(vsetky_pravidla)}")
 
 # === KROK 3: Vytvorenie binarnej matice (riadky=pravidla, stlpce=roky) ===
-# Pre kazde pravidlo zapiseme do kazdeho stlpca 1 ak sa v danom roku objavilo,
-# alebo 0 ak nie. Takato matica je vstup pre statisticke testy v dalsom skripte.
+# Tabulka, kde pre kazde pravidlo a kazdy rok bude 1 (vyskytlo sa) alebo 0.
+# Toto je presny vstup pre Cochranov Q test v dalsom skripte.
 
-# vyrobime tabulku s jednym stlpcom 'pravidlo'; sorted = vzdy rovnake poradie
+# Zaciatok: tabulka s jednym stlpcom "pravidlo". sorted = stabilne, vzdy rovnake poradie.
 matica = pd.DataFrame({"pravidlo": sorted(vsetky_pravidla)})
 
-# pridame stlpce O1_2009, O2_2010, O3_2011, O4_2012
+# Pridame stlpce O1_2009 ... O4_2012. enumerate(obdobia, 1) = dvojice (1,2009),(2,2010)...
 for i, rok in enumerate(obdobia, 1):
     nazov_stlpca = f"O{i}_{rok}"  # napr. "O1_2009"
-    # pre kazde pravidlo skontrolujeme, ci je v mnozine pravidiel daneho roku;
-    # ak ano dame 1, inak 0
+    # Pre kazde pravidlo (apply ide po riadkoch): daj 1, ak je v mnozine pravidiel
+    # daneho roku, inak 0. (in = overenie clenstva v mnozine.)
     matica[nazov_stlpca] = matica["pravidlo"].apply(
         lambda p: 1 if p in pravidla_po_obdobiach[rok] else 0
     )
 
-# === KROK 4: Doplnkovy stlpec - pocet rokov, v ktorych sa pravidlo vyskytlo ===
-# Pre kazde pravidlo scitame jednotky v stlpcoch O1..O4 (axis=1 = po riadku).
-# Vysledok: 1 = pravidlo bolo iba v jednom roku (jednorazovo),
-#          4 = pravidlo bolo vo vsetkych styroch rokoch (stabilne).
+# === KROK 4: Doplnkovy stlpec - v kolkych rokoch sa pravidlo vyskytlo ===
+# sum(axis=1) = scitaj hodnoty v RIADKU (cez stlpce O1..O4). Vysledok:
+# 1 = pravidlo bolo len v jednom roku (jednorazove), 4 = vo vsetkych rokoch (stabilne).
 matica["pocet_obdobi"] = matica[[f"O{i}_{r}" for i, r in enumerate(obdobia, 1)]].sum(axis=1)
 
 # === KROK 5: Ulozenie matice do CSV ===
-# index=False = nezapisuj pomocne cislovanie riadkov (nepotrebujeme ho)
-matica.to_csv("out/matica_pravidiel.csv", index=False)
+matica.to_csv("out/matica_pravidiel.csv", index=False)  # index=False = bez stlpca s cislami riadkov
 
 # === Zhrnutie pre kontrolu ===
-print(f"\nVystupna matica: {matica.shape}")  # rozmery (pocet pravidiel, pocet stlpcov)
+print(f"\nVystupna matica: {matica.shape}")  # shape = (pocet pravidiel, pocet stlpcov)
 
-# kolko pravidiel sa vyskytlo v 1, 2, 3 alebo 4 rokoch
+# value_counts() spocita, kolko pravidiel ma pocet_obdobi 1, 2, 3, 4; sort_index zoradi podla 1->4.
 print("\nPocet pravidiel podla poctu obdobi vyskytu:")
 print(matica["pocet_obdobi"].value_counts().sort_index())
 
-# ukazka prvych 10 pravidiel; to_string() vypise plne texty bez skracovania
+# Ukazka prvych 10 pravidiel; to_string() vypise plne texty bez skracovania.
 print("\nUkazka prvych 10 pravidiel:")
 print(matica.head(10).to_string())
