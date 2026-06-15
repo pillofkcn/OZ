@@ -3,56 +3,60 @@
 # ==========================================================
 #
 # CIEL:
-#   Prva uloha prieskumu dat. Skor nez nieco pocitame alebo modelujeme,
-#   chceme dataset "spoznat": kolko mame zaznamov, ake kategorie obsahu
-#   v nom su, kolko pouzivatelov a sedeni, a ako dlho ludia ostavaju na
-#   strankach. Je to ako prvy pohlad na mapu pred cestou.
+#   Prva uloha prieskumu dat. Predtym, nez nieco pocitame alebo modelujeme,
+#   chceme dataset spoznat: kolko mame zaznamov, ake kategorie obsahu v nom
+#   su, kolko pouzivatelov a sedeni, a ako dlho ludia ostavaju na strankach.
+#   Je to zakladny prehlad o datach, z ktoreho vychadza vsetko dalsie.
 #
-# TEORIA (od nuly - akoby si statistiku nikdy nevidel):
+# TEORIA (od nuly):
 #
 #   1) CO JE POPISNA STATISTIKA
-#   Mame tabulku s milionmi riadkov - rucne sa neda precitat. Popisna
-#   statistika je par cisel, ktore tabulku ZHRNU: "kolko toho je", "co je
-#   typicke", "ako velmi sa to lisi". Nic nepredpoveda, len OPISUJE co mame.
+#   Dataset ma velmi vela riadkov - rucne sa neda precitat. Popisna statistika
+#   je par cisel, ktore data ZHRNU: kolko toho je, co je typicke, ako velmi sa
+#   hodnoty lisia. Nic nepredpoveda, len OPISUJE, co v datach mame.
 #
 #   2) FREKVENCNA TABULKA
-#   Najjednoduchsi zhrn pre TEXTOVU (kategoricku) premennu: pre kazdu hodnotu
-#   spocita, kolkokrat sa vyskytla. Napr. kolko klikov padlo na kazdu
-#   kategoriu obsahu. Hned vidno, ci je nieco dominantne alebo vyrovnane.
+#   Zhrn pre TEXTOVU (kategoricku) premennu: pre kazdu hodnotu spocita,
+#   kolkokrat sa vyskytla. Napr. kolko klikov padlo na kazdu kategoriu obsahu.
+#   Vidno z nej, ci nejaka hodnota vyrazne prevazuje, alebo su pocty vyrovnane.
 #
 #   3) describe() A JEHO CISLA (pre CISELNU premennu, napr. cas na stranke)
 #   Funkcia describe() vypise naraz tieto cisla:
-#     - count  = kolko hodnot vobec mame (velkost vzorky),
-#     - mean (priemer) = sucet vsetkych hodnot / ich pocet. Citlivy: par
-#       extremne velkych hodnot ho vytiahne hore.
-#     - std (smerodajna odchylka) = ako daleko su hodnoty typicky od priemeru.
-#       Male std = hodnoty su nahustene pri priemere; velke std = su rozhadzane.
+#     - count = kolko hodnot mame (velkost vzorky),
+#     - mean (priemer) = sucet vsetkych hodnot delene ich poctom. Je citlivy:
+#       par extremne velkych hodnot ho potiahne nahor.
+#     - std (smerodajna odchylka) = typicka vzdialenost hodnoty od priemeru.
+#       Mala std = hodnoty su blizko priemeru; velka std = su daleko od neho.
 #     - min / max = najmensia a najvacsia hodnota,
-#     - 25% / 50% / 75% = KVARTILY. Predstav si vsetky hodnoty zoradene od
-#       najmensej po najvacsiu a rozdelene na styri rovnako pocetne kopy.
-#       25% = hranica pod ktorou je stvrtina hodnot, 50% = MEDIAN (presny
-#       stred, polovica je pod nim), 75% = hranica troch stvrtin.
-#     Priemer vs median: ked sa lisia, data su "skosene" (par velkych hodnot
-#       tahá priemer, median ostane pri tom, co je naozaj typicke).
+#     - 25% / 50% / 75% = KVARTILY. Zober vsetky hodnoty zoradene od najmensej
+#       po najvacsiu a rozdel ich na styri rovnako pocetne casti. 25% = hranica,
+#       pod ktorou lezi stvrtina hodnot; 50% = MEDIAN (stred, polovica hodnot
+#       je pod nim); 75% = hranica troch stvrtin.
+#     Priemer vs median: ked sa vyrazne lisia, data su nesymetricke - par
+#       velkych hodnot tahá priemer nahor, kym median ostane pri tom typickom.
 #
 #   4) HISTOGRAM
-#   Graf rozdelenia ciselnej premennej. Rozsah hodnot rozseka na intervaly
-#   ("zasobniky") a pre kazdy nakresli stlpec = kolko hodnot don padlo.
-#   Ukaze TVAR dat (kde su nahustene, ci ma jeden vrchol, dlhy chvost...).
+#   Graf rozdelenia ciselnej premennej. Rozsah hodnot rozdeli na intervaly
+#   (bins) a pre kazdy nakresli stlpec = kolko hodnot don padlo. Ukaze TVAR
+#   dat: kde su hodnoty nahustene, ci ma rozdelenie jeden vrchol, dlhy chvost...
 #
-#   5) DELENIE PREMENNYCH (slovnik k tomuto datasetu)
-#     DV = Dependent Variable (zavisla, "co" sa pozeralo): category, webPart, urlExt
-#     IV = Independent Variable (nezavisla, "kedy/za akych podmienok"): year,
-#          quartal, week, crisis
-#     User (kto): anonIP (anonymizovana IP), agent (prehliadac)
-#     Ostatne: length (cas na stranke), internal (z internej siete banky?)
+#   5) DELENIE PREMENNYCH (prehlad stlpcov tohto datasetu)
+#     DV = zavisla premenna (co sa pozeralo): category, webPart, urlExt
+#     IV = nezavisla premenna (kedy / za akych podmienok): year, quartal,
+#          week, crisis
+#     Pouzivatel (kto): anonIP (anonymizovana IP), agent (prehliadac)
+#     Ostatne: length (cas na stranke v sekundach),
+#       internal (odkial pristup prisiel; celociselny kod 0/1/2 - viz nizsie)
 #
 # VSTUP:
 #   in/logs5.csv - POSKYTNUTY bankovy dataset (zo studie v materials/), CSV s ';'.
 #                  Nie je to vystup tvojich cv1-4, ale stlpce length, frame
 #                  (sedenie), anonIP (user), unixTime zodpovedaju premennym,
 #                  ktore si v cv1-4 sam pocital (Length, SESSION_ID, USER_ID,
-#                  UNIXTIME). Roboti su uz vyfiltrovani (maju length 0).
+#                  UNIXTIME).
+#                  Pozn.: roboti (automaticke programy, ktore stranky cital
+#                  prirychlo) su v datasete oznaceni hodnotou length = 0;
+#                  nizsie ich z casovych statistik vyradime filtrom length > 0.
 #
 # VYSTUP:
 #   stdout                      - vypisy frekvencii a describe()
@@ -69,10 +73,10 @@
 # ==========================================================
 
 import os
-os.chdir(os.path.dirname(os.path.abspath(__file__)))  # umoznuje spustenie skriptu odkialkolvek (nielen z jeho priecinka)
+os.chdir(os.path.dirname(os.path.abspath(__file__)))  # nastavi pracovny priecinok na ten, kde lezi tento skript - vdaka tomu cesty "in/..." a "out/..." funguju aj ked skript spustis odinakial
 
-import pandas as pd                  # pandas = praca s tabulkami (DataFrame)
-import matplotlib.pyplot as plt      # matplotlib = kreslenie grafov
+import pandas as pd                  # pandas = kniznica na pracu s tabulkami (tzv. DataFrame = tabulka)
+import matplotlib.pyplot as plt      # matplotlib = kniznica na kreslenie grafov
 
 # === KROK 1: Nacitanie datasetu ===
 print("Nacitavam dataset...")
@@ -84,18 +88,18 @@ print("Nacitavam dataset...")
 #   low_memory=False - pandas najprv precita cely subor a az potom urci typ
 #                      kazdeho stlpca (inak pri velkom subore typy hada zle).
 df = pd.read_csv("in/logs5.csv", sep=";", quotechar='"', low_memory=False)
-# shape je dvojica (riadky, stlpce): shape[0] = pocet zaznamov, shape[1] = pocet premennych.
+# shape = dvojica cisel (pocet riadkov, pocet stlpcov). shape[0] = pocet zaznamov, shape[1] = pocet stlpcov (premennych).
 print(f"Rozmer datasetu: {df.shape[0]} riadkov, {df.shape[1]} stlpcov")
 
 # === KROK 2: Frekvencie kategorickych premennych ===
-# value_counts() = frekvencna tabulka: pre kazdu hodnotu spocita, kolkokrat
-# sa v stlpci vyskytla. Hned vidno, ci jedna hodnota dominuje, alebo su
-# vyrovnane.
+# value_counts() = spocita, kolkokrat sa kazda hodnota v stlpci vyskytla, a
+# vyrobi z toho tabulku (hodnota -> pocet). Takto hned vidno, ci nejaka
+# hodnota vyrazne prevazuje, alebo su pocty vyrovnane.
 
-cat_counts = df["category"].value_counts()                  # kolko klikov padlo na kazdu kategoriu obsahu
-year_counts = df["year"].value_counts().sort_index()        # kolko klikov za kazdy rok; sort_index = zoradi roky chronologicky (2009->2012), nie podla poctu
-crisis_counts = df["crisis"].value_counts()                 # kolko klikov pocas krizy vs po krize
-internal_counts = df["internal"].value_counts()             # kolko klikov z internej siete banky vs z internetu
+cat_counts = df["category"].value_counts()                  # df["category"] = stlpec s kategoriou obsahu; spocitame kliky na kazdu kategoriu
+year_counts = df["year"].value_counts().sort_index()        # pocet klikov za kazdy rok; sort_index() = zorad podla hodnoty (2009,2010,2011,2012), nie podla poctu
+crisis_counts = df["crisis"].value_counts()                 # pocet klikov v case krizy (1) vs po krize (0)
+internal_counts = df["internal"].value_counts()             # pocet klikov podla toho, odkial pristup prisiel (kod 0/1/2)
 
 print(f"\n=== KATEGORIE ===")
 print(cat_counts)
@@ -104,23 +108,32 @@ print(year_counts)
 # crisis: 1 = obdobie financnej krizy (~2009-2010), 0 = po krize (~2011-2012)
 print(f"\n=== KRIZA (1) vs PO KRIZE (0) ===")
 print(crisis_counts)
-# internal: True = pristup z vnutornej siete banky (zamestnanci), False = zvonku
+# internal (kod, odkial pristup prisiel): 0 = mimo internej siete banky (zvonku,
+# z internetu), 1 = z vnutornej siete banky (zamestnanci), 2 = z IT firmy, ktora
+# web spravuje a vyvija. NIE je to True/False, su to tri rozne hodnoty.
 print(f"\n=== INTERNAL ===")
 print(internal_counts)
 
 # === KROK 3: Popisne statistiky pre length (cas na stranke) ===
-# df[df["length"] > 0] = nechaj len riadky s kladnym casom. Hodnoty 0 a
-# chybajuce su posledne kliky v navsteve (nevieme, kedy clovek odisiel),
-# nie su to realne casy citania, tak ich do statistiky neberieme.
+# df[df["length"] > 0] = ponechaj len riadky, kde je length kladny (realny cas
+# citania v sekundach). Ostatne hodnoty NIE su realny cas, preto ich do
+# statistiky neberieme:
+#   length = 0  -> robot (program, ktory stranku navstivil prirychlo),
+#   length = -1 -> koniec sedenia (cas na stranke prekrocil povoleny prah),
+#   length = -2 -> koniec sedenia (pouzivatelovi sa zmenila IP adresa).
+# Zapis df[podmienka]["length"] = z tabulky vyber riadky splnajuce podmienku
+# a z nich potom uz len jeden stlpec length.
 length_clean = df[df["length"] > 0]["length"]
 print(f"\n=== LENGTH (cas na stranke, length > 0) ===")
-# describe() = suhrn ciselneho stlpca naraz: count, priemer, std (rozptyl),
-# min, kvartily 25%/50%(median)/75% a max. Tu = typicke trvanie pohladu na stranku.
+# describe() = naraz vypise zhrn ciselneho stlpca: count (pocet), priemer,
+# std (smerodajna odchylka = typicka vzdialenost od priemeru), min, kvartily
+# 25% / 50% (median) / 75% a max. Tu opisuje typicke trvanie pohladu na stranku.
 print(length_clean.describe())
 
 # === KROK 4: Pocet unikatnych pouzivatelov a sedeni ===
-# Doteraz sme pocitali kliky. Teraz chceme vediet pocet roznych ludi a
-# pocet navstev. nunique() = pocet ROZNYCH (unikatnych) hodnot v stlpci.
+# Doteraz sme pocitali kliky (riadky). Teraz chceme pocet ROZNYCH ludi a pocet
+# ROZNYCH navstev. nunique() = spocita, kolko roznych (unikatnych) hodnot stlpec
+# obsahuje (kazdu hodnotu zarata len raz, aj ked sa opakuje).
 
 # anonIP = anonymizovana IP, beriem ju ako "pouzivatel". Je to len odhad:
 # za jednou IP moze byt viac ludi (firma/NAT); presnejsie by bolo IP+prehliadac.
@@ -129,44 +142,55 @@ n_users = df["anonIP"].nunique()
 n_sessions = df["frame"].nunique()
 print(f"\nUnikatnych pouzivatelov: {n_users}")
 print(f"Unikatnych sedeni: {n_sessions}")
-# Priemer sedeni na pouzivatela: cim viac, tym castejsie sa ludia vracaju. :.1f = 1 desatinne miesto.
+# Priemerny pocet sedeni na pouzivatela = pocet sedeni delene poctom pouzivatelov; vyssie cislo = ludia sa vracaju castejsie. :.1f = zaokruhli na 1 desatinne miesto.
 print(f"Priemerny pocet sedeni na uzivatela: {n_sessions / n_users:.1f}")
 
 # === KROK 5: Vizualizacia distribucii ===
 # Cisla su presne, ale graf hned ukaze, ktora hodnota dominuje a aky tvar
 # ma rozdelenie. Spravime 4 grafy do jedneho obrazka.
 
-# subplots(2, 2) = mriezka 2x2; "axes" je pole grafov, do ktoreho potom
-# kreslime cez axes[riadok, stlpec]. figsize = velkost v palcoch (sirka, vyska).
+# subplots(2, 2) = vytvori obrazok s mriezkou 2x2 (styri grafy). Vrati dve veci:
+# fig (cely obrazok) a axes (pole = ocislovana tabulka jednotlivych grafov), do
+# ktoreho potom kreslime cez axes[riadok, stlpec]. figsize = velkost obrazka v
+# palcoch (sirka, vyska).
 fig, axes = plt.subplots(2, 2, figsize=(14, 10))
 
 # Lavy horny graf: kliky po kategoriach.
-# barh = HORIZONTALNY stlpcovy graf (nazvy kategorii su dlhe, zvislo by sa prekryvali).
+# barh() = horizontalny stlpcovy graf (vodorovne stlpce). Volime horizontalny, lebo nazvy kategorii su dlhe a zvisle by sa prekryvali.
 axes[0, 0].barh(cat_counts.index, cat_counts.values, color="steelblue")
 axes[0, 0].set_title("Pocet pristupov po kategoriach")
+axes[0, 0].set_xlabel("Pocet pristupov")
+axes[0, 0].set_ylabel("Kategoria obsahu")
 
 # Pravy horny graf: kliky po rokoch.
-# astype(str) prerobi rok (cislo) na text, aby matplotlib kreslil 2009-2012
-# ako 4 samostatne stlpce, nie ako body na spojitej ciselnej osi.
+# astype(str) prerobi rok (cislo) na text. Vdaka tomu matplotlib nakresli
+# 2009-2012 ako 4 samostatne stlpce, nie ako body na spojitej ciselnej osi.
 axes[0, 1].bar(year_counts.index.astype(str), year_counts.values, color="coral")
 axes[0, 1].set_title("Pocet pristupov po rokoch")
+axes[0, 1].set_xlabel("Rok")
+axes[0, 1].set_ylabel("Pocet pristupov")
 
 # Lavy dolny graf: kliky po kvartaloch (jemnejsie delenie nez roky).
-yq = df["yearQuartal"].value_counts().sort_index()  # frekvencie kvartalov, zoradene chronologicky
-# Trik: na os X davame cisla 0,1,2,... (range) a az potom im rucne priradime
-# textove popisky "YYYY-QN". Takto sa zobrazi KAZDY kvartal (pri textovej osi
-# by matplotlib niektore mohol vynechat).
+yq = df["yearQuartal"].value_counts().sort_index()  # pocet klikov za kazdy kvartal (stvrtrok), zoradene chronologicky. Kvartal: Q1 = jan-mar, Q2 = apr-jun, Q3 = jul-sep, Q4 = okt-dec.
+# Postup: na os X najprv dame cisla 0,1,2,... (range = postupnost cisel) a az
+# potom im rucne priradime textove popisky "YYYY-QN". Takto sa zobrazi KAZDY
+# kvartal; keby sme dali rovno textove popisky, matplotlib by niektore vynechal.
 axes[1, 0].bar(range(len(yq)), yq.values, color="green")
-axes[1, 0].set_xticks(range(len(yq)))               # kde maju byt znacky na osi
-axes[1, 0].set_xticklabels(yq.index, rotation=45)   # popisky znaciek; rotacia 45 stupnov, aby sa neprekryvali
+axes[1, 0].set_xticks(range(len(yq)))               # set_xticks(...) = kde presne maju byt znacky (ciarky) na osi X
+axes[1, 0].set_xticklabels(yq.index, rotation=45)   # set_xticklabels(...) = texty pri tych znackach; rotation=45 = otoc ich o 45 stupnov, aby sa neprekryvali
 axes[1, 0].set_title("Pocet pristupov po kvartaloch")
+axes[1, 0].set_xlabel("Kvartal")
+axes[1, 0].set_ylabel("Pocet pristupov")
 
 # Pravy dolny graf: histogram casu na stranke (tvar rozdelenia).
-# hist rozdeli hodnoty do 50 intervalov (bins) a pre kazdy nakresli stlpec
-# = kolko hodnot don padlo. Filter < 300 odreze velmi dlhe casy, aby graf
-# nebol "splosteny" par extremami. alpha=0.7 = mierna priehladnost farby.
+# hist() = histogram: rozdeli hodnoty do 50 intervalov (bins) a pre kazdy
+# nakresli stlpec = kolko hodnot don padlo. Filter < 300 odreze velmi dlhe
+# casy, aby par extremov nestlacilo zvysok grafu do jedneho uzkeho pruhu.
+# alpha=0.7 = mierna priehladnost farby.
 axes[1, 1].hist(length_clean[length_clean < 300], bins=50, color="purple", alpha=0.7)
 axes[1, 1].set_title("Distribucia casu na stranke (length < 300s)")
+axes[1, 1].set_xlabel("Cas na stranke (s)")
+axes[1, 1].set_ylabel("Pocet klikov (frekvencia)")
 
 plt.tight_layout()                                  # automaticky doladi medzery, aby sa nadpisy neprekryvali
 plt.savefig("out/popisne_statistiky.png", dpi=150)  # uloz obrazok; dpi=150 = vyssia kvalita do reportu

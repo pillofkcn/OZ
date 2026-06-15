@@ -17,20 +17,18 @@
 #   uz patri do novej navstevy.
 #
 # VZOREC NA PRAH (preco vyzera ako vyzera):
-#   Predpokladame, ze casy na strankach sa spravaju ako
-#   "exponencialne rozdelenie" (typicke pre cakacie casy -
-#   napr. cas medzi prichodom dvoch autobusov).
-#   Vzorec: prah = -ln(1 - p) * priemerny_cas,
-#   kde p = 0.4 (40% navigacnych).
+#   Predpokladame, ze casy na strankach maju "exponencialne rozdelenie" =
+#   vela kratkych casov a malo velmi dlhych (priemer je vyrazne vacsi ako median).
+#   Vzorec: prah = -ln(1 - p) * priemerny_cas, kde p = 0.4 (40% navigacnych).
 #   ln je "prirodzeny logaritmus" (logaritmus so zakladom e).
-#   Vyjde nam prah asi 75 sekund.
+#   Priklad: -ln(1 - 0.4) = -ln(0.6) = 0.51; ak priemer = 150 s, prah =
+#   0.51 * 150 = 76 sekund. (Vsetko pod prahom = rychly navigacny klik.)
 #
 # ODKIAL VZOREC POCHADZA (teoria):
-#   Vzorec vychadza z kvantilovej funkcie exponencialneho
-#   rozdelenia: ak chceme casovy prah pod ktorym lezi p%
-#   najkratsich casov, dostaneme -ln(1-p)/lambda.
-#   A lambda = 1/priemer (maximalny vierohodny odhad),
-#   takze prah = -ln(1-p) * priemer.
+#   Vzorec vychadza z kvantilovej funkcie exponencialneho rozdelenia: ak chceme
+#   casovy prah, pod ktorym lezi p% najkratsich casov, dostaneme -ln(1-p)/lambda.
+#   lambda = "frekvencia" rozdelenia; plati lambda = 1/priemer (cim vyssi priemer,
+#   tym mensia lambda). Dosadenim lambda = 1/priemer dostaneme prah = -ln(1-p)*priemer.
 #
 # VSTUP:
 #   in/03_length.csv - log klikov, kazdy riadok uz
@@ -76,7 +74,7 @@ print(f"RLength = -ln(1 - {p}) * {mean_length:.2f} = {rlength:.2f} sekund")
 df["NEW_SESSION"] = (df["Length"].isna()) | (df["Length"] >= rlength)
 
 # === KROK 4: Cislovanie sedeni ===
-# Trik: ked spocitavame True/False zhora nadol (True = 1, False = 0),
+# Postup: ked spocitavame True/False zhora nadol (True = 1, False = 0),
 # kazde dalsie True zvysi sucet o 1. Tak vsetky kliky v tom istom
 # sedeni dostanu rovnake cislo a nove sedenie dostane vyssie cislo.
 # Priklad: NEW_SESSION = [T, F, F, T, F, T] -> SESSION_ID = [1, 1, 1, 2, 2, 3]

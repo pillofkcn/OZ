@@ -16,7 +16,9 @@
 #   - IQR = Q3 - Q1 = sirka "stredneho 50 %" pauz (typicky rozsah).
 #   - STT_Q = Q3 + 1.5 * IQR = hranica, nad ktorou je pauza neprirodzene dlha.
 #     Ked je pauza vacsia, povieme ze pouzivatel uz odisiel a vratil sa neskor
-#     => zaciname mu nove sedenie.
+#     => zaciname mu nove sedenie. Cislo 1.5 je standardna statisticka konvencia
+#     (rovnaka, akou sa v boxplote urcuju odlahle hodnoty).
+#     Priklad: Q1=20 s, Q3=100 s -> IQR=100-20=80 -> STT_Q=100+1.5*80=220 sekund.
 #   - PRECO kvartily a nie priemer: jedna par-dnova pauza vie potiahnut priemer
 #     hore a vysledok je nezmyselny. Kvartily extremne hodnoty ignoruju.
 #
@@ -41,6 +43,8 @@ import pandas as pd
 df = pd.read_csv("in/03_length.csv")
 
 # === KROK 2: Vypocet prahu STT_Q ===
+# quantile(0.25) = hodnota, pod ktorou lezi 25 % zoradenych pauz (dolny kvartil Q1);
+# quantile(0.75) = pod nou lezi 75 % (horny kvartil Q3).
 q1 = df["Length"].quantile(0.25)   # 25 % pauz je kratsich ako q1
 q3 = df["Length"].quantile(0.75)   # 75 % pauz je kratsich ako q3
 iqr = q3 - q1                      # typicka sirka pauz (stredne 50 %)
@@ -53,6 +57,7 @@ print(f"STT_Q (Q3 + 1.5*IQR): {stt_q:.2f} sekund")
 # Riadok zacina nove sedenie, ak:
 #   a) Length je prazdne (NaN) = je to prvy klik pouzivatela, nema predchodcu.
 #   b) Length je vacsie alebo rovne prahu = medzi klikmi bola privelka pauza.
+# isna() = True tam, kde je Length prazdne (NaN); | = "alebo" pre cely stlpec naraz.
 df["NEW_SESSION"] = (df["Length"].isna()) | (df["Length"] >= stt_q)
 
 # === KROK 4: Priradenie cisla sedenia ===

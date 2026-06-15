@@ -54,13 +54,15 @@ df = pd.read_csv("in/02_users.csv")  # nacitame log z predoslej ulohy (uz obsahu
 #   groupby("USER_ID") = rozdel tabulku na skupiny podla usera,
 #   shift(1)           = v kazdej skupine posun hodnoty o 1 riadok nadol (cize do
 #                        riadku vlozi cas z PREDOSLEHO riadku toho isteho usera).
+# Priklad: casy klikov usera [100, 160, 230] -> PREV_UNIXTIME = [NaN, 100, 160].
 # Prvy klik usera nema nad sebou predchodcu -> ostane prazdne (NaN).
 df["PREV_UNIXTIME"] = df.groupby("USER_ID")["UNIXTIME"].shift(1)
 
 # === KROK 3: Vypocet Length ako rozdielu casov ===
 #
-# Length = teraz - predtym (v sekundach). Ak je predtym prazdne (prvy klik usera),
-# vysledok je tiez prazdny - to nam vyhovuje.
+# Length = teraz - predtym (v sekundach). Priklad: klik v case 160, predosly v 100
+# -> Length = 160 - 100 = 60 s na predoslej stranke. Ak je predtym prazdne (prvy
+# klik usera), vysledok je tiez prazdny - to nam vyhovuje.
 df["Length"] = df["UNIXTIME"] - df["PREV_UNIXTIME"]
 
 # === KROK 4: Vyhodime prilis velke medzery (>= 1 hodina) ===

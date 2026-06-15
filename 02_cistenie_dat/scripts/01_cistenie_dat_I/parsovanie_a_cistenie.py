@@ -54,6 +54,10 @@ import pandas as pd
 # Casti bez zatvoriek (napr. Cookie, user = "-") len preskocime, neukladame.
 # Cislovanie skupin zlava: 1=IP, 2=DateTime, 3=Method, 4=URL,
 # 5=Status, 6=Bytes (zahodime), 7=Referrer, 8=Agent.
+# Priklad: riadok '193.87.12.30 - - [19/Feb/2020:06:25:50 +0100] "GET / HTTP/1.1"
+#   200 20925 "-" "Mozilla/5.0"' sa rozlozi na: IP=193.87.12.30,
+#   DateTime=19/Feb/2020:06:25:50 +0100, Method=GET, URL=/, Status=200,
+#   Referrer=-, Agent=Mozilla/5.0.
 pattern = re.compile(
     r'^(\S+)\s+\S+\s+\S+\s+'           # IP + preskocime Cookie a user (su tam "-")
     r'\[([^\]]+)\]\s+'                 # datum v hranatych zatvorkach
@@ -105,7 +109,7 @@ print(f"Po odstraneni POST/HEAD: {len(df)}")
 #   4xx (400-499) = chyba na strane usera (napr. 404 = stranka neexistuje)
 #   5xx (500-599) = chyba na strane servera (server padol)
 # Stranku user "videl" len pri 2xx a 3xx, ostatne zahodime.
-df = df[df["StatusCode"].between(200, 399)]   # between zahrna oba konce (200 aj 399)
+df = df[df["StatusCode"].between(200, 399)]   # .between(200,399) = pre kazdy riadok vrati True, ak je kod v rozsahu 200-399 (vratane oboch koncov)
 print(f"Po odstraneni 1xx/4xx/5xx: {len(df)}")
 
 # === KROK 5: Vyhodime obrazky, CSS, JS a podobne stahovanie ===
@@ -116,15 +120,17 @@ print(f"Po odstraneni 1xx/4xx/5xx: {len(df)}")
 # Pre nas su to len smeti - vyhodime ich podla pripony v URL.
 #
 # Sablona dole hovori: "URL koncia na .jpg, .png, .css, .js..."
-# (?:\?|$) = za priponou musi byt bud otaznik (parametre URL)
-# alebo koniec URL - inak by sme nechtiac matchli aj veci ako
-# "/clanok.cssicky/index" (nahodne pismena).
+# Pozn.: otaznik '?' je v regexe specialny znak, preto ho pisem ako \? ked
+# chcem hladat naozaj otaznik. (?:\?|$) = za priponou musi byt bud otaznik
+# (zaciatok parametrov URL) alebo koniec URL - inak by sme nechtiac matchli
+# aj veci ako "/clanok.cssicky/index" (nahodne pismena).
 unwanted_ext = re.compile(
     r'\.(?:bmp|jpe?g|png|gif|css|flv|ico|swf|rss|xml|cur|js|json|svg|woff2?|eot|ttf|otf)(?:\?|$)',
     re.IGNORECASE
 )
-# str.contains pre kazdy riadok zisti, ci v URL je pripona zo zoznamu.
-# Vlnovka ~ obrati True/False - nechame len tie, kde pripona NIE je.
+# .str.contains(...) = pre kazdy riadok vrati True/False podla toho, ci URL
+# obsahuje niektoru priponu zo zoznamu (sablony). Vlnovka ~ obrati True/False -
+# takze nechame len riadky, kde pripona NIE je (skutocne stranky).
 df = df[~df["URL"].str.contains(unwanted_ext)]
 print(f"Po odstraneni statickych suborov: {len(df)}")
 

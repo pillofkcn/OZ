@@ -64,9 +64,9 @@ print(f"Zaznamy s robots.txt: {len(robots)}")  # kontrola - ocakavame 333
 # === KROK 3: Ulozenie IP adries do CSV ===
 # Ponechavame aj duplicity - ak ta ista IP pytala robots.txt viackrat,
 # bude v subore tolkokrat. Zadanie chce 333 zaznamov (nie 333 roznych IP).
-robot_ips = robots["IP"].values                          # vsetky IP adrie z robots.txt riadkov (aj s opakovaniami)
+robot_ips = robots["IP"].values                          # .values = vytiahne hodnoty stlpca IP ako jednoduche pole (aj s opakovaniami)
 print(f"IP adries robotov: {len(robot_ips)}")            # 333 (vratane opakovani)
-print(f"Unikatnych: {len(set(robot_ips))}")              # kolko je z nich roznych (info na kontrolu)
+print(f"Unikatnych: {len(set(robot_ips))}")              # set(...) = mnozina (vyhodi opakovania); len(...) = kolko je z nich roznych (info na kontrolu)
 
 robot_df = pd.DataFrame({"IP": robot_ips})               # tabulka s jednym stlpcom 'IP'
 robot_df.to_csv("out/03_robot_ips.csv", index=False)     # ulozime do CSV; index=False = bez stlpca s poradovymi cislami

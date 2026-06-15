@@ -6,7 +6,7 @@
 # .txt suboru. Toto je prvy krok WUM (Web Usage Mining) - vyrobime si surovy
 # textovy material, ktory v dalsich ulohach budeme cistit a analyzovat.
 #
-# TEORIA (od nuly - akoby si to nikdy nevidel):
+# TEORIA (od nuly):
 #
 #   1) CO JE WEBOVA STRANKA NAOZAJ
 #   To, co vidis v prehliadaci, je v skutocnosti textovy subor v jazyku HTML.
@@ -22,8 +22,9 @@
 #   3) SCRAPING A PARSER
 #   "Scraping" = stiahnut HTML a vytiahnut z neho iba citatelny text bez tagov.
 #   Aby sme tagy spolahlivo odstranili, nepouzivame "rucne mazanie", ale PARSER -
-#   nastroj, ktory HTML chape ako strom znaciek a vie z neho vybrat len text.
-#   My pouzivame BeautifulSoup.
+#   nastroj, ktory HTML chape ako usporiadanu hierarchiu znaciek (vonkajsie tagy
+#   v sebe obsahuju vnorene tagy a text) a vie z nej vybrat len text. My pouzivame
+#   hotovu Python kniznicu BeautifulSoup.
 #
 #   4) PRECO TO ROBIME (zaradenie do WUM)
 #   Toto je uplny zaciatok Web Usage Mining: najprv potrebujeme SUROVY TEXTOVY

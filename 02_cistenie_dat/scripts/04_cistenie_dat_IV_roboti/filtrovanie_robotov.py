@@ -46,7 +46,7 @@ print(f"Nacitane: {len(df)} riadkov")      # kolko riadkov mame na zaciatku
 #   case=False  = nezalezi na velkych/malych pismenach (Bot = bot = BOT)
 #   na=False    = ak je policko prazdne, beriem to ako "nie je robot"
 #                 (inak by prazdne hodnoty robili problem)
-bot = df["Agent"].str.contains(r"bot|crawl|spider", case=False, na=False)
+bot = df["Agent"].str.contains(r"bot|crawl|spider", case=False, na=False)  # .str.contains(vzor) = pre kazdy riadok True/False, ci Agent obsahuje niektore z tych slov
 df = df[~bot]  # vlnovka znamena "opak" - nechame riadky, kde to NIE JE robot
 print(f"Po odstraneni botov (Agent): {len(df)}")
 
@@ -72,8 +72,8 @@ print(f"Po odstraneni prazdnych agentov: {len(df)}")
 # V predoslej ulohe sme nasli IP adresy, ktore sa chovali ako roboti
 # (prilis vela klikov, nelidske vzorce). Tu ich pouzijeme — aj keby
 # robot klamal o svojom mene, IP adresu lahko nezmeni.
-robot_ips = pd.read_csv("in/03_robot_ips.csv")["IP"].unique()  # nacitame zoznam podozrivych IP (bez duplikatov)
-df = df[~df["IP"].isin(robot_ips)]  # nechame iba riadky, ktorych IP NIE JE v zozname robotov
+robot_ips = pd.read_csv("in/03_robot_ips.csv")["IP"].unique()  # .unique() = vrati len rozne hodnoty (bez opakovani) = zoznam podozrivych IP
+df = df[~df["IP"].isin(robot_ips)]  # .isin(zoznam) = pre kazdy riadok True, ak je IP v zozname robotov; ~ to obrati, takze nechame riadky, kde IP v zozname NIE JE
 print(f"Po odstraneni robot IP: {len(df)}")
 
 # === KROK 6: Prerocislovanie a ulozenie ===

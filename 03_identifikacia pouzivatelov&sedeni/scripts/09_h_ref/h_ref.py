@@ -57,7 +57,7 @@
 import os
 os.chdir(os.path.dirname(os.path.abspath(__file__)))  # umoznuje spustenie skriptu odkialkolvek (nielen z jeho priecinka)
 
-import pandas as pd  # pandas = knihovna na pracu s tabulkami
+import pandas as pd  # pandas = kniznica na pracu s tabulkami
 
 # === KROK 1: Nacitanie logu ===
 df = pd.read_csv("in/03_length.csv")  # nacitame log z predoslej ulohy

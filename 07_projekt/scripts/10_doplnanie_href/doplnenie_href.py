@@ -111,10 +111,10 @@ mapa_df = mapa_df.dropna(subset=["ref_path"])
 parent_series = mapa_df.groupby("URL")["ref_path"].agg(lambda x: x.value_counts().idxmax())
 
 # prerobime na obycajny slovnik - rychlejsie sa v nom hlada
-parent = parent_series.to_dict()
+parents = parent_series.to_dict()
 
 # mnozina vsetkych stranok v mape; hladanie "je v mnozine?" je velmi rychle
-map_paths = set(parent.keys())
+map_paths = set(parents.keys())
 
 print(f"Pocet stranok v mape webu (postavena z logu): {len(map_paths):,}")
 
@@ -125,47 +125,51 @@ print(f"Pocet stranok v mape webu (postavena z logu): {len(map_paths):,}")
 new_rows = []        # sem postupne uklada vsetky zaznamy (povodne aj doplnene)
 added_count = 0      # pocitadlo, kolko medzistranok sme doplnili
 
-# DataFrame prerobime na zoznam slovnikov - rychlejsie sa nim iteruje
+# to_dict("records") = prerobi tabulku (DataFrame) na ZOZNAM slovnikov, kde kazdy
+# slovnik = jeden riadok logu (stlpec -> hodnota), napr. {"URL": "/a", "SESSION_ID": 1, ...}.
+# Je to zoznam (nie jeden dict), lebo riadkov je vela. Konvertujeme az tu, lebo
+# prechadzat obycajny Python zoznam je vyrazne rychlejsie ako riadky DataFrame.
 records = df.to_dict("records")
 
-# prechadzame zaznamy a vzdy sa pozrieme aj na ten nasledujuci
+# enumerate dava DVOJICU (i, curr): i = poradove cislo riadku (0, 1, 2, ...),
+# curr = aktualny klik (jeden riadok logu ako slovnik). Index i potrebujeme preto,
+# aby sme sa pri kazdom kliku vedeli pozriet aj na NASLEDUJUCI klik (records[i+1]) -
+# doplnanie totiz porovnava vzdy dvojicu "tento klik -> dalsi klik".
 for i, curr in enumerate(records):
-    # aktualny zaznam vzdy ulozime do vystupu (nic nezahadzujeme)
+    # Aktualny klik ide do vystupu VZDY - z povodneho logu nic nezahadzujeme,
+    # pripadnu medzistranku len PRIDAME za neho (nizsie).
     new_rows.append(curr)
 
-    # ak sme na poslednom zazname, nemame s cim porovnavat - koncime
+    # Ak sme na uplne poslednom zazname, nema za sebou ziadny "dalsi klik", s ktorym
+    # by sme ho parovali -> niet co doplnat, ideme na dalsiu iteraciu cyklu.
     if i + 1 >= len(records):
         continue
+    next_row = records[i + 1]                    # nasledujuci klik (len nan nahliadneme, neodstranujeme ho)
 
-    # pozrieme sa na nasledujuci zaznam (len nahliadnutie, neodstranujeme ho)
-    next_row = records[i + 1]
+    # Dve stranky tejto dvojice, ktore budeme porovnavat:
+    url_from = curr["URL"]                       # stranka AKTUALNEHO kliku (odkial pouzivatel ide)
+    url_to = next_row["URL"]                     # stranka NASLEDUJUCEHO kliku (kam ide)
 
-    # doplname len v ramci jedneho sedenia; medzi roznymi sedeniami to nedava zmysel
-    if curr["SESSION_ID"] != next_row["SESSION_ID"]:
-        continue
+    # Tri podmienky doplnenia - medzistranku vlozime, len ak platia VSETKY:
+    rovnake_sedenie = curr["SESSION_ID"] == next_row["SESSION_ID"]      # kliky z jedneho sedenia
+    ina_stranka     = url_from != url_to                                # nie je to refresh tej istej stranky
+    diera_v_mape    = url_from not in map_paths and url_to in map_paths # prva nie je v mape, druha ano
 
-    url_from = curr["URL"]      # stranka, kde pouzivatel prave je
-    url_to = next_row["URL"]    # stranka, kam ide v dalsom kliku
+    if rovnake_sedenie and ina_stranka and diera_v_mape:
+        rodic = parents.get(url_to)                # rodic stranky url_to = stranka, ktoru vlozime medzi url_from a url_to
 
-    # ak je to ta ista stranka (napr. F5 = obnovit), nie je co doplnat
-    if url_from == url_to:
-        continue
-
-    # Hlavna podmienka:
-    # ak aktualnu stranku v mape nemame, ale nasledujucu ano, je to podozrive -
-    # medzi ne vlozime rodica nasledujucej stranky (pravdepodobnu chybajucu medzistranku)
-    if url_from not in map_paths and url_to in map_paths:
-        # zistime, kto je rodic nasledujucej stranky podla mapy
-        ref_page = parent.get(url_to)
-
-        # ak by rodic bol presne aktualna stranka, vznikol by duplikat - preskocime
-        if ref_page and ref_page != url_from:
-            # vytvorime doplneny zaznam - skopirujeme aktualny a prepiseme len URL
-            # ostatne stlpce (cas, pouzivatel, sedenie) zostavaju rovnake ako pri aktualnom
+        # Vlozime ju LEN ak: rodic vobec existuje (parents.get nieco vratil) A
+        # zaroven to nie je ta ista stranka, z ktorej prave ideme (url_from) -
+        # inak by sme vyrobili zbytocny duplikat.
+        if rodic and rodic != url_from:
+            # Doplnenie = novy "klik" na rodica, ktory zaradime hned za aktualny klik.
+            # curr.copy() spravi samostatnu kopiu aktualneho riadku, takze novy zaznam
+            # zdedi vsetky udaje (cas, IP, pouzivatel, SESSION_ID...). Kopia je dolezita,
+            # aby riadok nizsie (zmena URL) neprepisal aj povodny curr.
             doplneny = curr.copy()
-            doplneny["URL"] = ref_page
-            new_rows.append(doplneny)
-            added_count += 1
+            doplneny["URL"] = rodic               # novemu zaznamu zmenime LEN URL na rodicovsku stranku
+            new_rows.append(doplneny)             # zaradime ho do vystupu (hned za aktualny klik)
+            added_count += 1                      # +1 do pocitadla doplnenych stranok
 
 # === KROK 4: Ulozenie vystupu ===
 # zoznam slovnikov prerobime spat na tabulku, aby sme ju mohli ulozit do CSV

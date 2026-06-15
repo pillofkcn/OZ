@@ -7,7 +7,7 @@
 # len ako s "kuskami textu". Teraz pridavame gramaticku informaciu, ktora
 # pomaha pri pokrocilejsej analyze (napr. vybrat len podstatne mena).
 #
-# TEORIA (od nuly - akoby si to nikdy nevidel):
+# TEORIA (od nuly):
 #
 #   1) MORFOLOGIA A POS TAGGING
 #   Morfologia = gramaticka informacia o slove (akeho je druhu, v akom tvare).
@@ -150,6 +150,13 @@ for fname in files:
             lemma = lemmatizer.lemmatize(word.lower(), pos=get_wordnet_pos(tag))
 
             # --- Zostavenie riadku tabulky ---
+            # POZOR na stlpec "Slovny_Druh": je to PRVE PISMENO Penn tagu (tag[0]),
+            # cize hruba kategoria v znaceni Penn Treebank:
+            #     N = podstatne meno, V = sloveso, J = pridavne meno, R = prislovka.
+            # Preto pri pridavnom mene vidno "J" (z tagu "JJ"), NIE "A".
+            # Pismeno "a" patri inemu znaceniu - WordNet (n/v/a/r) - a pouziva sa
+            # len vnutri lematizacie (get_wordnet_pos -> argument pos=), do tabulky
+            # sa nezapisuje. Su to teda dve rozne znacenia, kazde s vlastnym pismenom.
             rows.append({
                 "Subor": fname,            # z ktoreho suboru slovo pochadza
                 "ID_veta": sent_id,        # cislo vety v ramci tohto suboru
@@ -157,7 +164,7 @@ for fname in files:
                 "Tag": tag,                # detailny POS tag (napr. "VBG", "NNS")
                 "Lemma": lemma,            # zakladny tvar slova
                 "Poradie": poradie,        # poradie slova vo vete (po filtracii)
-                "Slovny_Druh": tag[0],     # prve pismeno tagu = hruba kategoria (N/V/J/R)
+                "Slovny_Druh": tag[0],     # prve pismeno Penn tagu = hruba kategoria N/V/J/R
             })
 
 # === KROK 3: Ulozenie tabulky do Excelu ===

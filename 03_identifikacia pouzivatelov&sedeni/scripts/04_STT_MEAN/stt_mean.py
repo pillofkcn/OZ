@@ -45,8 +45,10 @@ import pandas as pd  # pandas = praca s tabulkami v Pythone
 df = pd.read_csv("in/03_length.csv")  # nacitame CSV z predoslej ulohy do tabulky
 
 # === KROK 2: Vypocet priemerneho casu na stranke (prah STT_MEAN) ===
-# Priemer cez vsetky Length; pandas automaticky preskakuje prazdne (NaN) hodnoty,
-# takze nam neznamy cas neskresli vysledok.
+# Prah = priemer (mean) vsetkych Length = sucet vsetkych casov / ich pocet.
+# pandas automaticky preskakuje prazdne (NaN) hodnoty, takze neznamy cas vysledok
+# neskresli. Priklad: ak je priemerny Length 150 s, kazdy klik s Length >= 150 s
+# budeme povazovat za koniec sedenia.
 stt_mean = df["Length"].mean()  # priemerny cas v sekundach = nas prah pre delenie sedeni
 print(f"STT_MEAN (priemerne casove okno): {stt_mean:.2f} sekund")
 
@@ -55,11 +57,12 @@ print(f"STT_MEAN (priemerne casove okno): {stt_mean:.2f} sekund")
 # True dame, ak:
 #   - Length je prazdny (prvy klik pouzivatela, nemame predchadzajuci cas), ALEBO
 #   - Length je rovny alebo vacsi nez priemer (pouzivatel sa zdrzal dlho).
-# Znak "|" je "alebo" pre cely stlpec naraz (bezne "or" v pandas nefunguje).
+# isna() = vrati True tam, kde je hodnota prazdna (NaN). Znak "|" je "alebo" pre
+# cely stlpec naraz (stlpec je objekt pandas, bezne slovo "or" by tu vyvolalo chybu).
 df["NEW_SESSION"] = (df["Length"].isna()) | (df["Length"] >= stt_mean)
 
 # === KROK 4: Priradenie cisla sedenia (SESSION_ID) ===
-# Trik: True sa berie ako 1, False ako 0. Ked tieto cisla postupne scitavame
+# Postup: True sa berie ako 1, False ako 0. Ked tieto cisla postupne scitavame
 # zhora dole (cumsum = kumulativny sucet), dostaneme rastuce cisla sedeni:
 #   napr. [True, False, False, True, False] -> [1, 1, 1, 2, 2]
 # Cize prvy riadok dostane 1, vsetky dalsie riadky v tom istom sedeni tiez 1,

@@ -7,7 +7,7 @@
 # (rozne sposoby ako "vahovat" slova) — to potrebuju algoritmy strojoveho
 # ucenia, lebo nevedia pracovat priamo s pismenkami, len s cislami.
 #
-# TEORIA (od nuly - akoby si to nikdy nevidel):
+# TEORIA (od nuly):
 #
 #   1) TOKENIZACIA (rozsekanie textu na kusky)
 #   Pocitac dostane jeden dlhy retazec textu. Najprv ho musime rozdelit:
@@ -27,17 +27,18 @@
 #   riadky = vsetky slova (lemy), ktore poznam; hodnota = kolkokrat je slovo
 #   v dokumente. Tabulka slova x dokumenty = Vector Space Model.
 #
-#   4) VAHOVE SCHEMY (ten isty pocet sa da vyjadrit 4 sposobmi)
+#   4) VAHOVE SCHEMY (ten isty pocet sa da vyjadrit viacerymi sposobmi)
 #       wf      = surovy pocet vyskytov,
 #       binary  = bolo slovo v dokumente? 1 = ano, 0 = nie,
 #       log     = 1 + log10(pocet); tlmi slova, co sa opakuju velakrat,
-#       tf-idf  = log_pocet * idf; zvyhodni slova zriedkave v korpuse.
+#       idf     = ako vzacne je slovo v celej kolekcii (vysvetlene nizsie).
 #   IDF (inverse document frequency) = log10(N / df), N = pocet dokumentov,
 #   df = v kolkych dokumentoch slovo je. Cim v menej dokumentoch, tym vyssia
 #   IDF = slovo je "vzacne" a teda rozlisujuce (caste "the" ma IDF blizko 0).
+#   Priklad: N=5, slovo v df=2 dok. -> idf=log10(5/2)=0.40; v 1 dok. -> log10(5)=0.70.
 #
 # VSTUP:  in/*.txt - 5 anglickych textovych suborov (kazdy = jeden dokument)
-# VYSTUP: out/lemma_frekvencia.xlsx - 1 zosit, 5 harkov (wf, binary, log, idf, tf-idf)
+# VYSTUP: out/lemma_frekvencia.xlsx - 1 zosit, 4 harky (wf, binary, log, idf)
 #
 # POUZITE KNIZNICE:
 #   - nltk    : kniznica pre spracovanie textu (delenie na vety/slova, lematizacia)
@@ -123,7 +124,7 @@ for fname, lemmas in doc_lemmas.items():
         # .at[] je rychlejsi sposob ako pristupit k jednej konkretnej bunke.
         wf.at[lemma, fname] += 1
 
-# === KROK 4: Odvodene reprezentacie (binarna, log, idf, tf-idf) ===
+# === KROK 4: Odvodene reprezentacie (binarna, log, idf) ===
 
 # BINARNA = staci nam vediet ci sa slovo v dokumente objavilo aspon raz.
 # (wf > 0) vrati True/False, .astype(int) prerobi na 1/0.
@@ -139,23 +140,21 @@ vals = wf.values.astype(float)                                       # cisla z t
 log_wf = np.where(vals > 0, 1 + np.log10(vals, where=vals > 0, out=np.zeros_like(vals)), 0)
 log_df = pd.DataFrame(np.round(log_wf, 4), index=wf.index, columns=wf.columns)  # zaokruhlime na 4 desatinne miesta
 
-# TF-IDF: vahovanie kombinujuce log poctu vyskytov a "vzacnost" slova v korpuse.
+# IDF: meria "vzacnost" slova v celej kolekcii dokumentov.
 N = len(files)                                                       # pocet dokumentov v korpuse
 
 # doc_freq[i] = v kolkych dokumentoch sa i-te slovo objavilo (aspon raz).
-# (vals > 0) je tabulka True/False, sum cez riadky scita True ako 1.
+# (vals > 0) je tabulka True/False (1=je, 0=nie je). Slova su tu v RIADKOCH a
+# dokumenty v STLPCOCH, takze .sum(axis=1) scita pre kazdy riadok (slovo) hodnoty
+# naprie vsetkymi stlpcami (dokumentmi) = v kolkych dokumentoch slovo je.
 doc_freq = (vals > 0).sum(axis=1)
 
 # idf = log10(N / df). Cim v menej dokumentoch slovo je, tym vyssia hodnota.
 # np.where zabranuje deleniu nulou (ak by sa slovo neobjavilo nikde, pouzijeme 1).
+# Priklad: N=5, df=2 -> log10(5/2)=0.40 (caste slovo); df=1 -> log10(5)=0.70 (vzacne).
 idf = np.log10(N / np.where(doc_freq > 0, doc_freq, 1))
 
-# TF-IDF = log_wf * idf. Tu su slova v RIADKOCH, takze kazdy riadok (slovo)
-# treba vynasobit jeho vlastnou idf. idf je ale plochy rad; idf[:, np.newaxis]
-# ho postavi "na vysku" (zo riadku spravi stlpec), aby numpy nasobil po riadkoch.
-tfidf = pd.DataFrame(np.round(log_wf * idf[:, np.newaxis], 4), index=wf.index, columns=wf.columns)
-
-# === KROK 5: Ulozenie do Excelu (1 subor, 5 harkov) ===
+# === KROK 5: Ulozenie do Excelu (1 subor, 4 harky) ===
 # "with" zaruci, ze sa subor korektne uzavrie aj keby nieco zlyhalo.
 with pd.ExcelWriter("out/lemma_frekvencia.xlsx") as w:
     wf.to_excel(w, sheet_name="wf")          # surove pocty vyskytov
@@ -163,7 +162,6 @@ with pd.ExcelWriter("out/lemma_frekvencia.xlsx") as w:
     log_df.to_excel(w, sheet_name="log")     # logaritmicka verzia poctov
     # Cista IDF: jeden stlpec s vahou pre kazde slovo (nezavisi od dokumentu).
     pd.DataFrame({"idf": np.round(idf, 4)}, index=wf.index).to_excel(w, sheet_name="idf")
-    tfidf.to_excel(w, sheet_name="tf-idf")   # log poctu * idf
 
 # Kratky vypis aby sme videli ze pipeline dobehol a kolko slov sme spracovali.
 print(f"Hotovo! Ulozene do out/lemma_frekvencia.xlsx")

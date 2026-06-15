@@ -52,8 +52,9 @@ df = df.reset_index(drop=True)
 
 
 # === KROK 3: Pridelenie cisla pouzivatela ===
-# Zoskupime riadky podla dvojice (IP, Agent) - kazda jedinecna dvojica je
-# jeden pouzivatel. Funkcia ngroup() kazdej skupine prideli cislo 0, 1, 2, ...
+# groupby(["IP","Agent"]) = rozdeli riadky do skupin podla dvojice (IP, Agent) -
+# kazda jedinecna dvojica je jeden pouzivatel. ngroup() ("group number") potom
+# kazdej takej skupine prideli poradove cislo 0, 1, 2, ...
 # Pripocitame +1, aby pouzivatelia zacinali cislom 1 (ludom sa to lepsie cita).
 df["USER_ID"] = df.groupby(["IP", "Agent"]).ngroup() + 1
 

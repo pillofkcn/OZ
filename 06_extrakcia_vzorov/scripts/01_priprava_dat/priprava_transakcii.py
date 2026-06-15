@@ -1,39 +1,41 @@
 # ==========================================================
-# CV6 - Uloha 01: Priprava transakcii (kosikov) pre kazdy rok
+# CV6 - Uloha 01: Priprava transakcii pre kazdy rok
 # ==========================================================
 #
 # CIEL:
-#   Z logov banky (logs5.csv) urobit "kosiky" - co vsetko jeden
-#   pouzivatel pozrel pocas jednej navstevy stranky. Tieto kosiky
+#   Z logov banky (logs5.csv) urobit TRANSAKCIE - co vsetko jeden
+#   pouzivatel pozrel pocas jednej navstevy stranky. Tieto transakcie
 #   v dalsich ulohach pouzijeme na hladanie vzorov "kto pozrel A,
 #   pozrel aj B" (asociacne pravidla).
 #
-# TEORIA (od nuly - akoby si to nikdy nevidel):
+# TEORIA (od nuly):
 #
-#   1) ANALYZA NAKUPNEHO KOSIKA (market basket analysis)
-#   Klasicky priklad z obchodu: pozrieme sa na tisice nakupnych
-#   blokov a hladame veci, ktore ludia kupuju SPOLU (chlieb + maslo).
-#   Z toho sa daju robit pravidla "kto kupil chleb, kupi aj maslo".
-#   My nemame obchod, ale web banky - princip je vsak rovnaky.
+#   1) CO HLADAME (transakcny model)
+#   Mame vela TRANSAKCII - kazda transakcia je zoznam veci, ktore patria k sebe
+#   (tu: kategorie stranok navstivene v jednom sedeni). V transakciach hladame
+#   veci, ktore sa casto vyskytuju SPOLU. Z toho potom (v dalsich ulohach)
+#   robime pravidla typu "ked sa vyskytlo A, casto sa vyskytlo aj B".
+#   (Pozn.: metoda vznikla pre nakupne data, preto sa transakcii hovori aj
+#   "kosik"; princip je rovnaky bez ohladu na to, ci ide o nakupy alebo web.)
 #
-#   2) AKO SA TO PREKLOPI NA WEB
-#   - TRANSAKCIA (kosik) = jedno SEDENIE = jedna navsteva webu (od
-#     prichodu po odchod). V datach ho urcuje cislo sedenia "frame".
-#   - POLOZKA (vec v kosiku) = KATEGORIA stranky, ktoru pocas tej
-#     navstevy clovek otvoril (uvery, ucty, info...).
-#   Kosik je teda MNOZINA kategorii navstivenych v jednom sedeni.
+#   2) AKO TO VYZERA V NASICH DATACH
+#   - TRANSAKCIA = jedno SEDENIE = jedna navsteva webu (od prichodu po odchod).
+#     V datach ju urcuje cislo sedenia "frame".
+#   - POLOZKA = KATEGORIA stranky, ktoru clovek pocas tej navstevy otvoril
+#     (uvery, ucty, info...).
+#   Transakcia je teda MNOZINA kategorii navstivenych v jednom sedeni.
 #
 #   3) PRECO MNOZINA (transakcny model) A NIE PORADIE
-#   Berieme len, CO bolo v kosiku, nie v akom PORADI. Preto kazdu
-#   kategoriu dame do kosika len raz a zoradime abecedne ("A;B" aj
-#   "B;A" je ten isty kosik). Toto vyzaduje algoritmus Apriori (cv6).
-#   Alternativa so zachovanym poradim = SEKVENCNY MODEL (vstup pre
-#   algoritmy ako PrefixSpan), ten ale v tomto zadani nie je.
+#   Berieme len, CO bolo v transakcii, nie v akom PORADI. Preto kazdu kategoriu
+#   dame do transakcie len raz a zoradime abecedne ("A;B" aj "B;A" je ta ista
+#   transakcia). Toto vyzaduje algoritmus Apriori (cv6). Alternativa so
+#   zachovanym poradim = SEKVENCNY MODEL (vstup pre algoritmy ako PrefixSpan),
+#   ten ale v tomto zadani nie je.
 #
-#   4) PRECO KOSIK MUSI MAT ASPON 2 POLOZKY
-#   Pravidlo "A => B" potrebuje aspon dve rozne polozky. Z kosika
-#   s jedinou kategoriou ziadnu dvojicu nevyrobime, takze taky
-#   kosik je pre hladanie pravidiel zbytocny a vyhodime ho.
+#   4) PRECO TRANSAKCIA MUSI MAT ASPON 2 POLOZKY
+#   Pravidlo "A => B" potrebuje aspon dve rozne polozky. Z transakcie s jedinou
+#   kategoriou ziadnu dvojicu nevyrobime, takze taka transakcia je pre hladanie
+#   pravidiel zbytocna a vyhodime ju.
 #
 # VSTUP:
 #   in/logs5.csv - POSKYTNUTY bankovy dataset (zo studie v materials/),
@@ -50,11 +52,11 @@
 #            zoskupovanie)
 #
 # ALGORITMUS:
-#   Pre kazdy rok zoskupime log podla cisla sedenia, vyrobime
-#   z kategorii kosik a ulozime do CSV.
+#   Pre kazdy rok zoskupime log podla cisla sedenia, z kategorii sedenia
+#   vyrobime transakciu (zoznam kategorii) a ulozime do CSV.
 
 import os
-os.chdir(os.path.dirname(os.path.abspath(__file__)))  # umoznuje spustenie skriptu odkialkolvek (nielen z jeho priecinka)
+os.chdir(os.path.dirname(os.path.abspath(__file__)))  # nastavi pracovny priecinok na ten, kde lezi tento skript - vdaka tomu cesty "in/..." a "out/..." funguju aj ked skript spustis odinakial
 
 import pandas as pd
 
@@ -62,50 +64,71 @@ import pandas as pd
 # === KROK 1: Nacitanie logu ===
 
 print("Nacitavam logs5.csv...")
-# sep=";" = stlpce oddelene bodkociarkou; low_memory=False = pandas precita
-# cely subor naraz a spravne urci typy stlpcov.
+# sep=";" = stlpce su oddelene bodkociarkou; quotechar='"' = pole, ktore ma
+# vnutri ciarku (napr. URL), drzia uvodzovky ako jednu hodnotu; low_memory=False
+# = pandas precita cely subor naraz a az potom urci typ kazdeho stlpca (inak
+# pri velkom subore typy hada a moze sa pomylit).
 df = pd.read_csv("in/logs5.csv", sep=";", quotechar='"', low_memory=False)
 print(f"Nacitanych: {len(df)} zaznamov")
-# unique() = zoznam roznych rokov; kontrola, ze mame data za 2009-2012.
+# unique() = zoznam roznych hodnot v stlpci. Tu vypiseme rozne roky (kontrola, ze mame data za 2009-2012).
 print(f"Roky: {sorted(df['year'].unique())}")
 
 
 # === KROK 2: Filter - vyber stlpcov a vyhodenie prazdnych kategorii ===
 
-# Ponechame len stlpce, ktore potrebujeme (ostatne zahodime).
-# .copy() = samostatna tabulka, aby pandas pri dalsich upravach nevypisoval varovanie.
-df = df[["frame", "anonIP", "category", "year", "yearQuartal"]].copy()
+# Ponechame len 3 stlpce, ktore naozaj potrebujeme (vsetko ostatne zahodime).
+# Co je v kazdom z nich:
+#   frame    = cislo SEDENIA (jedna navsteva webu od prichodu po odchod);
+#              zodpoveda SESSION_ID z cv1-4. Tu sluzi ako IDENTIFIKATOR
+#              TRANSAKCIE - riadky s rovnakym frame patria do jednej transakcie.
+#   category = KATEGORIA navstivenej stranky (uvery, ucty, Pricing List...).
+#              Toto je POLOZKA transakcie - to, co hladame spolu vyskytovat.
+#   year     = rok zaznamu (2009-2012). Pouzivame ho na rozdelenie transakcii
+#              po rokoch (kazdy rok ide do vlastneho CSV).
+# .copy() = vyrobi samostatnu kopiu tabulky, aby pandas pri dalsich upravach
+# nevypisoval varovanie (ze menime iba "vyrez" povodnej tabulky).
+df = df[["frame", "category", "year"]].copy()
 
-# dropna(subset=["category"]) = vyhod riadky, kde kategoria chyba (NaN) -
-# bez kategorie niet co dat do kosika.
+# dropna(subset=["category"]) = vyhod riadky, kde kategoria chyba. Prazdna hodnota
+# sa v pandas zapisuje ako NaN (Not a Number = chyba udaj). Bez kategorie niet
+# co dat do transakcie, preto taky riadok zahodime.
 df = df.dropna(subset=["category"])
 print(f"Po filtrovani: {len(df)} zaznamov")
 
 
-# === KROK 3 + 4: Vytvorenie kosikov pre kazdy rok ===
+# === KROK 3 + 4: Vytvorenie transakcii pre kazdy rok ===
 
 # Kazdy rok spracujeme zvlast (chceme transakcie za jednotlive obdobia).
 for rok in sorted(df["year"].unique()):
     # Vyber len riadky daneho roku.
     df_rok = df[df["year"] == rok]
 
-    # Cielom je: 1 sedenie = 1 riadok so zoznamom jeho kategorii.
-    # Citaj retazec sprava dolava:
-    #   groupby("frame")["category"] = poskladaj kategorie kazdeho sedenia,
-    #   set(x)        = vyhod duplicity (kazda kategoria v kosiku len raz),
-    #   sorted(...)   = zorad abecedne (aby "A;B" a "B;A" bol rovnaky kosik),
-    #   ";".join(...) = spoj kategorie do jedneho textu "kat1;kat2;...",
-    #   reset_index() = sprav z toho normalnu tabulku so stlpcami frame, category.
-    transakcie = (
-        df_rok.groupby("frame")["category"]
-        .apply(lambda x: ";".join(sorted(set(x))))
-        .reset_index()
-    )
+    # Ciel: z mnohych riadkov jedneho sedenia urobit 1 riadok = zoznam kategorii.
+    # df_rok.groupby("frame") = zoberie tabulku roka a ROZDELI jej riadky do skupin
+    # podla hodnoty v stlpci "frame" (cislo sedenia). Vsetky riadky s rovnakym frame
+    # (= kliknutia v tom istom sedeni) padnu do jednej skupiny. Nevznikne bezna
+    # tabulka, ale "zoskupeny" objekt, ktory sa da prejst cyklom.
+    zoznam_transakcii = []  # sem budeme pridavat hotove transakcie (jeden slovnik = jeden riadok)
 
-    # Necheme len kosiky s aspon 2 kategoriami. Ak text obsahuje ';', su v nom
-    # aspon dve polozky (bodkociarka je oddelovac medzi nimi). Kosik s 1 polozkou
-    # by ziadne pravidlo A=>B nedal.
-    transakcie = transakcie[transakcie["category"].str.contains(";")]
+    # Cyklus berie skupiny jednu po druhej a v kazdom kroku vrati DVOJICU:
+    #   cislo_sedenia = hodnota frame danej skupiny (cislo sedenia),
+    #   skupina       = mala tabulka = vsetky riadky (kliknutia) tohto sedenia.
+    for cislo_sedenia, skupina in df_rok.groupby("frame"):
+        # set(...)    = z kategorii sedenia vyhod opakovania (kazdu kategoriu len raz),
+        # sorted(...) = zorad ich abecedne (aby "A;B" a "B;A" bola ta ista transakcia).
+        kategorie = sorted(set(skupina["category"]))
+
+        # Chceme len transakcie s aspon 2 kategoriami - z jednej kategorie ziadne
+        # pravidlo "A => B" nevznikne. Take sedenie preskocime (continue = chod na dalsie).
+        if len(kategorie) < 2:
+            continue
+
+        # ";".join(...) = spoj kategorie do jedneho textu, napr. "ucty;uvery".
+        text_kategorii = ";".join(kategorie)
+        zoznam_transakcii.append({"frame": cislo_sedenia, "category": text_kategorii})
+
+    # Zo zoznamu slovnikov spravime peknu tabulku so stlpcami frame, category.
+    transakcie = pd.DataFrame(zoznam_transakcii)
 
     # Uloz transakcie daneho roku do vlastneho CSV.
     out_path = f"out/transakcie_{rok}.csv"

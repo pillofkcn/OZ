@@ -6,7 +6,7 @@
 #   pocet, kolko raz sa slovo objavilo v dokumente. Tento "pocet" prerobime
 #   na tri ine cisla, ktore sa lepsie hodia na porovnavanie dokumentov.
 #
-# TEORIA (od nuly - akoby si to nikdy nevidel):
+# TEORIA (od nuly):
 #
 #   1) PRECO TEXT PREVADZAME NA CISLA
 #   Pocitac nevie porovnavat "slova", vie pocitat s cislami. Aby sme vedeli
@@ -15,9 +15,11 @@
 #
 #   2) BAG-OF-WORDS A TABULKA DOKUMENTY x SLOVA
 #   Najjednoduchsi model je "vrece slov" (bag-of-words): na poradi slov nezalezi,
-#   zaujima nas len, ktore slova a kolkokrat su v dokumente. Z toho vznikne
-#   tabulka: riadok = dokument, stlpec = slovo, bunka = pocet vyskytov. Kazdy
-#   riadok je potom VEKTOR dokumentu (vektorovy model).
+#   zaujima nas len, ktore slova a kolkokrat su v dokumente. Operacne to znamena:
+#   vety "pes uhryzol cloveka" a "clovek uhryzol psa" su pre model rovnake, lebo
+#   obsahuju tie iste slova v rovnakych poctoch - stratime poradie, ale model je
+#   jednoduchy. Z toho vznikne tabulka: riadok = dokument, stlpec = slovo, bunka =
+#   pocet vyskytov. Kazdy riadok je potom VEKTOR dokumentu (vektorovy model).
 #
 #   3) tf = TERM FREQUENCY (surovy pocet)
 #   Cislo v bunke je tf = kolkokrat sa slovo objavilo v dokumente. Surove tf je
@@ -32,24 +34,23 @@
 #     Slovo v kazdom dokumente je nezaujimave (vaha ~0), slovo len v 1 dokumente
 #     je specificke (vysoka vaha). Vzorec: log10(N / df_t), N = pocet dokumentov,
 #     df_t = v kolkych dokumentoch sa slovo objavilo.
-#   - TF-IDF: log-tf NASOBENE IDF. Slovo dostane vysoku vahu len ak je v dokumente
-#     caste A ZAROVEN v celej kolekcii zriedkave = najlepsi rozlisovac dokumentov.
+#     Priklad: N=5 dokumentov. Slovo v 2 z nich -> idf = log10(5/2) = log10(2.5)
+#     = 0.40 (caste, mala vaha). Slovo len v 1 -> idf = log10(5/1) = 0.70 (vzacne).
 #
 # VSTUP: in/vektorova_reprezentacia.xlsx, harok "wf" - tabulka dokumenty x slova
 #        s poctom vyskytov (raw tf).
 #
-# VYSTUP: out/vektorova_reprezentacia.xlsx - 5 harkov:
+# VYSTUP: out/vektorova_reprezentacia.xlsx - 4 harky:
 #   wf     - povodna tabulka (kopia vstupu pre kontrolu)
 #   binary - 1/0 ci je slovo v dokumente
 #   log    - logaritmicky utlmena frekvencia
 #   idf    - jeden stlpec, IDF hodnota pre kazde slovo
-#   tf-idf - kombinacia log-tf * idf (najpouzivanejsia schema)
 #
 # POUZITE KNIZNICE:
 #   pandas - praca s Excel tabulkami a pomenovanymi riadkami/stlpcami
 #   numpy  - rychle pocitanie nad celou tabulkou naraz (bez cyklov)
 #
-# ALGORITMUS: nacitaj tabulku, sprav binary/log/idf/tf-idf, uloz do 5 harkov.
+# ALGORITMUS: nacitaj tabulku, sprav binary/log/idf, uloz do 4 harkov.
 # =============================================================================
 
 import os
@@ -82,17 +83,15 @@ binary = (wf > 0).astype(int)
 #   np.where(wf>0, ..., 0)               = finalna poistka: kde nie je slovo, daj 0.
 log_wf = np.where(wf > 0, 1 + np.log10(wf, where=wf > 0, out=np.zeros_like(wf)), 0)
 
-# === KROK 4: IDF a TF-IDF ===
+# === KROK 4: IDF ===
 
 # df_t = v kolkych DOKUMENTOCH sa slovo objavilo. (wf>0) da maticu True/False,
 # .sum(axis=0) scita po STLPCOCH (zhora dolu) = pocet dokumentov pre kazde slovo.
 doc_freq = (wf > 0).sum(axis=0)
 # IDF = log10(N / df_t). np.where(...>0, df_t, 1) je poistka proti deleniu nulou
 # (ak by slovo nebolo nikde, namiesto 0 pouzijeme 1).
+# Priklad: N=5, slovo v df_t=2 dokumentoch -> log10(5/2)=0.40; v 1 dok. -> log10(5)=0.70.
 idf = np.log10(N / np.where(doc_freq > 0, doc_freq, 1))
-# TF-IDF = log-tf * IDF. idf je rad cisel (jedno na slovo); numpy ho automaticky
-# vynasobi s kazdym riadkom (broadcasting) -> kazda bunka log_wf sa nasobi IDF svojho slova.
-tfidf = log_wf * idf
 
 # === KROK 5: Zapis vsetkych harkov do jedneho Excel suboru ===
 
@@ -107,11 +106,10 @@ with pd.ExcelWriter("out/vektorova_reprezentacia.xlsx") as w:
     pd.DataFrame(np.round(log_wf, 4), index=df.index, columns=df.columns).to_excel(w, sheet_name="log")   # logaritmicky utlmena tf
     # harok idf: jeden stlpec s IDF hodnotou pre kazde slovo (slova su riadky)
     pd.DataFrame({"idf": np.round(idf, 4)}, index=df.columns).to_excel(w, sheet_name="idf")
-    pd.DataFrame(np.round(tfidf, 4), index=df.index, columns=df.columns).to_excel(w, sheet_name="tf-idf") # kombinacia log-tf * idf
 
 # === Diagnosticky vypis ===
 
 # kratke potvrdenie, ze skript dobehol a kolko mal dokumentov/slov
-print("Hotovo! Vytvorene harky: wf, binary, log, idf, tf-idf")
+print("Hotovo! Vytvorene harky: wf, binary, log, idf")
 print(f"Pocet dokumentov: {N}")
 print(f"Pocet slov: {len(df.columns)}")

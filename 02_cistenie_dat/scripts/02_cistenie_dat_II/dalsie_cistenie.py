@@ -58,8 +58,9 @@ bot_pattern = re.compile(
     r'bot|crawl|spider|slurp|archiver|curl|wget|libwww|perl|ltx71|facebook',
     re.IGNORECASE
 )
-# Ponechame riadky, kde Agent NEOBSAHUJE ziadne slovo robota.
-# Znak ~ otaca pravdivost (z "obsahuje" sa stane "neobsahuje").
+# .str.contains(vzor) = pre kazdy riadok vrati True/False, ci Agent obsahuje
+# niektore slovo robota. Znak ~ otaca pravdivost (z "obsahuje" -> "neobsahuje"),
+# takze ponechame riadky, kde Agent ZIADNE slovo robota neobsahuje.
 # na=False = ak je Agent prazdny, neberieme ho ako zhodu.
 df = df[~df["Agent"].str.contains(bot_pattern, na=False)]
 print(f"Po odstraneni botov: {len(df)}")
@@ -74,13 +75,14 @@ print(f"Po odstraneni robots.txt: {len(df)}")
 # === KROK 3: Vyhodenie duplicitnych klikov ===
 # Ak ma viacero riadkov rovnake IP, cas aj URL, je to skoro iste dvojklik
 # alebo refresh. Pre analyzu nas zaujima len jeden taky klik.
-# subset = ktore stlpce porovnavame; prvy vyskyt ostane, dalsie sa zmazu.
+# drop_duplicates() = zmaze opakujuce sa riadky. subset = ktore stlpce porovnavame; prvy vyskyt ostane, dalsie (s rovnakou IP+cas+URL) sa zmazu.
 df = df.drop_duplicates(subset=["IP", "DateTime", "URL"])
 print(f"Po odstraneni duplicit: {len(df)}")
 
 # === KROK 4: Vyhodenie nepotrebnych URL ===
 # Zaujimaju nas len skutocne stranky, ktore clovek navstivil.
 # Nahlad obrazka v galerii (Joomla "image?view=image") nie je navsteva stranky.
+# (\? = doslovny otaznik; otaznik je v regexe specialny znak, preto ho escapujeme.)
 df = df[~df["URL"].str.contains(r'image\?view=image', case=False, na=False)]
 # PDF stahovanie nie je preklikanie na stranku (\. = doslovna bodka).
 df = df[~df["URL"].str.contains(r'\.pdf', case=False, na=False)]
@@ -93,7 +95,7 @@ print(f"Po odstraneni obrazkov/PDF/komponentov/feedov: {len(df)}")
 # === KROK 5: Ponechat len uspesne zobrazenia (HTTP 2xx) ===
 # 2xx = stranka sa naozaj zobrazila. 3xx (presmerovanie) by sa nam zapocitalo
 # dvakrat (raz presmerovanie, raz cielova stranka). 4xx/5xx = chyba, nezobrazilo sa.
-df = df[df["StatusCode"].between(200, 299)]
+df = df[df["StatusCode"].between(200, 299)]  # .between(200,299) = True pre kazdy riadok s kodom v rozsahu 200-299 (vratane oboch koncov)
 print(f"Po odstraneni presmerovani: {len(df)}")
 
 # === KROK 6: Ulozenie vysledku ===

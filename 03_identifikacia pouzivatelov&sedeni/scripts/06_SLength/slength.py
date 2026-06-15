@@ -55,6 +55,9 @@ print(f"SLength (casove okno): {slength} sekund (10 minut)")
 #   1) Prazdny Length => zacal novy pouzivatel => zacneme nove sedenie.
 #   2) Po pripoctani by sme prekrocili 10 minut => zacneme nove sedenie.
 #   3) Inak => pokracujeme v rovnakom sedeni, len pripocitame cas.
+# Priklad: kliky s Length [50, 80, 120, 400, 100]. Kumulativny sucet: 50, 130,
+# 250, 650 -> pri 650 sme presli 600 s, takze tam zacina nove sedenie (a 400 je
+# uz jeho prvy cas); potom 100 pokracuje v tomto novom sedeni.
 
 session_id = 0         # cislo aktualneho sedenia (zacina od 0, prve sedenie bude 1)
 session_ids = []       # zoznam, kam pre kazdy riadok pridame jeho cislo sedenia
@@ -62,8 +65,11 @@ cumulative_time = 0    # kolko sekund sme uz nazbierali v aktualnom sedeni
 
 # Tabulka je uz zoradena podla pouzivatela a casu, takze kliky toho isteho
 # cloveka idu pekne za sebou v chronologickom poradi.
+# iterrows() = prejde tabulku riadok po riadku; v kazdom kroku je "row" jeden
+# riadok, ku ktoreho stlpcom pristupujeme cez row["nazov_stlpca"].
 for i, row in df.iterrows():
     if pd.isna(row["Length"]):
+        # pd.isna(...) = vrati True, ak je hodnota prazdna (NaN).
         # Prazdna hodnota = prvy klik noveho pouzivatela => zacina nove sedenie.
         session_id += 1        # zvysime cislo sedenia o 1
         cumulative_time = 0    # nova nadoba na cas zacina na nule

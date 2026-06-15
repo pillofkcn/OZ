@@ -7,7 +7,7 @@
 #   (napr. ci sa pocas krizy citaju ine kategorie obsahu).
 #   Nestaci povedat "suvisia" - chceme aj cislo o sile vztahu.
 #
-# TEORIA (od nuly - akoby si statisticke testy nikdy nevidel):
+# TEORIA (od nuly):
 #
 #   1) CO ZNAMENA "VZTAH MEDZI PREMENNYMI"
 #   Dve premenne spolu suvisia, ked hodnota jednej nieco prezradi o druhej.
@@ -47,9 +47,11 @@
 #   Pouzije sa, ked jedna premenna je CISLO (cas) a druha KATEGORIA (typ
 #   stranky). Otazka: maju jednotlive kategorie rozne PRIEMERNE casy, alebo
 #   su rozdiely len nahodny sum? ANOVA porovna rozdiely priemerov MEDZI
-#   skupinami s rozptylom VNUTRI skupin a vrati F-statistiku (velke F = skupiny
-#   sa lisia) a p-hodnotu. Pozn.: ANOVA predpoklada zhruba normalne rozdelenie;
-#   cas na stranke je skoseny, takze vysledok beriem orientacne.
+#   skupinami s rozptylom VNUTRI skupin a vrati F-statistiku a p-hodnotu.
+#   F = (rozptyl priemerov MEDZI skupinami) / (rozptyl VNUTRI skupin):
+#   velke F = skupiny sa vyrazne lisia, male F = su podobne.
+#   Pozn.: ANOVA predpoklada zhruba normalne rozdelenie; cas na stranke je
+#   skoseny, takze vysledok beriem orientacne.
 #
 # VSTUP:
 #   in/logs5.csv - POSKYTNUTY bankovy dataset (zo studie v materials/),
@@ -59,7 +61,8 @@
 #     category (text)  - typ obsahu stranky (DV - co pouzivatel cital)
 #     crisis   (0/1)   - 1 ak pristup spada do obdobia krizy
 #     year     (cislo) - rok pristupu
-#     internal (0/1)   - 1 ak pouzivatel prisiel z internej linky
+#     internal (0/1/2) - odkial pristup prisiel: 0 = zvonku (mimo banky),
+#                        1 = z vnutornej siete banky, 2 = z IT firmy spravujucej web
 #     length   (cislo) - cas straveny na stranke v sekundach
 #
 # VYSTUP:
@@ -76,7 +79,7 @@
 # ==========================================================
 
 import os
-os.chdir(os.path.dirname(os.path.abspath(__file__)))  # umoznuje spustenie skriptu odkialkolvek (nielen z jeho priecinka)
+os.chdir(os.path.dirname(os.path.abspath(__file__)))  # nastavi pracovny priecinok na ten, kde lezi tento skript - vdaka tomu cesty "in/..." funguju aj ked skript spustis odinakial
 
 import pandas as pd
 import numpy as np
@@ -102,9 +105,12 @@ def cramers_v(chi2, n, r, c):
     Parametre: chi2 = vystup chi2 testu, n = pocet vsetkych pozorovani,
                r, c = pocet riadkov a stlpcov tabulky frekvencii.
     """
-    # Vzorec V = odmocnina( chi2 / (n * (min(r,c) - 1)) ).
-    # Menovatel n*(min(r,c)-1) = najvacsie chi2, ake pri danej velkosti moze
-    # vyjst -> podiel je vzdy 0..1; np.sqrt() = druha odmocnina.
+    # Vzorec: V = odmocnina( chi2 / (n * (min(r,c) - 1)) ).
+    # Preco delime: n*(min(r,c)-1) je najvacsie chi2, ake pri danej velkosti
+    # vzorky a tabulky moze vyjst. Podielom teda chi2 prepocitame na rozsah 0..1
+    # (0 = ziadny vztah, 1 = maximalny), nezavisle od poctu riadkov.
+    # np.sqrt() = druha odmocnina. Priklad: chi2=500, n=100000, min(r,c)=2 ->
+    #   V = sqrt(500 / (100000*1)) = sqrt(0.005) = 0.07 (velmi slaby vztah).
     return np.sqrt(chi2 / (n * (min(r, c) - 1)))
 
 
@@ -126,9 +132,9 @@ def chi2_test(df, col1, col2):
       3) Cramerovo V = ako silny ten vztah je (lebo chi2 pri velkych datach klame).
     """
     tabulka = pd.crosstab(df[col1], df[col2])      # kontingencna tabulka poctov dvojic
-    chi2, p, dof, _ = chi2_contingency(tabulka)    # test vrati: chi2, p-hodnotu, stupne volnosti, (ocakavane pocty - nepotrebujeme)
+    chi2, p, dof, _ = chi2_contingency(tabulka)    # test vrati: chi2, p-hodnotu, stupne volnosti, (ocakavane pocty - tie nepotrebujeme, preto "_")
     n = tabulka.sum().sum()                        # sucet vsetkych buniek = pocet vsetkych pozorovani
-    cv = cramers_v(chi2, n, *tabulka.shape)        # *tabulka.shape = rozbali (pocet_riadkov, pocet_stlpcov) ako r, c
+    cv = cramers_v(chi2, n, *tabulka.shape)        # *tabulka.shape = rozbali dvojicu (pocet_riadkov, pocet_stlpcov) na argumenty r, c
     return chi2, p, dof, cv, tabulka
 
 
@@ -144,7 +150,8 @@ chi2_1, p_1, dof_1, cv_1, tab_1 = chi2_test(df, "category", "crisis")  # funkcia
 print(f"chi2={chi2_1:.2f}, p={p_1:.6f}, V={cv_1:.4f} ({interpretuj_v(cv_1)})")
 
 # === TEST 2: kategoria vs internal ===
-# Otazka: pozeraju ine kategorie ludia z internej siete banky vs zvonku?
+# Otazka: pozeraju ludia z roznych miest (zvonku / vnutorna siet banky / IT firma)
+# rozne kategorie obsahu? (internal ma tri hodnoty 0/1/2.)
 print(f"\n=== TEST 2: kategoria vs internal ===")
 chi2_2, p_2, dof_2, cv_2, _ = chi2_test(df, "category", "internal")  # posledny vystup (tabulka) tu nepotrebujeme -> "_"
 print(f"chi2={chi2_2:.2f}, p={p_2:.6f}, V={cv_2:.4f} ({interpretuj_v(cv_2)})")
@@ -154,17 +161,22 @@ print(f"chi2={chi2_2:.2f}, p={p_2:.6f}, V={cv_2:.4f} ({interpretuj_v(cv_2)})")
 # Otazka: maju rozne kategorie rozny priemerny cas na stranke?
 print(f"\n=== TEST 3: ANOVA - cas vs kategoria ===")
 
-# Do casovej analyzy pustime len realne casy (length > 0). Nuly a zaporne
-# hodnoty su posledne kliky/nevalidne casy a stiahli by priemery dole.
+# Do casovej analyzy pustime len realne casy (length > 0). Nuly su roboti a
+# zaporne hodnoty (-1, -2) su konce sedeni - nie su to skutocne casy citania.
 df_clean = df[df["length"] > 0]
 
-# ANOVA chce pre kazdu skupinu SAMOSTATNE pole hodnot. Tento list-comprehension
-# prejde vsetky kategorie (unique) a pre kazdu vytiahne pole jej casov (.values).
+# ANOVA chce pre kazdu kategoriu SAMOSTATNE pole jej casov.
+# Riadok nizsie je list-comprehension = skrateny zapis na vytvorenie zoznamu:
+#   [ vyraz  for k in zoznam ]  znamena "pre kazde k zo zoznamu vytvor vyraz".
+# Tu pre kazdu kategoriu k vyberieme jej riadky a z nich stlpec length;
+# .values = prerobi ten stlpec na obycajne pole cisel. Vysledok = zoznam poli,
+# jedno pole casov na kazdu kategoriu.
 skupiny = [df_clean[df_clean["category"] == k]["length"].values
            for k in df_clean["category"].unique()]
 
-# f_oneway porovna priemery skupin. *skupiny = "rozbal" zoznam na samostatne
-# argumenty (kazda kategoria ide ako vlastny vstup). Vrati F-statistiku a p.
+# f_oneway = ANOVA test, porovna priemery skupin. *skupiny = "rozbali" zoznam
+# poli na samostatne argumenty (kazda kategoria ide do funkcie ako vlastny vstup).
+# Vrati F-statistiku a p-hodnotu (F = rozptyl medzi skupinami / rozptyl vnutri skupin).
 f_stat, p_anova = f_oneway(*skupiny)
 print(f"F={f_stat:.2f}, p={p_anova:.6f}")
 

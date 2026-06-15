@@ -14,15 +14,15 @@
 #   (STT) odhadnut kvantilovou funkciou STT = -ln(1-q) * priemer.
 #   Ak nema, pouzijeme kvartilovy odhad Q3 + 1.5*IQR.
 #
-# TEORIA - co je exponencialne rozdelenie (pre laika):
-#   Predstav si casy medzi prichodmi autobusov: vacsinou cakas chvilu,
-#   obcas dlho. Takyto tvar = exponencialne rozdelenie. Riadi sa jednym
-#   cislom "lambda" (rychlost). Plati:
+# TEORIA - co je exponencialne rozdelenie:
+#   Rozdelenie, kde je vela kratkych hodnot a malo velmi dlhych (ma "dlhy chvost").
+#   Riadi sa jednym cislom "lambda" (frekvencia). Plati:
 #     - priemer hodnot = 1/lambda
 #     - median (prostredna hodnota) = ln(2)/lambda, cca 0.693 * priemer
-#     - standardna odchylka = priemer (rozptyl je velky)
-#   Cize ak priemer je vyrazne vacsi ako median, je to znak, ze data
-#   maju "dlhy chvost" - co exponencialnemu rozdeleniu sedi.
+#     - standardna odchylka = priemer (hodnoty su velmi rozhadzane)
+#   Dosledok: ak je priemer vyrazne vacsi ako median, je to znak dlheho chvosta,
+#   co exponencialnemu rozdeleniu sedi. Priklad: priemer 150 s, median ~104 s
+#   (= 0.693 * 150) by exponencialnemu rozdeleniu zodpovedalo.
 #
 # TEORIA - co je KS test (Kolmogorov-Smirnov):
 #   Statisticky test, ktory porovna ci nase data vyzeraju ako dana krivka.
@@ -58,12 +58,12 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))  # umoznuje spustenie skrip
 import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.stats import kstest   # test, ci data vyzeraju ako dana krivka
-from scipy.stats import expon    # objekt exponencialneho rozdelenia (hustota krivky)
+from scipy.stats import expon    # objekt exponencialneho rozdelenia; expon.pdf(x,...) = teoreticka krivka (hustota pravdepodobnosti)
 
 # === KROK 1: Nacitanie dat ===
 df = pd.read_csv("in/03_length.csv")  # nacitame tabulku zo vstupu
-# dropna() vyhodi riadky kde Length chyba (posledny klik usera nema cas na dalsi);
-# do testu chceme len realne casy, prazdne by skreslili vysledok.
+# dropna() = odstrani vsetky prazdne (NaN) hodnoty zo stlpca. Length chyba pri
+# poslednom kliku usera (nema dalsi klik); do testu chceme len realne casy.
 length_data = df["Length"].dropna()
 
 # === KROK 2: Zakladne statistiky ===
@@ -115,7 +115,7 @@ ax.hist(length_data, bins=50, density=True, alpha=0.7, label="Length data")
 x = range(0, int(length_data.max()))
 ax.plot(x, expon.pdf(x, 0, length_data.mean()), "r-", label="Exp. rozdelenie")
 ax.set_title("Histogram Length vs Exponencialne rozdelenie")
-ax.set_xlabel("Length (sekundy)")
+ax.set_xlabel("Cas na stranke (s)")
 ax.set_ylabel("Hustota")
 ax.legend()
 ax.set_xlim(0, 1000)  # zobrazime len do 1000 s; vyssie hodnoty su velmi zriedkave
